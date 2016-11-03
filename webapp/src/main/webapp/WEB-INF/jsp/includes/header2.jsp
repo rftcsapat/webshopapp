@@ -12,7 +12,7 @@
     <title>Energy WebAruhaz</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="public/lib/bootstrap-3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="public/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="public/css/style.css" rel="stylesheet">
