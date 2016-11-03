@@ -1,4 +1,4 @@
-<%@include file="includes/header.jsp"%>
+<%@include file="includes/header2.jsp"%>
 <form:form modelAttribute="loginDto" role="form" class="form-horizontal">
   <div class="form-group">
     <form:label path="username" for="username" class="col-sm-2 control-label">Username</form:label>
@@ -30,4 +30,4 @@
     </div>
   </div>
 </form:form>
-<%@include file="includes/footer.jsp" %>
+<%@include file="includes/footer2.jsp" %>

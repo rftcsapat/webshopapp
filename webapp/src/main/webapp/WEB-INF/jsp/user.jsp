@@ -1,4 +1,4 @@
-<%@include file="includes/header.jsp"%>
+<%@include file="includes/header2.jsp"%>
 Welcome!<br/>You can update your details using the form below!<br/><br/>
 <form:form modelAttribute="userUpdateDto" role="form">
 	<form:errors />
@@ -52,4 +52,4 @@ Welcome!<br/>You can update your details using the form below!<br/><br/>
 	<br/>
 	<button type="submit" class="btn btn-default"> Update </button>
 </form:form>
-<%@include file="includes/footer.jsp" %>
+<%@include file="includes/footer2.jsp" %>

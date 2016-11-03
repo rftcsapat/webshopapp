@@ -1,4 +1,4 @@
-<%@include file="includes/header.jsp"%>
+<%@include file="includes/header2.jsp"%>
 ${name}
 <form:form modelAttribute="regformDto" role="form">
 	<form:errors />
@@ -51,4 +51,4 @@ ${name}
 	<br/>
 	<button type="submit" class="btn btn-default"> Register new user </button>
 </form:form>
-<%@include file="includes/footer.jsp"%>
+<%@include file="includes/footer2.jsp"%>
