@@ -143,5 +143,85 @@ public class RootController {
 		return "admin";
 	}
 	
+	@RequestMapping("/home")
+	public String home() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "home";
+		
+	}
+	
+	@RequestMapping("/")
+	public String about() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "about/about-us";
+		
+	}
+	
+	@RequestMapping("/signin")
+	public String signIn() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "sign/signin";
+		
+	}
+	
+	@RequestMapping("/signup")
+	public String signUp() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "sign/signup";
+		
+	}
+	
+	@RequestMapping("/product-category")
+	public String productCategory() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "product/product-category";
+		
+	}
+	
+	@RequestMapping("/product")
+	public String product() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "product/product";
+		
+	}
+	
+	@RequestMapping("/basket")
+	public String basket() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "basket/basket";
+		
+	}
+	
+	@RequestMapping("/profil")
+	public String profil() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "profil/profil";
+		
+	}
+	
+	@RequestMapping("/search-result")
+	public String searchResult() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "search/search-result";
+		
+	}
+	
+	
+	@RequestMapping("/logout")
+	public String logout() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "about/about-us";
+	}
+
 	
 }
