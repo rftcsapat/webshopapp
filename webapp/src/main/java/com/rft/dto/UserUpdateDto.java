@@ -9,7 +9,11 @@ public class UserUpdateDto {
 	
 	@NotNull
 	@Size(min=1, max=255)
-	private String name;
+	private String firstname;
+	
+	@NotNull
+	@Size(min=1, max=255)
+	private String lastname;
 	
 	@NotNull
 	@Size(min=1, max=50)
@@ -27,11 +31,18 @@ public class UserUpdateDto {
 	@Size(min=1, max=255)
 	private String passwordAgain;
 
-	public String getName() {
-		return name;
+
+	public String getFirstname() {
+		return firstname;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+	public String getLastname() {
+		return lastname;
+	}
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 	public String getUsername() {
 		return username;
@@ -66,7 +77,7 @@ public class UserUpdateDto {
 	}
 	@Override
 	public String toString() {
-		return "RegformDto [name=" + name + ", username=" + username + ", birthDate=" + birthDate + ", password="
+		return "RegformDto [firstname=" + firstname + ", username=" + username + ", birthDate=" + birthDate + ", password="
 				+ password + ", passwordAgain=" + passwordAgain + "]";
 	}
 	

@@ -20,12 +20,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void register(RegformDto regformDto) {
 		User user = new User();
+		user.setId(user.getId());
 		user.setBirthdate(regformDto.getBirthDate());
-		user.setName(regformDto.getName());
+		user.setFirstname(regformDto.getFirstname());
+		user.setLastname(regformDto.getLastname());
 		user.setUsername(regformDto.getUsername());
 		user.setPassword(regformDto.getPassword());
 		user.setRole("0");
 		userRepository.save(user);
+		userRepository.flush();
 	}
 	
 }

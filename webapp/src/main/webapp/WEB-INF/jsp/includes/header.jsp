@@ -15,7 +15,7 @@
     <link href="public/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="public/css/style.css" rel="stylesheet">
+    <link href="public/css/styles.css" rel="stylesheet"/>
 
 </head>
 

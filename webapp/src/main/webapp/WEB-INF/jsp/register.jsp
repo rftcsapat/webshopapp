@@ -1,11 +1,16 @@
-<%@include file="includes/header2.jsp"%>
-${name}
+<%@include file="includes2/header.jsp"%>
+
 <form:form modelAttribute="regformDto" role="form">
 	<form:errors />
 	<div class="form-group">
-		<form:label path="name" for="name">Your personal name: </form:label> 
-		<form:input path="name" type="text" class="form-control" id="nameInput" placeholder="YourName"/>
-		<form:errors path="name" cssClass="error"/>
+		<form:label path="firstname" for="name">Your first name: </form:label> 
+		<form:input path="firstname" type="text" class="form-control" id="nameInput" placeholder="YourName"/>
+		<form:errors path="firstname" cssClass="error"/>
+	</div>
+	<div class="form-group">
+		<form:label  path="lastname" for="name">Your last name: </form:label> 
+		<form:input  path="lastname" type="text" class="form-control" id="nameInput" placeholder="YourName"/>
+		<form:errors path="lastname" cssClass="error"/>
 	</div>
 	<div class="form-group">
 		<form:label path="username" for="username">Username: </form:label> 
@@ -27,9 +32,8 @@ ${name}
 <!-- 			class="form-control" id="exampleInputEmail1" placeholder="Email"> -->
 <!-- 	</div> -->
 	<div class="form-group">
-		<form:label path="password" for="password">Password:</form:label> 
-		<form:input path="password" type="password" class="form-control" id="password"
-			placeholder="Password"/>
+		<form:label path="password" for="password">Password:</form:label>
+		<form:input path="password" type="password" class="form-control" id="password" placeholder="Password"/>
 		<form:errors path="password" cssClass="error"/>
 	</div>
 	<div class="form-group">
