@@ -1,15 +1,12 @@
 
 package com.rft.entities;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
@@ -24,8 +21,6 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-//	@SequenceGenerator(name="SEQMYCLASSID", sequenceName="SEQMYCLASSID")
-//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQMYCLASSID")
 	private long id;
 	
 	@Column(nullable=false, length=NAME_MAX)
@@ -45,6 +40,24 @@ public class User {
 	
 	@Column(nullable=false, length=1)
 	private String role;
+	
+	@Column(nullable=true, length=50)
+	private String title;
+	
+	@Column(nullable=true)
+	private String invitedby;
+	
+	@Column(nullable=true, length=255)
+	private String address;
+	
+	@Column(nullable=true, length=50)
+	private String email;
+	
+	@Column(nullable=true, length=50)
+	private String phone;
+	
+	@Column(nullable=true)
+	private long coins;
 
 	public long getId() {
 		return id;
@@ -56,6 +69,54 @@ public class User {
 
 	public String getUsername() {
 		return username;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getInvitedby() {
+		return invitedby;
+	}
+
+	public void setInvitedby(String invitedby) {
+		this.invitedby = invitedby;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public long getCoins() {
+		return coins;
+	}
+
+	public void setCoins(long coins) {
+		this.coins = coins;
 	}
 
 	public void setUsername(String username) {
