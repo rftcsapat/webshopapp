@@ -1,0 +1,23 @@
+/* custom css */
+
+/* general css */
+body {
+	backrgound: #fff;
+}
+
+
+#page-wrapper {
+	margin-bottom: 60px;	
+}
+
+/* admin form */
+.admin-form {
+	background: #f1f1f1;
+	border-radius: 5px;
+	border: 1px solid #eee;
+	margin: 0 auto;
+	padding: 20px;
+	max-width: 350px;
+}
+
+/* admin dashboard */

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"	pageEncoding="utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,24 +14,26 @@
 
     <!-- Bootstrap Core CSS -->
     <link href="public/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
-
+	<link href="public/lib/ion.rangeSlider-2.1.4/css/ion.rangeSlider.css" rel="stylesheet">
+	<link href="public/lib/ion.rangeSlider-2.1.4/css/ion.rangeSlider.skinNice.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="public/css/styles.css" rel="stylesheet"/>
+    <link href="public/css/styles.css" rel="stylesheet">
 
 </head>
 
 <body>
 
     <nav class="navbar navbar-inverse" role="navigation">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="/">Energy Webshop</a>
+    	<div class="container">
+        	<div class="navbar-header">
+        		<img src="public/images/product/icon.png" vspace="8" hspace="5" align="left">
+        		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        		<span class="sr-only">Toggle navigation</span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	                <span class="icon-bar"></span>
+	            </button>
+	            <a class="navbar-brand" href="/">Energy Webshop</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
@@ -44,7 +47,7 @@
                 <div class="pull-right">
                 	<ul class="navbar-list">
                 		<li><a href="/signin">Bejelentkezés</a></li>
-                		<li><a href="/signup">Regisztáció</a></li>
+                		<li><a href="/signup">Regisztráció</a></li>
                 	</ul>
                 </div>
             </div>

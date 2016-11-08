@@ -1,11 +1,13 @@
 <%@include file="../includes/header.jsp"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 
 <div class="container">
 	<div class="row">
 		<%@include file="../includes/sidebar.jsp"%>
 		
 		<div class="col-md-9">
-			<h1 class="page-title">Kos·r</h1>
+			<h1 class="page-title">Kos√°r</h1>
 			
 			<div class="basket">
 				<div class="basket-item row">
@@ -13,13 +15,13 @@
 						<img src="public/images/product/vironal.jpg" alt="vironal termek">
 					</div>
 					<div class="col-md-7">
-						<h2>TermÈk title</h2>
+						<h2>Term√©k title</h2>
 						<table class="table table-hover">
 							<tr>
-								<td>Cikkszam</td>
-								<td>MennyisÈg</td>
-								<td>FogyasztÛi ¡r</td>
-								<td>÷sszesen</td>				
+								<td>Cikksz√°m</td>
+								<td>Mennyis√©g</td>
+								<td>Fogyaszt√≥i √År</td>
+								<td>√ñsszesen</td>				
 							</tr>
 							<tr>
 								<td>21331312</td>
@@ -30,7 +32,7 @@
 						</table>
 					</div>
 					<div class="col-md-2">
-						<a href="#">TÈtel tˆrlÈse</a>
+						<a href="#">T√©tel t√∂rl√©se</a>
 					</div>
 				</div>
 				<div class="basket-item row">
@@ -38,13 +40,13 @@
 						<img src="public/images/product/vironal.jpg" alt="vironal termek">
 					</div>
 					<div class="col-md-7">
-						<h2>TermÈk title</h2>
+						<h2>Term√©k title</h2>
 						<table class="table table-hover">
 							<tr>
-								<td>Cikksz·m</td>
-								<td>MennyisÈg</td>
-								<td>FogyasztÛi ¡r</td>
-								<td>÷ñsszesen</td>				
+								<td>Cikksz√°m</td>
+								<td>Mennyis√©g</td>
+								<td>Fogyaszt√≥i √År</td>
+								<td>÷ñ√ñsszesen</td>				
 							</tr>
 							<tr>
 								<td>21331312</td>

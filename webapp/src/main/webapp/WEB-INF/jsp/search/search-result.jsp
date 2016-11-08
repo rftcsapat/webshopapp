@@ -1,4 +1,6 @@
 <%@include file="../includes/header.jsp"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 
 <!-- Page Content -->
 <main>
@@ -8,15 +10,15 @@
 		<%@include file="../includes/sidebar.jsp"%>
 			
 		<div class="col-md-9">
-			<!-- Ha nincs találat -->
-			<!-- <p>Sajnáljuk a keresett termék <strong>(x termék)</strong> nem található!</p> -->
+			<!-- Ha nincs talï¿½lat -->
+			<!-- <p>Sajnï¿½ljuk a keresett termï¿½k <strong>(x termï¿½k)</strong> nem talï¿½lhatï¿½!</p> -->
 			
-			<!--  Ha van találat -->
-			<h1 class="page-title">Keresés eredménye a(z) <strong>Vironal</strong> kifejezésre.</h1>
-			<p><small>Találatok száma: 5 db</small></p>
+			<!--  Ha van talï¿½lat -->
+			<h1 class="page-title">KeresÃ©s eredmÃ©nye a(z) <strong>Vironal</strong> kifejezÃ©sre.</h1>
+			<p><small>TalÃ¡latok szÃ¡ma: 5 db</small></p>
 			
 			<div class="row">
-				<!--  Találatok listázása - Termék box-ok jelennek meg -->
+				<!--  Talï¿½latok listï¿½zï¿½sa - Termï¿½k box-ok jelennek meg -->
 				<div class="col-sm-4 col-lg-4 col-md-4">
 					<div class="thumbnail">
 						<img src="public/images/product/vironal.jpg" alt="vironal termek">
