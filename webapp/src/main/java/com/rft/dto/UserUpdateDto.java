@@ -35,6 +35,10 @@ public class UserUpdateDto {
 	@Size(min=1, max=1)
 	private String role;
 	
+	@NotNull
+	@Size(min=0, max=100000)
+	private byte[] image;
+	
 	@Size(min=0, max=50)
 	private String title;
 	
@@ -57,6 +61,13 @@ public class UserUpdateDto {
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+	
+	public byte[] getImage() {
+		return image;
+	}
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 	public String getTitle() {
 		return title;

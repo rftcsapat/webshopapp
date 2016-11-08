@@ -21,6 +21,7 @@ public class UserServiceImpl implements UserService {
 	public void register(RegformDto regformDto) {
 		User user = new User();
 		user.setId(user.getId());
+		user.setImage("0x30783132666533343663".getBytes());
 		user.setBirthdate(regformDto.getBirthDate());
 		user.setFirstname(regformDto.getFirstname());
 		user.setLastname(regformDto.getLastname());
