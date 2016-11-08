@@ -52,8 +52,7 @@ public class RootController {
 	@RequestMapping(value = "/register", method = GET)
 	public String register(Model model) {
 		RegformDto regdto = new RegformDto();
-		regdto.setName("Valaki");
-		model.addAttribute("name", "EgyNév");
+//		model.addAttribute("name", "EgyNév");
 		model.addAttribute("regformDto", regdto);
 		return "register";
 	}
@@ -109,7 +108,8 @@ public class RootController {
 			if(user.getRole().equals("0")) {
 				UserUpdateDto dto = new UserUpdateDto();
 				dto.setBirthDate(user.getBirthdate());
-				dto.setName(user.getName());
+				dto.setFirstname(user.getFirstname());
+				dto.setLastname(user.getLastname());
 //				dto.setPassword(user.getPassword());
 //				dto.setPasswordAgain(user.getPassword());
 				dto.setUsername(user.getUsername());

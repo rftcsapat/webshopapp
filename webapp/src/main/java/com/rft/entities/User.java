@@ -9,10 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="usr", indexes = {
+@Table(name="users", indexes = {
 	@Index(columnList = "username", unique = true)
 })
 public class User {
@@ -22,11 +23,16 @@ public class User {
 	public static final int BIRTHDATE_MAX = 10;
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.AUTO)
+//	@SequenceGenerator(name="SEQMYCLASSID", sequenceName="SEQMYCLASSID")
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQMYCLASSID")
 	private long id;
 	
 	@Column(nullable=false, length=NAME_MAX)
-	private String name;
+	private String firstname;
+	
+	@Column(nullable=false, length=NAME_MAX)
+	private String lastname;
 	
 	@Column(nullable=false, length=USERNAME_MAX)
 	private String username;
@@ -46,14 +52,6 @@ public class User {
 
 	public void setId(long id) {
 		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 	public String getUsername() {
@@ -86,6 +84,22 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+	
+	public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
 	}
 
 	public User() {
