@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -137,11 +138,11 @@ public class RootController {
 //	}
 	
 	
-	@RequestMapping(value = "/admin", method = GET)
+/*	@RequestMapping(value = "/admin", method = GET)
 	public String admin(Model model) {
 		model.addAttribute("regformDto", new RegformDto());
 		return "admin";
-	}
+	}*/
 	
 	@RequestMapping("/home")
 	public String home() throws MessagingException {
@@ -222,6 +223,48 @@ public class RootController {
 		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
 		return "about/about-us";
 	}
-
 	
+	@RequestMapping("/search-more")
+	public String searchMore() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "search/search-more";
+	}
+
+	/* Admin route-ok*/
+	@RequestMapping("/admin")
+	public String adminLogin() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "admin/index";
+	}
+
+	@RequestMapping("/dashboard")
+	public String adminDashboard() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "admin/dashboard";
+	}	
+	
+	@RequestMapping("/admin-logout")
+	public String adminLogout() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "admin/index";
+	}
+	
+	
+	@RequestMapping("/admin-termek")
+	public String adminTermek() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "admin/product";
+	}
+	
+	@RequestMapping("/admin-raktar")
+	public String adminRaktar() throws MessagingException {
+		
+		//mailSender.send("abc@example.com", "Hello, World", "Mail from spring");		
+		return "admin/storage";
+	}
 }

@@ -7,11 +7,51 @@
 <div class="container">
 
 	<div class="row">
-		<div class="col-md-12">
-			<h1 class="page-title">Kategória neve</h1>
 
+		<%@include file="../includes/sidebar.jsp"%>
+
+		<div class="col-md-9">
+			<h1 class="page-title">Részletes keresés</h1>
+
+			<form class="form-search-more form-inline">
+				<div class="form-group">
+					<label for="termek-nev">Termék név</label> <input type="text"
+						class="form-control" id="termeknev" placeholder="termek-nev">
+				</div>
+				<div class="form-group">
+					<label for="gyarto">Gyártó</label>
+					<select class="form-control" id="gyarto">
+							<option>Gyártó 1</option>
+							<option>Gyártó 2</option>
+							<option>Gyártó 3</option>
+							<option>Gyártó 4</option>
+							<option>Gyártó 5</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label for="kategoriak">Kategória</label>
+					<select class="form-control" id="kategoriak">
+							<option>Kategória 1</option>
+							<option>Kategória 2</option>
+							<option>Kategória 3</option>
+							<option>Kategória 4</option>
+							<option>Kategória 5</option>
+					</select>
+				</div>
+				<br>
+				<div class="form-group">
+					<label for="price">Ár</label>
+					<div class="ar-valaszto-holder">
+						<input type="text" id="ar-valaszto" name="ar-valaszto" value="">
+					</div>
+				</div>
+				<br>
+				<button type="submit" class="btn btn-default btn-md">Keresés</button>
+			</form>
+
+
+			<!--  találatok listázása -->
 			<div class="row">
-
 				<div class="col-sm-4 col-lg-4 col-md-4">
 					<div class="thumbnail">
 						<img src="public/images/product/vironal.jpg" alt="vironal termek">

@@ -1,3 +1,160 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Oswald:300,400,700|Roboto&subset=latin-ext');
+/*@import url('https://fonts.googleapis.com/css?family=Open+Sans|Oswald:300,400,700&subset=latin-ext');*/
+
+
 form .error {
 	color: #A94442
 }
+
+body {
+	color: #black;
+	background-color: #AEB7D4;
+	font-family: 'Roboto', sans-serif;
+}
+
+ul,ol {
+	list-style: none;
+	padding: 0;
+	margin: 0; 
+}
+
+a {
+	transition: all .25s;
+}
+
+a:hover {
+	text-decoration: none;
+}
+
+.navbar {
+	color: #0000;
+	background: #48494A;
+	/*background: url("../images/product/energy_logo.jpg") no-repeat;*/
+	font-family: 'Oswald', sans-serif;
+}
+
+.list-group {
+	font-family: 'Oswald', sans-serif;
+	border-color: #7A433D;
+}
+
+
+main {
+	
+	min-height: 450px;
+}
+
+.page-title {
+	font-size: 30px;
+	color: #222;
+	margin-bottom: 20px;
+}
+
+/* A fejléc formázás */
+.navbar-list {
+	padding-top: 15px;		
+}
+
+.navbar-list li {
+	display: inline;
+	margin: 0 10px;
+}
+
+.navbar-list li a {
+	color: #aaa;
+}
+
+.navbar-list li a:hover {
+	color: #fff;
+}
+
+.col-md-3 {
+	color: #7E594F;
+	font-family: 'Roboto', sans-serif;
+}
+
+/* UI elemek */
+.basket-button {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	background: #000;
+	color: #fff;
+	padding: 0.5em 1em;
+	width: auto;
+}
+
+
+
+/* Rólunk formázások */
+.about-s {
+	margin-bottom: 20px;
+}
+
+.about-s .about-item {
+	margin-bottom: 30px;
+}
+
+/* signin formázás */
+.signin-form {
+	background: #ddd;
+	margin: 0 auto;
+	max-width: 350px;
+	padding: 20px;
+}
+
+/* signup formázás */
+.signup-form { 
+	margin: 0 auto;
+	max-width: 450px;
+	padding: 20px;
+}
+
+/* Termékek formázás */
+.basket-add-form {
+	margin-top: 20px;
+}
+
+.basket-add-form .product-add-db {
+	width: 50px;
+	margin-right: 10px;
+}
+
+/* kosár formázás */
+.basket {
+	margin-bottom: 30px;
+}
+
+.basket-item {
+	margin-bottom: 25px;
+}
+
+/* profil */
+.profil {
+	margin-bottom: 20px;
+}
+
+.profil-item {
+	margin-bottom: 35px;
+}
+
+/* keresés */
+.ar-valaszto-holder {
+	width: 400px;
+	margin-bottom: 20px;
+}
+
+.form-search-more {
+	margin-bottom: 50px;	
+}
+
+.form-search-more button {
+	margin: 20px 0;
+}
+
+.form-search-more .form-group {
+	margin-right: 15px;
+}
+
+
+
