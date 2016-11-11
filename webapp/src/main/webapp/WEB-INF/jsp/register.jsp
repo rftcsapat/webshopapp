@@ -18,7 +18,7 @@
 <!-- 		<div class="form-group col-lg-4 col-sm-6 col-xs-12"> -->
 <%-- 			<font color="red">${usernameError}</font> --%>
 <!-- 		</div><br/> -->
-		<c:if test="${not empty usernameError}"> 
+		<c:if test="${not empty usernameError}">
 			<font color="red">${usernameError}</font><br/>
 		</c:if> 
 	</div>

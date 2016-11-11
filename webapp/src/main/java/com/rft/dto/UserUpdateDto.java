@@ -7,6 +7,9 @@ public class UserUpdateDto {
 	
 	private long id;
 	
+	@Size(min=0, max=50)
+	private String title;
+	
 	@NotNull
 	@Size(min=1, max=255)
 	private String firstname;
@@ -38,9 +41,6 @@ public class UserUpdateDto {
 	@NotNull
 	@Size(min=0, max=100000)
 	private byte[] image;
-	
-	@Size(min=0, max=50)
-	private String title;
 	
 	@Size(min=0, max=50)
 	private String invitedby;

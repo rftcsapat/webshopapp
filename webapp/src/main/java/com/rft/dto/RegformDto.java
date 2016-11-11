@@ -9,6 +9,10 @@ public class RegformDto {
 	
 	@NotNull
 	@Size(min=1, max=255)
+	private String title;
+	
+	@NotNull
+	@Size(min=1, max=255)
 	private String firstname;
 	
 	@NotNull
@@ -18,6 +22,10 @@ public class RegformDto {
 	@NotNull
 	@Size(min=1, max=50)
 	private String username;
+	
+	@NotNull
+	@Size(min=1, max=255)
+	private String email;
 	
 	@NotNull
 	@Size(min=10, max=10, message="{birthDateError}")
@@ -31,6 +39,12 @@ public class RegformDto {
 	@Size(min=1, max=255)
 	private String passwordAgain;
 
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public String getUsername() {
 		return username;
 	}
@@ -67,6 +81,12 @@ public class RegformDto {
 	}
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
 	}
 	@Override
 	public String toString() {

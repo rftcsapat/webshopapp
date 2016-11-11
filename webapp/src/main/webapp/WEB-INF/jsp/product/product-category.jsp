@@ -1,13 +1,13 @@
 <%@include file="../includes/header.jsp"%>
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
 <!-- Page Content -->
 <main>
 <div class="container">
 
 	<div class="row">
-		<div class="col-md-12">
+		<%@include file="../includes/sidebar.jsp"%>
+		<div class="col-md-9">
 			<h1 class="page-title">Kategória neve</h1>
 
 			<div class="row">

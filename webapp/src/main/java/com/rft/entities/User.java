@@ -53,7 +53,7 @@ public class User {
 	@Column(nullable=true, length=255)
 	private String address;
 	
-	@Column(nullable=true, length=50)
+	@Column(nullable=true, length=250)
 	private String email;
 	
 	@Column(nullable=true, length=50)

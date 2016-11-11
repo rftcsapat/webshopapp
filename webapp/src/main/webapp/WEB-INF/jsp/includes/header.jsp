@@ -3,7 +3,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hu">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -44,12 +44,30 @@
                         <a href="#">Kapcsolat</a>
                     </li>
                 </ul>
-                <div class="pull-right">
-                	<ul class="navbar-list">
-                		<li><a href="/signin">Bejelentkezés</a></li>
-                		<li><a href="/signup">Regisztráció</a></li>
-                	</ul>
-                </div>
+                <c:if test="${empty user}">
+	                <div class="pull-right">
+	                	<ul class="navbar-list">
+	                		<li><a href="/signin">Bejelentkezés</a></li>
+	                		<li><a href="/signup">Regisztráció</a></li>
+	                	</ul>
+	                </div>
+                </c:if>
+                <c:if test="${not empty user}">
+	                <div class="pull-right">
+	                	<ul class="navbar-list">
+	                		<li><a href="/profil">Beállítások</a></li>
+	                		<li><a href="/logout">Kijelentkezés</a></li>
+	                	</ul>
+	                </div>
+                </c:if>
             </div>
         </div>
     </nav>
+		<c:if test="${not empty flashMessage}">
+			<div class="container">
+			<div class="alert alert-${flashKind} alert-dismissable">
+				<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times; </button>
+				${flashMessage}
+			</div>
+			</div>
+		</c:if>
