@@ -170,19 +170,26 @@ public class RootController {
 	}
 	
 	@RequestMapping(value ="/signin", method = POST)
-	public String signIn(@ModelAttribute("loginDto") @Valid LoginDto loginDto, BindingResult result, Model model,  HttpSession httpSession) {
-		model.addAttribute("loginDto", new LoginDto());
-		
+	public String signIn(@ModelAttribute("loginDto") @Valid LoginDto loginDto, BindingResult result, Model model,  HttpSession httpSession,
+			RedirectAttributes redirectAttributes) {
 		User user = userRepository.findByUsernameAndPassword(loginDto.getUsername(), loginDto.getPassword());
 		if(user == null) {
 			model.addAttribute("loginError", "Hibás felhasználónév vagy jelszó.");
 		} else {
 			httpSession.setAttribute("user", user);
-			return "redirect:/home";
+			String role = user.getRole();
+			switch(role) {
+				case "0":
+					return "redirect:/home";
+				case "1":
+					return "redirect:/dashboard";
+				case "-1":
+					Util.flash(redirectAttributes, "danger", "Törölt regisztráció.");
+					return "redirect:/";
+			}
 		}
 		
 		return "sign/signin";
-		
 	}
 	
 	@RequestMapping(value="/signup", method=GET)
@@ -276,7 +283,32 @@ public class RootController {
 		userUpdateDto.setEmail(user.getEmail());
 		userUpdateDto.setBirthDate(user.getBirthdate());
 		userUpdateDto.setUsername(user.getUsername());
+		// Ország#Megye#Irányítószám#Város#Utca,Házszám,Emelet,Ajtószám
+		String address = user.getAddress();
 		model.addAttribute("userUpdateDto", userUpdateDto);
+		return "profil/profil";
+		
+	}
+	
+	@RequestMapping(value="/profil", method=POST)
+	public String profil(@ModelAttribute("userUpdateDto") @Valid UserUpdateDto userUpdateDto, 
+			Model model, HttpSession httpSession, RedirectAttributes redirectAttributes) throws MessagingException {
+		if(httpSession.getAttribute("user") == null)  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
+		User user = (User) httpSession.getAttribute("user");
+		
+//		userUpdateDto = new UserUpdateDto();
+//		userUpdateDto.setTitle(user.getTitle());
+//		userUpdateDto.setLastname(user.getLastname());
+//		userUpdateDto.setFirstname(user.getFirstname());
+//		userUpdateDto.setEmail(user.getEmail());
+//		userUpdateDto.setBirthDate(user.getBirthdate());
+//		userUpdateDto.setUsername(user.getUsername());
+		// Ország#Megye#Irányítószám#Város#Utca,Házszám,Emelet,Ajtószám
+//		String address = user.getAddress();
+//		model.addAttribute("userUpdateDto", userUpdateDto);
 		return "profil/profil";
 		
 	}
