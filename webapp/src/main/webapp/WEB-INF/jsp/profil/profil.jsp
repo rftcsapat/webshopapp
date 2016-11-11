@@ -38,7 +38,7 @@
 						<form class="profil-data-form" method="post">
 							<div class="form-group">
 								<label for="username">Felhasználónév</label> 
-								<form:input path="username" type="text" class="form-control" id="username"/>
+								<form:input path="username" type="text" class="form-control" id="username" readonly="true"/>
 							</div>
 							<div class="form-group">
 								<label for="pass">Jelszó</label> <input type="password"
@@ -48,15 +48,14 @@
 								<label for="pass-reset">Jelszó ismét</label> <input
 									type="password" class="form-control" id="pass-reset">
 							</div>
+<!-- 							<div class="form-group"> -->
+<!-- 								<label for="inv-code">Meghívó kód</label> <input type="text" -->
+<!-- 									class="form-control" id="inv-code"> -->
+<!-- 							</div> -->
 							<div class="form-group">
-								<label for="inv-code">Meghívó kód</label> <input type="text"
-									class="form-control" id="inv-code">
-							</div>
-							<div class="form-group">
-								<label for="profil-image">File input</label> <input type="file"
-									id="profil-image">
-								<p class="help-block">A feltölthető fájl mérete maximum 1MB
-									lehet!</p>
+								<label for="profil-image">File input</label> 
+								<input type="file" id="profil-image">
+								<p class="help-block">A feltölthető fájl mérete maximum 1MB lehet!</p>
 							</div>
 						</form>
 					</div>
@@ -79,7 +78,7 @@
 								class="form-control" id="address-varos">
 						</div>
 						<div class="form-group">
-							<label for="address-utcahaz">Utca, Házszám</label> <input type="text"
+							<label for="address-utcahaz">Utca, Házszám, Emelet, Ajtószám</label> <input type="text"
 								class="form-control" id="address-utcahaz">
 						</div>
 					</div>
