@@ -37,7 +37,7 @@ public class Item {
 	@Column(nullable=false, length=4000)
 	private String largedesc;
 	
-	@Column(nullable=true, length=10)
+	@Column(nullable=false, length=10)
 	private String manufactureid;
 	
 	@Column(nullable=false, length=10)
