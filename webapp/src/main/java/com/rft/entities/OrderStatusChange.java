@@ -1,16 +1,24 @@
 package com.rft.entities;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Index;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="orderstatuschange", indexes = {
-	@Index(columnList = "orderid", unique = true)
+	@Index(columnList = "statusid", unique = true)
 })
 public class OrderStatusChange {
 
-	@Column(nullable=false)
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private long statusid;
+	
+	@Column(nullable=true)
 	private long orderid;
 	
 	@Column(nullable=false)
@@ -18,6 +26,14 @@ public class OrderStatusChange {
 	
 	@Column(nullable=false,length=10)
 	private String statusdate;
+
+	public long getStatusid() {
+		return statusid;
+	}
+
+	public void setStatusid(long statusid) {
+		this.statusid = statusid;
+	}
 
 	public long getOrderid() {
 		return orderid;
@@ -46,4 +62,5 @@ public class OrderStatusChange {
 	public OrderStatusChange() {
 		super();
 	}
+
 }

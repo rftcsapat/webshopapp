@@ -20,7 +20,7 @@ public class OrderStatus {
 	private long orderstatusid;
 	
 	@Column(nullable=false,length=50)
-	private String ordersatusname;
+	private String orderstatusname;
 	
 	@Column(nullable=true,length=500)
 	private String description;
@@ -34,11 +34,11 @@ public class OrderStatus {
 	}
 
 	public String getOrdersatusname() {
-		return ordersatusname;
+		return orderstatusname;
 	}
 
 	public void setOrdersatusname(String ordersatusname) {
-		this.ordersatusname = ordersatusname;
+		this.orderstatusname = ordersatusname;
 	}
 
 	public String getDescription() {
