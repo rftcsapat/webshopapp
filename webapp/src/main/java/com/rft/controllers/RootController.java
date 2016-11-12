@@ -9,6 +9,8 @@ import javax.validation.Valid;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +18,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rft.dto.LoginDto;
 import com.rft.dto.RegformDto;
 import com.rft.dto.UserUpdateDto;
+import com.rft.entities.Stock;
 import com.rft.entities.User;
+import com.rft.repositories.StockRepository;
 import com.rft.repositories.UserRepository;
 import com.rft.services.UserService;
 import com.rft.util.Util;
@@ -38,12 +43,15 @@ public class RootController {
 	private UserService userService;
 	private RegformDtoValidator regformDtoValidator;
 	private UserRepository userRepository;
+	private StockRepository stockRepository;
 	
 	@Autowired
-	public RootController(UserService userService, RegformDtoValidator regformDtoValidator, UserRepository userRepository) {
+	public RootController(UserService userService, RegformDtoValidator regformDtoValidator, 
+			UserRepository userRepository, StockRepository stockRepository) {
 		this.userService = userService;
 		this.regformDtoValidator = regformDtoValidator;
 		this.userRepository = userRepository;
+		this.stockRepository = stockRepository;
 	}
 	
 //	@InitBinder("regformDtoValidator")
@@ -82,7 +90,7 @@ public class RootController {
 			return "register";
 		}
 		
-		userService.register(regformDto);
+		userService.register(regformDto, "0");
 		Util.flash(redirectAttributes, "success", "Signup successful.");
 		logger.info(regformDto.toString());
 		
@@ -146,12 +154,25 @@ public class RootController {
 		return "admin";
 	}*/
 	
-	@RequestMapping(value="/home", method = GET)
-	public String home(Model model, RedirectAttributes redirectAttributes, HttpSession httpSession) throws MessagingException {
+	@RequestMapping(value="/home/{category}/{pageNumber}", method = GET)
+	public String home(@PathVariable String category, @PathVariable Integer pageNumber, 
+			Model model, RedirectAttributes redirectAttributes, HttpSession httpSession) {
 		if(httpSession.getAttribute("user") == null)  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
 		}
+		
+		Page<Stock> items = stockRepository.findAll(new PageRequest(pageNumber, 20));
+    	int current = items.getNumber() + 1;
+        int begin = Math.max(0, current - 5);
+        int end = Math.min(begin + 10, items.getTotalPages()-1);
+
+        model.addAttribute("beginIndex", begin);
+        model.addAttribute("endIndex", end);
+        model.addAttribute("currentIndex", current);
+    	model.addAttribute("itemsContent", items.getContent()); // TODO így kapok listát a paging jsp-hez
+    	model.addAttribute("items", items);
+		
 		return "home";
 	}
 	
@@ -180,7 +201,7 @@ public class RootController {
 			String role = user.getRole();
 			switch(role) {
 				case "0":
-					return "redirect:/home";
+					return "redirect:/home/all/0";
 				case "1":
 					return "redirect:/dashboard";
 				case "-1":
@@ -210,7 +231,8 @@ public class RootController {
 		String passwordAgain = regformDto.getPasswordAgain();
 		
 		if(result.hasErrors()) {
-			return "redirect:/";
+			Util.flash(redirectAttributes, "danger", "Hibás formátumú adat található a regisztrációs felületen.");
+			return "redirect:/signup";
 		} 
 		
 		if( ! password.equals(passwordAgain)) {
@@ -236,7 +258,7 @@ public class RootController {
 			return "sign/signup";
 		}
 		
-		userService.register(regformDto);
+		userService.register(regformDto, "0");
 		Util.flash(redirectAttributes, "warning", "Sikeres regisztráció.");
 		logger.info(regformDto.toString());
 		
@@ -283,8 +305,34 @@ public class RootController {
 		userUpdateDto.setEmail(user.getEmail());
 		userUpdateDto.setBirthDate(user.getBirthdate());
 		userUpdateDto.setUsername(user.getUsername());
+		userUpdateDto.setPhone(user.getPhone());
 		// Ország#Megye#Irányítószám#Város#Utca,Házszám,Emelet,Ajtószám
 		String address = user.getAddress();
+		String country = "";
+		String zipCode = "";
+		String settlement = "";
+		String streetDetails = "";
+		if(address != null) {
+			String[] parts = address.split("#");
+			int len = parts.length;
+			if (len > 0) {
+				country = parts[0];
+			} 
+			if (len > 1) {
+				zipCode = parts[1];
+			}
+			if(len > 2) {
+				settlement = parts[2];
+			}
+			if(len > 3) {
+				streetDetails = parts[3];
+			}
+		}
+		userUpdateDto.setCountry(country);
+		userUpdateDto.setZipCode(zipCode);
+		userUpdateDto.setSettlement(settlement);
+		userUpdateDto.setStreetDetails(streetDetails);
+		
 		model.addAttribute("userUpdateDto", userUpdateDto);
 		return "profil/profil";
 		
@@ -297,20 +345,31 @@ public class RootController {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
 		}
-		User user = (User) httpSession.getAttribute("user");
+		User sessionUser = (User)httpSession.getAttribute("user");
+		long loggedInUserId = (sessionUser.getId());
+		userUpdateDto.setId(loggedInUserId);
 		
-//		userUpdateDto = new UserUpdateDto();
-//		userUpdateDto.setTitle(user.getTitle());
-//		userUpdateDto.setLastname(user.getLastname());
-//		userUpdateDto.setFirstname(user.getFirstname());
-//		userUpdateDto.setEmail(user.getEmail());
-//		userUpdateDto.setBirthDate(user.getBirthdate());
-//		userUpdateDto.setUsername(user.getUsername());
-		// Ország#Megye#Irányítószám#Város#Utca,Házszám,Emelet,Ajtószám
-//		String address = user.getAddress();
-//		model.addAttribute("userUpdateDto", userUpdateDto);
-		return "profil/profil";
+		String newPassword      = userUpdateDto.getPassword();
+		String newPasswordAgain = userUpdateDto.getPassword();
+		if( ! newPassword.equals(newPasswordAgain)) {
+			model.addAttribute("passwordError", "A megadott jelszavak nem egyeznek.");
+			return "profil/profil";
+		} 
 		
+		if(userUpdateDto.getActualPassword().equals(sessionUser.getPassword()) && ! "".equals(userUpdateDto.getActualPassword())) {
+			userUpdateDto.setPassword(newPassword);
+		} else {
+			Util.flash(redirectAttributes, "danger", "Az adatmódosítás sikertelen. Hibás aktuális jelszó.");
+			return "redirect:/profil";
+		}
+		
+		userUpdateDto.setRole(sessionUser.getRole());
+		userService.updateUser(userUpdateDto);
+		Util.flash(redirectAttributes, "success", "Sikeres adatmódosítás.");
+		httpSession.setAttribute("user", Util.userUpdateDtoToEntity(userUpdateDto));
+		model.addAttribute("userUpdateDto", userUpdateDto);
+//		return "profil/profil";
+		return "redirect:/profil";
 	}
 	
 	@RequestMapping("/search-result")
@@ -340,7 +399,7 @@ public class RootController {
 		return "admin/index";
 	}
 
-	@RequestMapping("/dashboard")
+	@RequestMapping(value="/dashboard", method = GET)
 	public String adminDashboard() throws MessagingException {
 		
 		return "admin/dashboard";

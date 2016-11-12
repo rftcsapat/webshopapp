@@ -154,27 +154,67 @@
 
                 </div>
                 
-                <div class="row">
-                	<nav aria-label="Page navigation">
-					  <ul class="pagination">
-					    <li>
-					      <a href="#" aria-label="Previous">
-					        <span aria-hidden="true">&laquo;</span>
-					      </a>
-					    </li>
-					    <li><a href="#">1</a></li>
-					    <li><a href="#">2</a></li>
-					    <li><a href="#">3</a></li>
-					    <li><a href="#">4</a></li>
-					    <li><a href="#">5</a></li>
-					    <li>
-					      <a href="#" aria-label="Next">
-					        <span aria-hidden="true">&raquo;</span>
-					      </a>
-					    </li>
-					  </ul>
-					</nav>
-                </div>
+                <c:url var="firstUrl" value="/home/${category}/0" />
+				<c:url var="prevUrl"  value="/home/${category}/${currentIndex - 2}" />
+				<c:url var="nextUrl"  value="/home/${category}/${currentIndex}" />
+				<c:url var="lastUrl"  value="/home/${category}/${items.totalPages - 1}" />
+	  			<div>
+				    <ul class="pagination">
+				        <c:choose>
+				            <c:when test="${currentIndex == 1}">
+				                <li class="disabled"><a href="#">&lt;&lt;</a></li>
+				                <li class="disabled"><a href="#">&lt;</a></li>
+				            </c:when>
+				            <c:otherwise>
+				                <li><a href="${firstUrl}">&lt;&lt;</a></li>
+				                <li><a href="${prevUrl}">&lt;</a></li>
+				            </c:otherwise>
+				        </c:choose>
+				        <c:forEach var="i" begin="${beginIndex}" end="${endIndex}">
+				            <c:url var="pageUrl" value="/home/${category}/${i}" />
+				            <c:choose>
+				                <c:when test="${i == currentIndex - 1}">
+				                    <li class="active"><a href="${pageUrl}"><c:out value="${i+1}" /></a></li>
+				                </c:when>
+				                <c:otherwise>
+				                    <li><a href="${pageUrl}"><c:out value="${i+1}" /></a></li>
+				                </c:otherwise>
+				            </c:choose>
+				        </c:forEach>
+				        <c:choose>
+				            <c:when test="${currentIndex == items.totalPages}">
+				                <li class="disabled"><a href="#">&gt;</a></li>
+				                <li class="disabled"><a href="#">&gt;&gt;</a></li>
+				            </c:when>
+				            <c:otherwise>
+				                <li><a href="${nextUrl}">&gt;</a></li>
+				                <li><a href="${lastUrl}">&gt;&gt;</a></li>
+				            </c:otherwise>
+				        </c:choose>
+				    </ul>
+				</div>	
+                
+<!--                 <div class="row"> -->
+<!--                 	<nav aria-label="Page navigation"> -->
+<!-- 					  <ul class="pagination"> -->
+<!-- 					    <li> -->
+<!-- 					      <a href="#" aria-label="Previous"> -->
+<!-- 					        <span aria-hidden="true">&laquo;</span> -->
+<!-- 					      </a> -->
+<!-- 					    </li> -->
+<!-- 					    <li><a href="#">1</a></li> -->
+<!-- 					    <li><a href="#">2</a></li> -->
+<!-- 					    <li><a href="#">3</a></li> -->
+<!-- 					    <li><a href="#">4</a></li> -->
+<!-- 					    <li><a href="#">5</a></li> -->
+<!-- 					    <li> -->
+<!-- 					      <a href="#" aria-label="Next"> -->
+<!-- 					        <span aria-hidden="true">&raquo;</span> -->
+<!-- 					      </a> -->
+<!-- 					    </li> -->
+<!-- 					  </ul> -->
+<!-- 					</nav> -->
+<!--                 </div> -->
 
             </div>
 
