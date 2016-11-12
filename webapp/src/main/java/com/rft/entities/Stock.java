@@ -24,6 +24,9 @@ public class Stock {
 	@Column(nullable=true, length=1000)
 	private String description;
 	
+	@Column(nullable=true, length=100000)
+	private byte[] picture;
+	
 	@Column(nullable=false, length=10)
 	private String price;
 	
@@ -37,16 +40,16 @@ public class Stock {
 	private String largedesc;
 	
 	@Column(nullable=false, length=10)
-	private String manufactureid;
+	private String manufacturerid;
+	
+	@Column(nullable=false, length=50)
+	private String manufacturername;
+	
+	@Column(nullable=true, length=500)
+	private String manufacturerdesc;
 	
 	@Column(nullable=false, length=10)
 	private String categoryid;
-	
-	@Column(nullable=false, length=50)
-	private String manufacturename;
-	
-	@Column(nullable=true, length=500)
-	private String manufacturedesc;
 	
 	@Column(nullable=false, length=50)
 	private String categoryname;
@@ -81,6 +84,14 @@ public class Stock {
 		this.description = discription;
 	}
 
+	public byte[] getPicture() {
+		return picture;
+	}
+
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
+	}
+
 	public String getPrice() {
 		return price;
 	}
@@ -113,36 +124,36 @@ public class Stock {
 		this.largedesc = largedesc;
 	}
 
-	public String getManufactureid() {
-		return manufactureid;
+	public String getManufacturerid() {
+		return manufacturerid;
 	}
 
-	public void setManufactureid(String manufactureid) {
-		this.manufactureid = manufactureid;
+	public void setManufacturerid(String manufacturerid) {
+		this.manufacturerid = manufacturerid;
 	}
 
+	public String getManufacturername() {
+		return manufacturername;
+	}
+
+	public void setManufacturername(String manufacturername) {
+		this.manufacturername = manufacturername;
+	}
+
+	public String getManufacturerdesc() {
+		return manufacturerdesc;
+	}
+
+	public void setManufacturerdesc(String manufacturerdesc) {
+		this.manufacturerdesc = manufacturerdesc;
+	}
+	
 	public String getCategoryid() {
 		return categoryid;
 	}
 
 	public void setCategoryid(String categoryid) {
 		this.categoryid = categoryid;
-	}
-
-	public String getManufacturename() {
-		return manufacturename;
-	}
-
-	public void setManufacturename(String manufacturename) {
-		this.manufacturename = manufacturename;
-	}
-
-	public String getManufacturedesc() {
-		return manufacturedesc;
-	}
-
-	public void setManufacturedesc(String manufacturedesc) {
-		this.manufacturedesc = manufacturedesc;
 	}
 
 	public String getCategoryname() {
