@@ -33,7 +33,12 @@
 	                <span class="icon-bar"></span>
 	                <span class="icon-bar"></span>
 	            </button>
-	            <a class="navbar-brand" href="/">Energy Webshop</a>
+	            <c:if test="${not empty user}">
+	            	<a class="navbar-brand" href="/home">Energy Webshop</a>
+	            </c:if>
+	            <c:if test="${empty user}">
+	            	<a class="navbar-brand" href="/">Energy Webshop</a>
+	            </c:if>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">

@@ -32,60 +32,78 @@
 								<label for="email">Email</label> 
 								<form:input path="email" type="text" class="form-control" id="email"/>
 							</div>
+							<div class="form-group">
+								<label for="email">Telefonszám</label> 
+								<form:input path="phone" type="text" class="form-control" id="phone"/>
+							</div>
 					</div>
 					<div class="profil-item">
 						<h2>Profil Adatok</h2>
-						<form class="profil-data-form" method="post">
+<!-- 						<form class="profil-data-form" method="post"> -->
 							<div class="form-group">
 								<label for="username">Felhasználónév</label> 
 								<form:input path="username" type="text" class="form-control" id="username" readonly="true"/>
 							</div>
 							<div class="form-group">
-								<label for="pass">Jelszó</label> <input type="password"
-									class="form-control" id="pass">
+								<label for="pass">Új jelszó</label> 
+								<form:input path="password" type="password" class="form-control" id="pass"/>
 							</div>
 							<div class="form-group">
-								<label for="pass-reset">Jelszó ismét</label> <input
-									type="password" class="form-control" id="pass-reset">
+								<label for="pass-reset">Jelszó ismét</label> 
+								<form:input path="passwordAgain" type="password" class="form-control" id="pass-reset"/>
+								<div class="form-group col-lg-4 col-sm-6 col-xs-12">
+									<font color="red">${passwordError}</font>
+								</div><br/>
 							</div>
 <!-- 							<div class="form-group"> -->
 <!-- 								<label for="inv-code">Meghívó kód</label> <input type="text" -->
 <!-- 									class="form-control" id="inv-code"> -->
 <!-- 							</div> -->
 							<div class="form-group">
-								<label for="profil-image">File input</label> 
+								<label for="profil-image">Profilkép</label> 
 								<input type="file" id="profil-image">
 								<p class="help-block">A feltölthető fájl mérete maximum 1MB lehet!</p>
 							</div>
-						</form>
+<!-- 						</form> -->
 					</div>
 					<div class="profil-item">
 						<h2>Szállítási Adatok</h2>
 						<div class="form-group">
-							<label for="address-orszag">Ország</label> <input type="text"
-								class="form-control" id="address-orszag">
+							<label for="address-orszag">Ország</label> 
+							<form:input path="country" type="text" class="form-control" id="address-orszag"/>
+						</div>
+<!-- 						<div class="form-group"> -->
+<!-- 							<label for="address-megye">Megye</label>  -->
+<%-- 							<form:input path="" type="text" class="form-control" id="address-megye"> --%>
+<!-- 						</div> -->
+						<div class="form-group">
+							<label for="address-irszam">Irányítószám</label> 
+							<form:input path="zipCode" type="text" class="form-control" id="address-irszam"/>
 						</div>
 						<div class="form-group">
-							<label for="address-megye">Megye</label> <input type="text"
-								class="form-control" id="address-megye">
+							<label for="address-varos">Város</label> 
+							<form:input path="settlement" type="text" class="form-control" id="address-varos"/>
 						</div>
 						<div class="form-group">
-							<label for="address-irszam">Irányítószám</label> <input
-								type="text" class="form-control" id="address-irszam">
-						</div>
-						<div class="form-group">
-							<label for="address-varos">Város</label> <input type="text"
-								class="form-control" id="address-varos">
-						</div>
-						<div class="form-group">
-							<label for="address-utcahaz">Utca, Házszám, Emelet, Ajtószám</label> <input type="text"
-								class="form-control" id="address-utcahaz">
+							<label for="address-utcahaz">Utca, Házszám, Emelet, Ajtószám</label> 
+							<form:input path="streetDetails" type="text" class="form-control" id="address-utcahaz"/>
 						</div>
 					</div>
+					<br/>
+					<div class="form-group">
+						<label for="address-utcahaz">Aktuális jelszó</label> 
+						<form:input path="actualPassword" type="password" class="form-control" id="address-utcahaz"/>
+						<c:if test="${not empty passwordError}">
+							<div class="form-group col-lg-4 col-sm-6 col-xs-12">
+									<font color="red">${passwordError}</font>
+							</div><br/>
+						</c:if>
+					</div>
+					<br/>
 				</div>
 				<div class="row">
 					<a class="btn btn-default" href="/home">Mégse</a> 
-					<a type="submit" class="btn btn-default pull-right">Mentés</a>
+					<form:button type="submit" class="btn btn-default pull-right">Mentés</form:button>
 				</div>
 			</form:form>
 		</div>
@@ -93,3 +111,4 @@
 </div>
 
 <%@include file="../includes/footer.jsp"%>
+

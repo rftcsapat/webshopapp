@@ -26,19 +26,19 @@ public class UserUpdateDto {
 	@Size(min=10, max=10, message="{birthDateError}")
 	private String birthDate;
 
-	@NotNull
-	@Size(min=1, max=255)
+	@Size(min=0, max=255)
+	private String actualPassword;
+	
+	@Size(min=0, max=255)
 	private String password;
 
-	@NotNull
-	@Size(min=1, max=255)
+	@Size(min=0, max=255)
 	private String passwordAgain;
 	
-	@NotNull
-	@Size(min=1, max=1)
-	private String role;
+//	@NotNull
+//	@Size(min=1, max=1)
+//	private String role;
 	
-	@NotNull
 	@Size(min=0, max=100000)
 	private byte[] image;
 	
@@ -56,12 +56,27 @@ public class UserUpdateDto {
 	
 	private long coins;
 	
-	public String getRole() {
-		return role;
-	}
-	public void setRole(String role) {
-		this.role = role;
-	}
+	@Size(min=0, max=100)
+	private String country;
+	
+	@Size(min=0, max=4)
+	private String zipCode;
+	
+	@Size(min=0, max=75)
+	private String settlement;
+	
+	@Size(min=0, max=150)
+	private String streetDetails;
+	
+	@Size(min=0, max=2)
+	private String role;
+	
+//	public String getRole() {
+//		return role;
+//	}
+//	public void setRole(String role) {
+//		this.role = role;
+//	}
 	
 	public byte[] getImage() {
 		return image;
@@ -147,12 +162,56 @@ public class UserUpdateDto {
 	public void setId(long id) {
 		this.id = id;
 	}
+	public String getCountry() {
+		return country;
+	}
+	public void setCountry(String country) {
+		this.country = country;
+	}
+	public String getZipCode() {
+		return zipCode;
+	}
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
+	}
+	public String getSettlement() {
+		return settlement;
+	}
+	public void setSettlement(String settlement) {
+		this.settlement = settlement;
+	}
+	public String getStreetDetails() {
+		return streetDetails;
+	}
+	public void setStreetDetails(String streetDetails) {
+		this.streetDetails = streetDetails;
+	}
+//	@Override
+//	public String toString() {
+//		return "UserUpdateDto [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", username="
+//				+ username + ", birthDate=" + birthDate + ", password=" + password + ", passwordAgain=" + passwordAgain
+//				+ ", role=" + role + ", title=" + title + ", invitedby=" + invitedby + ", address=" + address
+//				+ ", email=" + email + ", phone=" + phone + ", coins=" + coins + "]";
+//	}
 	
+	public String getActualPassword() {
+		return actualPassword;
+	}
+	public void setActualPassword(String actualPassword) {
+		this.actualPassword = actualPassword;
+	}
+	
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 	@Override
 	public String toString() {
 		return "UserUpdateDto [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", username="
 				+ username + ", birthDate=" + birthDate + ", password=" + password + ", passwordAgain=" + passwordAgain
-				+ ", role=" + role + ", title=" + title + ", invitedby=" + invitedby + ", address=" + address
+				+ ", title=" + title + ", invitedby=" + invitedby + ", address=" + address
 				+ ", email=" + email + ", phone=" + phone + ", coins=" + coins + "]";
 	}
 	
