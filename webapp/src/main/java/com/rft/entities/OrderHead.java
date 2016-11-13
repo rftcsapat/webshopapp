@@ -12,7 +12,6 @@ import javax.persistence.Table;
 @Table(name="orderhead", indexes = {
 	@Index(columnList = "orderid", unique = true)
 })
-
 public class OrderHead {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -20,9 +19,6 @@ public class OrderHead {
 	
 	@Column(nullable=false)
 	private long userid;
-	
-	@Column(nullable=false)
-	private String orderprice;
 
 	public long getOrderid() {
 		return orderid;
@@ -40,13 +36,6 @@ public class OrderHead {
 		this.userid = userid;
 	}
 
-	public String getOrderprice() {
-		return orderprice;
-	}
-
-	public void setOrderprice(String orderprice) {
-		this.orderprice = orderprice;
-	}
 	public OrderHead() {
 		super();
 	}

@@ -11,7 +11,7 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
 	Stock findByItemid(long itemid);
 	List<Stock> findByCategoryname(String categoryname);
 	List<Stock> findByCategoryid(String categoryid);
-	List<Stock> findByManufacturename(String manufacturename);
-	List<Stock> findByManufactureid(String manufactureid);
+	List<Stock> findByManufacturername(String manufacturername);
+	List<Stock> findByManufacturerid(String manufacturerid);
 	List<Stock> findAll();
 }
