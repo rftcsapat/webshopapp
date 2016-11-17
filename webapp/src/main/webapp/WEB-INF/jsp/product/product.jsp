@@ -17,22 +17,26 @@
 					<div class="col-md-3">
 						<img class="img-responsive" src="public/images/product/vironal.jpg">
 					</div>
-					<div class="col-md-6">
-						<ul>
-							<li><span><strong>Gyártó</strong></span><span>Xzy
-									kft.</span></li>
-							<li><span><strong>Kategória</strong></span><span>Koncentrátum</span>
-							</li>
-							<li><span><strong>Cikkszám</strong></span><span>Űrtartalom</span>
-							</li>
-							<li><span><strong>Mennyiség</strong></span><span>200ml</span>
-							</li>
-							<li><span><strong>Ár</strong></span><span>2500 ft</span></li>
-						</ul>
+					<div class="col-md-8">
+						<div class="row">
+							<div class="col-md-6">
+								<ul>
+									<li><span class="fixwidth"><strong>Gyártó: </strong></span><span class="fixwidth">Xzy kft.</span></li>
+									<li><span class="fixwidth"><strong>Kategória: </strong></span><span >Koncentrátum</span></li>
+									<li><span class="fixwidth"><strong>Cikkszám: </strong></span><span class=fixwidth>Űrtartalom</span></li>
+									<li><span class="fixwidth"><strong>Mennyiség: </strong></span><span>200ml</span></li>
+								</ul>
+							</div>
+							<div class="col-md-6">
+								<div class="text-right price-wrapper">
+									<span class="price">7500 Ft</span>
+								</div>
+							</div>
+						</div>
 						
 						<form class="basket-add-form">
 							<div class="form-group">
-								<input class="product-add-db" type="text" name="product-add-db" value="1">
+								<input class="product-add-db text-center" type="text" name="product-add-db" value="1">
 								<button class="btn btn-default">Kosárba</button>
 							</div>
 						</form>

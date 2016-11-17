@@ -392,6 +392,25 @@ public class RootController {
 		return "search/search-more";
 	}
 
+	@RequestMapping("/credits")
+	public String creditsHandler() throws MessagingException {
+		
+		return "profil/credits";
+	}
+	
+	@RequestMapping("/orders")
+	public String ordersHandler() throws MessagingException {
+		
+		return "basket/orders";
+	}
+	
+	@RequestMapping("/contact")
+	public String contactHandler() throws MessagingException {
+		
+		return "contact";
+	}
+	
+	
 	/* Admin route-ok*/
 	@RequestMapping("/admin")
 	public String adminLogin() throws MessagingException {
@@ -423,4 +442,17 @@ public class RootController {
 		
 		return "admin/storage";
 	}
+	
+	@RequestMapping("/admin-product-add")
+	public String adminProductAdd() throws MessagingException {
+		
+		return "admin/product-add";
+	}
+	
+	@RequestMapping("/admin-product-modified")
+	public String adminProductModify() throws MessagingException {
+		
+		return "admin/product-modified";
+	}
+	
 }

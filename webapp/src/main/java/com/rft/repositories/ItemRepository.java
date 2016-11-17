@@ -12,7 +12,7 @@ public interface ItemRepository extends JpaRepository<Item, Long>{
 	Item findByItemname(String itemname);
 	Item findByItemid(long itemid);
 	List<Item> findByCategoryid(String categoryid);
-	List<Item> findByManufactureid(String manufactureid);
+	List<Item> findByManufacturerid(String manufacturerid);
 	List<Item> findAll();
 
 }

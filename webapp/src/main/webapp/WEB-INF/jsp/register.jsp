@@ -1,6 +1,6 @@
 <%@include file="includes2/header.jsp"%>
 
-<form:form modelAttribute="regformDto" role="form">
+<form:form modelAttribute="regformDto" cssClass="signup-form" role="form">
 	<form:errors />
 	<div class="form-group">
 		<form:label path="firstname" for="name">Your first name: </form:label> 

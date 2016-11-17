@@ -11,13 +11,14 @@
     <meta name="description" content="Webshop">
 
     <title>Energy WebAruhaz</title>
+ 
 
     <!-- Bootstrap Core CSS -->
-    <link href="public/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="public/lib/ion.rangeSlider-2.1.4/css/ion.rangeSlider.css" rel="stylesheet">
-	<link href="public/lib/ion.rangeSlider-2.1.4/css/ion.rangeSlider.skinNice.css" rel="stylesheet">
+    <link href="/public/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/public/lib/ion.rangeSlider-2.1.4/css/ion.rangeSlider.css" rel="stylesheet">
+	<link href="/public/lib/ion.rangeSlider-2.1.4/css/ion.rangeSlider.skinNice.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="public/css/styles.css" rel="stylesheet">
+    <link href="/public/css/styles.css" rel="stylesheet">
 
 </head>
 
@@ -26,7 +27,6 @@
     <nav class="navbar navbar-inverse" role="navigation">
     	<div class="container">
         	<div class="navbar-header">
-        		<img src="public/images/product/icon.png" vspace="8" hspace="5" align="left">
         		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
         		<span class="sr-only">Toggle navigation</span>
 	                <span class="icon-bar"></span>
@@ -34,7 +34,7 @@
 	                <span class="icon-bar"></span>
 	            </button>
 	            <c:if test="${not empty user}">
-	            	<a class="navbar-brand" href="/home">Energy Webshop</a>
+	            	<a class="navbar-brand" href="/home/all/0">Energy Webshop</a>
 	            </c:if>
 	            <c:if test="${empty user}">
 	            	<a class="navbar-brand" href="/">Energy Webshop</a>
@@ -43,10 +43,7 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#">Szolgáltatások</a>
-                    </li>
-                    <li>
-                        <a href="#">Kapcsolat</a>
+                        <a href="/contact">Kapcsolat</a>
                     </li>
                 </ul>
                 <c:if test="${empty user}">
@@ -60,6 +57,7 @@
                 <c:if test="${not empty user}">
 	                <div class="pull-right">
 	                	<ul class="navbar-list">
+	                		<li><a href="/credits">Kreditek</a></li>
 	                		<li><a href="/profil">Beállítások</a></li>
 	                		<li><a href="/logout">Kijelentkezés</a></li>
 	                	</ul>

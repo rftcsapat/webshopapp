@@ -38,10 +38,19 @@ public class Item {
 	private String largedesc;
 	
 	@Column(nullable=false, length=10)
-	private String manufactureid;
+	private String manufacturerid;
 	
 	@Column(nullable=false, length=10)
 	private String categoryid;
+
+	
+	public String getManufacturerid() {
+		return manufacturerid;
+	}
+
+	public void setManufacturerid(String manufacturerid) {
+		this.manufacturerid = manufacturerid;
+	}
 
 	public long getItemid() {
 		return itemid;
@@ -99,13 +108,7 @@ public class Item {
 		this.largedesc = largedesc;
 	}
 
-	public String getManufactureid() {
-		return manufactureid;
-	}
-
-	public void setManufactureid(String manufactureid) {
-		this.manufactureid = manufactureid;
-	}
+	
 
 	public String getCategoryid() {
 		return categoryid;

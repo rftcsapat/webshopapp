@@ -7,8 +7,9 @@ form .error {
 }
 
 body {
-	color: #black;
-	background-color: #AEB7D4;
+	background: url("../images/bg/body-bg.jpg") repeat-y;
+	background-size: cover;
+	color: black;
 	font-family: 'Roboto', sans-serif;
 }
 
@@ -18,7 +19,16 @@ ul,ol {
 	margin: 0; 
 }
 
+.lead {
+	color: #fff;
+}
+
+label {
+	color: #fff;
+}
+
 a {
+	color: #000;
 	transition: all .25s;
 }
 
@@ -27,15 +37,39 @@ a:hover {
 }
 
 .navbar {
-	color: #0000;
-	background: #48494A;
+	color: #fff;
+	background: #26A65B;
+	border: none;
+	border-radius: none;
 	/*background: url("../images/product/energy_logo.jpg") no-repeat;*/
 	font-family: 'Oswald', sans-serif;
 }
 
 .list-group {
-	font-family: 'Oswald', sans-serif;
+	font-family: 'Open Sans', sans-serif;
 	border-color: #7A433D;
+}
+
+.btn-primary,
+.btn-default {
+	background: #1E824C;
+	border: 0;
+	color: #fff;
+	transition: all .3s;
+}
+
+.search-more-link {
+	display: block;
+	margin-top: 10px;
+	padding-left: 5px;
+}
+
+.search-more-link a  {
+		color: #fff;
+}
+
+.search-more-link a:hover {
+	opacity: .8;
 }
 
 
@@ -47,7 +81,7 @@ main {
 .page-title {
 	font-size: 30px;
 	color: #222;
-	margin-bottom: 20px;
+	margin-bottom: 30px;
 }
 
 /* A fejléc formázás */
@@ -61,11 +95,23 @@ main {
 }
 
 .navbar-list li a {
-	color: #aaa;
+	color: #fff;
 }
 
 .navbar-list li a:hover {
+	opacity: .8;
+}
+
+.navbar-inverse .navbar-nav > li > a  {
 	color: #fff;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover {
+	opacity: .8;
+}
+
+.navbar-inverse .navbar-brand  {
+	color: #fff;	
 }
 
 .col-md-3 {
@@ -78,12 +124,16 @@ main {
 	position: fixed;
 	bottom: 0;
 	right: 0;
-	background: #000;
+	background: #1E824C;
 	color: #fff;
-	padding: 0.5em 1em;
+	padding: 0.8em 1em;
 	width: auto;
 }
 
+.basket-button:hover { 
+	opacity: .8;
+	color: #fff;
+}
 
 
 /* Rólunk formázások */
@@ -95,10 +145,17 @@ main {
 	margin-bottom: 30px;
 }
 
+.btn-primary:hover {
+	background: #fff;
+	color: #1E824C;
+}
+
 /* signin formázás */
 .signin-form {
-	background: #ddd;
+	background: #87D37C;
 	margin: 0 auto;
+	border-radius: 8px;
+	box-shadow: 0 0 10px 10px rgba(0, 0, 0, .1);
 	max-width: 350px;
 	padding: 20px;
 }
@@ -129,6 +186,80 @@ main {
 	margin-bottom: 25px;
 }
 
+.basket-item-name {
+	margin-top: 0;
+	font-size: 19px;
+}
+
+.basket-item img {
+	max-width: 100%;
+}
+
+.basket-item-info {
+	font-size: 15px;
+	margin-top: 20px;
+}
+
+.basket-item-info span {
+	display: block;	
+}
+
+.basket-item-1of2  {
+	float: left;
+	width: 50%;
+}
+
+.basket-item-2of2  {
+	float: left;
+	width: 50%;
+}
+
+.basket-item-db {
+	float: left;
+	display: inline-block;
+	padding-top: 30px;
+	max-width: 100px;
+	width: 100%;
+}
+
+.basket-item-db select  {
+	width: 60px;
+	display: inline-block;
+}
+
+
+.basket-item-db span {
+	margin-left: 10px;
+	display: inline-block;
+}
+
+.basket-item-del-link  {
+	color: #000;
+	padding-top: 20px;
+	display: block;
+}
+
+.basket-item-price {
+	display: inline-block;
+	float: left;
+	margin-left: 10px;
+	max-width: 160px;
+	width: 100%;
+	text-align: center;
+	padding-top: 20px;
+}
+
+.basket-item-price .price {
+	font-weight: 700;
+	font-size: 20px;
+}
+
+
+.basket-amounts {
+	font-size: 18px;
+	margin-bottom: 30px;
+}
+
 /* profil */
 .profil {
 	margin-bottom: 20px;
@@ -156,5 +287,71 @@ main {
 	margin-right: 15px;
 }
 
+/* kredit */
+.kredit-actual p {
+	color: #69ae32;
+	font-size: 30px;
+	font-weight: 700;
+}
 
+.form-kredit {
+	max-width: 300px;
+}
+
+.form-kredit input[type="text"] {
+	display: inline-block;
+	width: auto;
+}
+
+.currency {
+	display: inline-block;
+	margin-left: 5px;
+}
+
+/* szallitasi adatok */
+.form-delivery {
+	max-width: 500px;
+	width: 100%;
+	margin: 20px 10px;;
+}
+
+.form-delivery .checkbox-wrapper {
+	padding-left: 25px;	
+}
+
+/* product */
+.product-s .price-wrapper {
+	margin-top: 15px;
+	font-size: 20px;
+}
+
+.product-s .price  {
+	font-size: 30px;
+	font-weight: 500;
+}
+
+span.fixwidth {
+	display: inline-block;
+	width: 100px;
+}
+
+/* sidebar */
+.sidebar {
+	padding-top: 25px;
+}
+
+.form-delivery label {
+	color: #000;
+}
+
+
+/* Contact page */
+.form-contact { 
+	max-width: 400px;
+	width: 100%;
+}
+
+.form-contact label {
+	color: #000;
+}
 

@@ -4,7 +4,7 @@
 	<form:errors />
 	<h1 class="page-title text-center">Regisztráció</h1>
 
-	<form:form modelAttribute="regformDto" role="form">
+	<form:form modelAttribute="regformDto" class="signup-form" role="form">
 		<div class="form-group">
 			<label for="titulus">Titulus</label> 
 			<form:input path="title" type="text" class="form-control" id="titulus" placeholder="dr, prof"/>
