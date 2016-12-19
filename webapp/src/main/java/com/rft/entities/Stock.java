@@ -74,12 +74,12 @@ public class Stock {
 		this.itemname = itemname;
 	}
 
-	public String getDiscription() {
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDiscription(String discription) {
-		this.description = discription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public byte[] getPicture() {
