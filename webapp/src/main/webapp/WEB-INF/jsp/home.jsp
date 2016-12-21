@@ -11,7 +11,7 @@
 
                 <div class="row carousel-holder">
 
-                    <div class="col-md-12">
+                    <div class="col-md-12" align="center">
                         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
                             <ol class="carousel-indicators">
                                 <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
@@ -95,9 +95,8 @@
 	                        <div class="thumbnail">
 	                            <img src="/public/images/product/korolen.jpg" alt="korolen termek">
 	                            <div class="caption">
-	                                <h4 class="pull-right">${item.price}</h4>
-	                                <h4><a href="#">${item.itemname}</a>
-	                                </h4>
+	                                <h4 class="pull-right">${item.price} Ft</h4>
+	                                <h4><a href="/product/${item.itemid}">${item.itemname}</a></h4>
 	                                <p>
                                 	<c:choose>
 							            <c:when test="${empty item.description}">

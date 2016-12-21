@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.rft.dto.AddToBasketDto;
 import com.rft.dto.LoginDto;
 import com.rft.dto.RegformDto;
 import com.rft.dto.UserUpdateDto;
@@ -71,8 +72,9 @@ public class RootController {
 	public String register(@ModelAttribute("regformDto") @Valid RegformDto regformDto, BindingResult result, 
 			RedirectAttributes redirectAttributes, Model model) {
 		
-		if(regformDto == null) 
-			{ return "redirect:/"; }
+		if(regformDto == null) { 
+			return "redirect:/"; 
+		}
 		
 		String password      = regformDto.getPassword();
 		String passwordAgain = regformDto.getPasswordAgain();
@@ -162,7 +164,7 @@ public class RootController {
 			return "redirect:/";
 		}
 		
-		Page<Stock> items = stockRepository.findAll(new PageRequest(pageNumber, 20));
+		Page<Stock> items = stockRepository.findAll(new PageRequest(pageNumber, 3));
     	int current = items.getNumber() + 1;
         int begin = Math.max(0, current - 5);
         int end = Math.min(begin + 10, items.getTotalPages()-1);
@@ -277,14 +279,26 @@ public class RootController {
 		return "product/product-category";
 	}
 	
-	@RequestMapping("/product")
-	public String product() {
+	@RequestMapping(value="/product/{productId}", method=GET)
+	public String product(@PathVariable("productId") Long productId, Model model) {
+		Stock item = stockRepository.findByItemid(productId);
+		model.addAttribute("item", item);
+		model.addAttribute(new AddToBasketDto());
+		return "product/product";
+	}
+	
+	@RequestMapping(value="/product/{productId}", method=POST)
+	public String product(@PathVariable("productId") Long productId, Model model, @ModelAttribute("regformDto") @Valid AddToBasketDto addToBasketDto,
+			BindingResult result) {
+		Stock item = stockRepository.findByItemid(productId);
 		
+//		model.addAttribute("item", item);
+//		model.addAttribute(new AddToBasketDto());
 		return "product/product";
 	}
 	
 	@RequestMapping("/basket")
-	public String basket() {
+	public String basket(Model model) {
 		
 		return "basket/basket";
 	}
