@@ -21,57 +21,59 @@
 						<div class="row">
 							<div class="col-md-6">
 								<ul>
-									<li><span class="fixwidth"><strong>Gyártó: </strong></span><span class="fixwidth">Xzy kft.</span></li>
-									<li><span class="fixwidth"><strong>Kategória: </strong></span><span >Koncentrátum</span></li>
-									<li><span class="fixwidth"><strong>Cikkszám: </strong></span><span class=fixwidth>Űrtartalom</span></li>
-									<li><span class="fixwidth"><strong>Mennyiség: </strong></span><span>200ml</span></li>
+									<li><span class="fixwidth"><strong>Gyártó: </strong></span><span class="fixwidth">${item.manufacturername}</span></li>
+									<li><span class="fixwidth"><strong>Kategória: </strong></span><span >${item.categoryname}</span></li>
+<!-- 									<li><span class="fixwidth"><strong>Cikkszám: </strong></span><span class=fixwidth>Űrtartalom</span></li> -->
+									<li><span class="fixwidth"><strong>Mennyiség: </strong></span><span>${item.quantity} ml</span></li>
 								</ul>
 							</div>
 							<div class="col-md-6">
 								<div class="text-right price-wrapper">
-									<span class="price">7500 Ft</span>
+									<span class="price">${item.price} Ft</span>
 								</div>
 							</div>
 						</div>
 						
-						<form class="basket-add-form">
+						<form:form class="basket-add-form" model="addToBasketDto">
 							<div class="form-group">
-								<input class="product-add-db text-center" type="text" name="product-add-db" value="1">
-								<button class="btn btn-default">Kosárba</button>
+								<form:input path="quantity" class="product-add-db text-center" type="text" name="product-add-db" value="1"/>
+								<form:button class="btn btn-default">Kosárba</form:button>
 							</div>
-						</form>
+						</form:form>
 					</div>
 				</div>
 				<div class="row">
 					<div class="col-md-12">
 						<h3>Leírás</h3>
-						<p>Donec aliquam, erat sed lacinia hendrerit, est massa
-							fringilla elit, id sagittis arcu ante at purus. Aenean sit amet
-							dolor sed tellus egestas hendrerit. Mauris ut pulvinar justo,
-							eget semper nunc. Duis aliquam commodo vehicula. Quisque
-							vestibulum nec quam ac convallis. Vestibulum vitae porttitor
-							orci. Aenean facilisis nisl vitae magna tincidunt aliquam. Duis
-							id eleifend neque. Mauris id nisl a diam venenatis pulvinar. Sed
-							posuere neque a tortor rutrum aliquet in nec velit. Class aptent
-							taciti sociosqu ad litora torquent per conubia nostra, per
-							inceptos himenaeos. Nam risus leo, tristique ac eleifend et,
-							eleifend ac sapien. Pellentesque eget lacinia mauris, eu
-							convallis lacus. Cras pretium eget velit quis finibus. Etiam
-							dictum tempus nibh eget euismod. Integer eget luctus ante, in
-							dictum nibh. Nullam ut dui vestibulum, viverra mauris sit amet,
-							hendrerit leo. In blandit dui quis mauris fermentum, vitae
-							egestas urna scelerisque. Aliquam scelerisque massa eget
-							tristique laoreet. Cras quis libero eu eros tempor efficitur.
-							Vestibulum feugiat diam nec mi feugiat efficitur. Donec consequat
-							massa at ipsum scelerisque, a dapibus felis scelerisque.
-							Pellentesque habitant morbi tristique senectus et netus et
-							malesuada fames ac turpis egestas. Sed fermentum ultrices tortor
-							vel egestas. Suspendisse elementum nisl quis nibh congue, nec
-							rutrum quam tincidunt. Pellentesque habitant morbi tristique
-							senectus et netus et malesuada fames ac turpis egestas. Donec
-							rutrum dui quis mauris interdum, quis tristique arcu semper.
-							Donec venenatis commodo ultricies. Donec quam arcu, vestibulum eu
-							eros sed, ullamcorper facilisis lorem.</p>
+						<p>${item.description}
+<!-- 						    Donec aliquam, erat sed lacinia hendrerit, est massa -->
+<!-- 							fringilla elit, id sagittis arcu ante at purus. Aenean sit amet -->
+<!-- 							dolor sed tellus egestas hendrerit. Mauris ut pulvinar justo, -->
+<!-- 							eget semper nunc. Duis aliquam commodo vehicula. Quisque -->
+<!-- 							vestibulum nec quam ac convallis. Vestibulum vitae porttitor -->
+<!-- 							orci. Aenean facilisis nisl vitae magna tincidunt aliquam. Duis -->
+<!-- 							id eleifend neque. Mauris id nisl a diam venenatis pulvinar. Sed -->
+<!-- 							posuere neque a tortor rutrum aliquet in nec velit. Class aptent -->
+<!-- 							taciti sociosqu ad litora torquent per conubia nostra, per -->
+<!-- 							inceptos himenaeos. Nam risus leo, tristique ac eleifend et, -->
+<!-- 							eleifend ac sapien. Pellentesque eget lacinia mauris, eu -->
+<!-- 							convallis lacus. Cras pretium eget velit quis finibus. Etiam -->
+<!-- 							dictum tempus nibh eget euismod. Integer eget luctus ante, in -->
+<!-- 							dictum nibh. Nullam ut dui vestibulum, viverra mauris sit amet, -->
+<!-- 							hendrerit leo. In blandit dui quis mauris fermentum, vitae -->
+<!-- 							egestas urna scelerisque. Aliquam scelerisque massa eget -->
+<!-- 							tristique laoreet. Cras quis libero eu eros tempor efficitur. -->
+<!-- 							Vestibulum feugiat diam nec mi feugiat efficitur. Donec consequat -->
+<!-- 							massa at ipsum scelerisque, a dapibus felis scelerisque. -->
+<!-- 							Pellentesque habitant morbi tristique senectus et netus et -->
+<!-- 							malesuada fames ac turpis egestas. Sed fermentum ultrices tortor -->
+<!-- 							vel egestas. Suspendisse elementum nisl quis nibh congue, nec -->
+<!-- 							rutrum quam tincidunt. Pellentesque habitant morbi tristique -->
+<!-- 							senectus et netus et malesuada fames ac turpis egestas. Donec -->
+<!-- 							rutrum dui quis mauris interdum, quis tristique arcu semper. -->
+<!-- 							Donec venenatis commodo ultricies. Donec quam arcu, vestibulum eu -->
+<!-- 							eros sed, ullamcorper facilisis lorem. -->
+							</p>
 					</div>
 				</div>
 			</section>

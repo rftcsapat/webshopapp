@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.rft.dto.AddToBasketDto;
 import com.rft.dto.LoginDto;
 import com.rft.dto.RegformDto;
 import com.rft.dto.UserUpdateDto;
@@ -78,8 +79,9 @@ public class RootController {
 	public String register(@ModelAttribute("regformDto") @Valid RegformDto regformDto, BindingResult result, 
 			RedirectAttributes redirectAttributes, Model model) {
 		
-		if(regformDto == null) 
-			{ return "redirect:/"; }
+		if(regformDto == null) { 
+			return "redirect:/"; 
+		}
 		
 		String password      = regformDto.getPassword();
 		String passwordAgain = regformDto.getPasswordAgain();
@@ -169,22 +171,22 @@ public class RootController {
 			return "redirect:/";
 		}
 		
-		Page<Stock> items = stockRepository.findAll(new PageRequest(pageNumber, 20));
+		Page<Stock> items = stockRepository.findAll(new PageRequest(pageNumber, 3));
     	int current = items.getNumber() + 1;
         int begin = Math.max(0, current - 5);
         int end = Math.min(begin + 10, items.getTotalPages()-1);
-
+        
         model.addAttribute("beginIndex", begin);
         model.addAttribute("endIndex", end);
         model.addAttribute("currentIndex", current);
-    	model.addAttribute("itemsContent", items.getContent()); // TODO így kapok listát a paging jsp-hez
+    	model.addAttribute("itemsContent", items.getContent());
     	model.addAttribute("items", items);
 		
 		return "home";
 	}
 	
 	@RequestMapping("/")
-	public String about() throws MessagingException {
+	public String about() {
 		
 		return "about/about-us";
 		
@@ -221,11 +223,9 @@ public class RootController {
 	}
 	
 	@RequestMapping(value="/signup", method=GET)
-	public String signUp(Model model) throws MessagingException {
-		
+	public String signUp(Model model) {
 		model.addAttribute("regformDto", new RegformDto());
 		return "sign/signup";
-		
 	}
 	
 	@RequestMapping(value="/signup", method=POST)
@@ -273,7 +273,7 @@ public class RootController {
 	}
 	
 	@RequestMapping(value="/logout", method=GET)
-	public String logout(RedirectAttributes redirectAttributes, Model model, HttpSession httpSession) throws MessagingException {
+	public String logout(RedirectAttributes redirectAttributes, Model model, HttpSession httpSession) {
 		httpSession.removeAttribute("user");
 		Util.flash(redirectAttributes, "success", "Sikeres kijelentkezés.");
 		return "redirect:/";
@@ -286,20 +286,32 @@ public class RootController {
 		return "product/product-category";
 	}
 	
-	@RequestMapping("/product")
-	public String product() throws MessagingException {
+	@RequestMapping(value="/product/{productId}", method=GET)
+	public String product(@PathVariable("productId") Long productId, Model model) {
+		Stock item = stockRepository.findByItemid(productId);
+		model.addAttribute("item", item);
+		model.addAttribute(new AddToBasketDto());
+		return "product/product";
+	}
+	
+	@RequestMapping(value="/product/{productId}", method=POST)
+	public String product(@PathVariable("productId") Long productId, Model model, @ModelAttribute("regformDto") @Valid AddToBasketDto addToBasketDto,
+			BindingResult result) {
+		Stock item = stockRepository.findByItemid(productId);
 		
+//		model.addAttribute("item", item);
+//		model.addAttribute(new AddToBasketDto());
 		return "product/product";
 	}
 	
 	@RequestMapping("/basket")
-	public String basket() throws MessagingException {
+	public String basket(Model model) {
 		
 		return "basket/basket";
 	}
 	
 	@RequestMapping(value="/profil", method=GET)
-	public String profil(Model model, HttpSession httpSession, RedirectAttributes redirectAttributes) throws MessagingException {
+	public String profil(Model model, HttpSession httpSession, RedirectAttributes redirectAttributes) {
 		if(httpSession.getAttribute("user") == null)  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
@@ -347,7 +359,7 @@ public class RootController {
 	
 	@RequestMapping(value="/profil", method=POST)
 	public String profil(@ModelAttribute("userUpdateDto") @Valid UserUpdateDto userUpdateDto, 
-			Model model, HttpSession httpSession, RedirectAttributes redirectAttributes) throws MessagingException {
+			Model model, HttpSession httpSession, RedirectAttributes redirectAttributes) {
 		if(httpSession.getAttribute("user") == null)  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
@@ -380,7 +392,7 @@ public class RootController {
 	}
 	
 	@RequestMapping("/search-result")
-	public String searchResult() throws MessagingException {
+	public String searchResult() {
 		
 		return "search/search-result";
 		
@@ -388,31 +400,31 @@ public class RootController {
 	
 	
 	@RequestMapping("/logout")
-	public String logout() throws MessagingException {
+	public String logout() {
 		
 		return "about/about-us";
 	}
 	
 	@RequestMapping("/search-more")
-	public String searchMore() throws MessagingException {
+	public String searchMore() {
 		
 		return "search/search-more";
 	}
 
 	@RequestMapping("/credits")
-	public String creditsHandler() throws MessagingException {
+	public String creditsHandler() {
 		
 		return "profil/credits";
 	}
 	
 	@RequestMapping("/orders")
-	public String ordersHandler() throws MessagingException {
+	public String ordersHandler() {
 		
 		return "basket/orders";
 	}
 	
 	@RequestMapping("/contact")
-	public String contactHandler() throws MessagingException {
+	public String contactHandler() {
 		
 		return "contact";
 	}
@@ -420,7 +432,7 @@ public class RootController {
 	
 	/* Admin route-ok*/
 	@RequestMapping("/admin")
-	public String adminLogin() throws MessagingException {
+	public String adminLogin() {
 		
 		return "admin/index";
 	}
@@ -439,39 +451,36 @@ public class RootController {
 		model.addAttribute("usersCount", usersCount);
 		model.addAttribute("productsCount", productsCount);
 		model.addAttribute("monthlyIncome", r);
-		
-		
-		
 		return "admin/dashboard";
 	}	
 	
 	@RequestMapping("/admin-logout")
-	public String adminLogout() throws MessagingException {
+	public String adminLogout() {
 		
 		return "admin/index";
 	}
 	
 	
 	@RequestMapping("/admin-termek")
-	public String adminTermek() throws MessagingException {
+	public String adminTermek() {
 		
 		return "admin/product";
 	}
 	
 	@RequestMapping("/admin-raktar")
-	public String adminRaktar() throws MessagingException {
+	public String adminRaktar() {
 		
 		return "admin/storage";
 	}
 	
 	@RequestMapping("/admin-product-add")
-	public String adminProductAdd() throws MessagingException {
+	public String adminProductAdd() {
 		
 		return "admin/product-add";
 	}
 	
 	@RequestMapping("/admin-product-modified")
-	public String adminProductModify() throws MessagingException {
+	public String adminProductModify() {
 		
 		return "admin/product-modified";
 	}

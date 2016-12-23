@@ -6,11 +6,11 @@
 		<%@include file="../includes/sidebar.jsp"%>
 
 		<div class="col-md-9">
-			<h1 class="page-title">Profil</h1>
+			<h1 class="page-title"><font color="white">Profil</font></h1>
 			<form:form modelAttribute="userUpdateDto" class="person-data-form" method="post">
 				<div class="profil">
 					<div class="profil-item">
-						<h2>Személyes Adatok</h2>
+						<font color="white"><h2>Személyes Adatok</h2></font>
 						
 							<div class="form-group">
 								<label for="titulus">Titulus</label> 
@@ -38,7 +38,7 @@
 							</div>
 					</div>
 					<div class="profil-item">
-						<h2>Profil Adatok</h2>
+						<font color="white"><h2>Profil Adatok</h2></font>
 <!-- 						<form class="profil-data-form" method="post"> -->
 							<div class="form-group">
 								<label for="username">Felhasználónév</label> 
@@ -67,7 +67,7 @@
 <!-- 						</form> -->
 					</div>
 					<div class="profil-item">
-						<h2>Szállítási Adatok</h2>
+						<font color="white"><h2>Szállítási Adatok</h2></font>
 						<div class="form-group">
 							<label for="address-orszag">Ország</label> 
 							<form:input path="country" type="text" class="form-control" id="address-orszag"/>
