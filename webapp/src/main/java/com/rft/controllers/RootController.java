@@ -445,7 +445,7 @@ public class RootController {
 		Integer usersCount = users.size();
 		Integer productsCount = products.size();
 		Random rand = new Random();
-		int  r = rand.nextInt(2_000_000) + 1_000_000;
+		int  r = rand.nextInt(2_000_00) + 1_000_00;
 		
 		
 		model.addAttribute("usersCount", usersCount);

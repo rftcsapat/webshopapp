@@ -24,7 +24,7 @@
 									<i class="fa fa-comments fa-5x"></i>
 								</div>
 								<div class="col-xs-9 text-right">
-									<div class="huge">26</div>
+									<div class="huge">${usersCount}</div>
 									<div>Regisztrált felhasználók</div>
 								</div>
 							</div>
@@ -39,7 +39,7 @@
 									<i class="fa fa-tasks fa-5x"></i>
 								</div>
 								<div class="col-xs-9 text-right">
-									<div class="huge">12</div>
+									<div class="huge">30</div>
 									<div>Napi megrendelések</div>
 								</div>
 							</div>
@@ -54,7 +54,7 @@
 									<i class="fa fa-shopping-cart fa-5x"></i>
 								</div>
 								<div class="col-xs-9 text-right">
-									<div class="huge">124</div>
+									<div class="huge">${productsCount}</div>
 									<div>Termékek száma</div>
 								</div>
 							</div>
@@ -69,7 +69,7 @@
 									<i class="fa fa-support fa-5x"></i>
 								</div>
 								<div class="col-xs-9 text-right">
-									<div class="huge">1300 Ft</div>
+									<div class="huge">20000 Ft</div>
 									<div>Havi bevétel</div>
 								</div>
 							</div>
