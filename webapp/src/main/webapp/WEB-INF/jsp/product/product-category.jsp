@@ -16,7 +16,7 @@
 					<div class="thumbnail">
 						<img src="public/images/product/vironal.jpg" alt="vironal termek">
 						<div class="caption">
-							<h4 class="pull-right">6000 Ft</h4>
+							<h4 class="pull-right">6000 Kr</h4>
 							<h4>
 								<a href="/product">Vironal</a>
 							</h4>
@@ -40,7 +40,7 @@
 					<div class="thumbnail">
 						<img src="public/images/product/regalen.jpg" alt="regalen termek">
 						<div class="caption">
-							<h4 class="pull-right">7500 Ft</h4>
+							<h4 class="pull-right">7500 Kr</h4>
 							<h4>
 								<a href="/product">Regalen</a>
 							</h4>
@@ -64,7 +64,7 @@
 					<div class="thumbnail">
 						<img src="public/images/product/renol.jpg" alt="renol termek">
 						<div class="caption">
-							<h4 class="pull-right">6300 Ft</h4>
+							<h4 class="pull-right">6300 Kr</h4>
 							<h4>
 								<a href="#">Renol</a>
 							</h4>
@@ -88,7 +88,7 @@
 					<div class="thumbnail">
 						<img src="public/images/product/gynex.jpg" alt="gynex termek">
 						<div class="caption">
-							<h4 class="pull-right">7300 Ft</h4>
+							<h4 class="pull-right">7300 Kr</h4>
 							<h4>
 								<a href="#">Gynex</a>
 							</h4>
@@ -112,7 +112,7 @@
 					<div class="thumbnail">
 						<img src="public/images/product/korolen.jpg" alt="korolen termek">
 						<div class="caption">
-							<h4 class="pull-right">7200 Ft</h4>
+							<h4 class="pull-right">7200 Kr</h4>
 							<h4>
 								<a href="#">Korolen</a>
 							</h4>

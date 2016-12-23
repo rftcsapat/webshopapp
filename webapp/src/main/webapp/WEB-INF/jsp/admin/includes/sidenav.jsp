@@ -32,6 +32,8 @@
 					Termékek</a></li>
 			<li><a href="/admin-raktar"><i
 					class="fa fa-fw fa-desktop"></i>Raktárkezelés</a></li>
+			<li><a href="/admin-reg"><i
+					class="fa fa-fw fa-desktop"></i>Admin regisztráció</a></li>
 		</ul>
 	</div>
 	<!-- /.navbar-collapse -->

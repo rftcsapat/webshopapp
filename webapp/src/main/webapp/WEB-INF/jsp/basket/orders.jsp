@@ -26,7 +26,7 @@
 							</div>
 							<div class="basket-item-price">
 								Ár<br> <span class="price">6000</span><span
-									class="currency">Ft</span>
+									class="currency">Kr</span>
 							</div>
 						</div>
 					</div>
@@ -48,7 +48,7 @@
 							</div>
 							<div class="basket-item-price">
 								Ár<br> <span class="price">6000</span><span
-									class="currency">Ft</span>
+									class="currency">Kr</span>
 							</div>
 						</div>
 					</div>
@@ -70,7 +70,7 @@
 							</div>
 							<div class="basket-item-price">
 								Ár<br> <span class="price">6000</span><span
-									class="currency">Ft</span>
+									class="currency">Kr</span>
 							</div>
 						</div>
 					</div>
@@ -80,7 +80,7 @@
 			<div class="row">
 				<div class="pull-right basket-amounts">
 					Termék darabszám: <strong>30</strong><br> Fizetendő: <strong>17.200
-						Ft</strong>
+						Kr</strong>
 				</div>
 			</div>
 

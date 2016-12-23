@@ -4,6 +4,9 @@ import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.util.List;
+import java.util.Random;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -59,6 +62,8 @@ public class RootController {
 //		binder.setValidator(regformDtoValidator);
 //	}
 	
+	
+	
 	@RequestMapping(value = "/register", method = GET)
 	public String register(Model model) {
 		RegformDto regdto = new RegformDto();
@@ -66,6 +71,8 @@ public class RootController {
 		model.addAttribute("regformDto", regdto);
 		return "register";
 	}
+	
+	
 	
 	@RequestMapping(value = "/register", method = POST)
 	public String register(@ModelAttribute("regformDto") @Valid RegformDto regformDto, BindingResult result, 
@@ -419,7 +426,21 @@ public class RootController {
 	}
 
 	@RequestMapping(value="/dashboard", method = GET)
-	public String adminDashboard() throws MessagingException {
+	public String adminDashboard(Model model) throws MessagingException {
+		List<User> users = userRepository.findAll();
+		List<Stock> products = stockRepository.findAll();
+		
+		Integer usersCount = users.size();
+		Integer productsCount = products.size();
+		Random rand = new Random();
+		int  r = rand.nextInt(2_000_000) + 1_000_000;
+		
+		
+		model.addAttribute("usersCount", usersCount);
+		model.addAttribute("productsCount", productsCount);
+		model.addAttribute("monthlyIncome", r);
+		
+		
 		
 		return "admin/dashboard";
 	}	
@@ -453,6 +474,12 @@ public class RootController {
 	public String adminProductModify() throws MessagingException {
 		
 		return "admin/product-modified";
+	}
+	
+	@RequestMapping(value="/admin-reg", method=GET)
+	public String adminRegistration(Model model) {
+		model.addAttribute("regformDto", new RegformDto());
+		return "admin/admin-registration";
 	}
 	
 }
