@@ -31,6 +31,7 @@ import com.rft.dto.RegformDto;
 import com.rft.dto.UserUpdateDto;
 import com.rft.entities.Stock;
 import com.rft.entities.User;
+import com.rft.repositories.AddItemToBasketRepository;
 import com.rft.repositories.StockRepository;
 import com.rft.repositories.UserRepository;
 import com.rft.services.UserService;
@@ -48,14 +49,16 @@ public class RootController {
 	private RegformDtoValidator regformDtoValidator;
 	private UserRepository userRepository;
 	private StockRepository stockRepository;
+	private AddItemToBasketRepository addItemToBasketRepository;
 	
 	@Autowired
 	public RootController(UserService userService, RegformDtoValidator regformDtoValidator, 
-			UserRepository userRepository, StockRepository stockRepository) {
+			UserRepository userRepository, StockRepository stockRepository, AddItemToBasketRepository addItemToBasketRepository) {
 		this.userService = userService;
 		this.regformDtoValidator = regformDtoValidator;
 		this.userRepository = userRepository;
 		this.stockRepository = stockRepository;
+		this.addItemToBasketRepository = addItemToBasketRepository;
 	}
 	
 //	@InitBinder("regformDtoValidator")
@@ -290,14 +293,28 @@ public class RootController {
 	public String product(@PathVariable("productId") Long productId, Model model) {
 		Stock item = stockRepository.findByItemid(productId);
 		model.addAttribute("item", item);
-		model.addAttribute(new AddToBasketDto());
+		model.addAttribute("addToBasketDto", new AddToBasketDto());
 		return "product/product";
 	}
 	
 	@RequestMapping(value="/product/{productId}", method=POST)
-	public String product(@PathVariable("productId") Long productId, Model model, @ModelAttribute("regformDto") @Valid AddToBasketDto addToBasketDto,
-			BindingResult result) {
+	public String product(Model model, HttpSession session, @PathVariable("productId") Long productId, 
+			@ModelAttribute("addToBasketDto") @Valid AddToBasketDto addToBasketDto, 
+			BindingResult result,
+			RedirectAttributes redirectAttributes
+			) {
+		if(session.getAttribute("user") == null)  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
 		Stock item = stockRepository.findByItemid(productId);
+		Long ret = 0L;
+		addItemToBasketRepository.addToBasket(
+				((User)session.getAttribute("user")).getId(),
+				item.getItemid(),
+				new Long(addToBasketDto.getQuantity()),
+				ret
+				);
 		
 //		model.addAttribute("item", item);
 //		model.addAttribute(new AddToBasketDto());
