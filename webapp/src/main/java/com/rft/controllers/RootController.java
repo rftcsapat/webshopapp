@@ -46,19 +46,12 @@ public class RootController {
 	Logger logger = Logger.getLogger(RootController.class);
 	
 	private UserService userService;
-	private RegformDtoValidator regformDtoValidator;
 	private UserRepository userRepository;
-	private StockRepository stockRepository;
-	private AddItemToBasketRepository addItemToBasketRepository;
 	
 	@Autowired
-	public RootController(UserService userService, RegformDtoValidator regformDtoValidator, 
-			UserRepository userRepository, StockRepository stockRepository, AddItemToBasketRepository addItemToBasketRepository) {
+	public RootController(UserService userService, UserRepository userRepository) {
 		this.userService = userService;
-		this.regformDtoValidator = regformDtoValidator;
 		this.userRepository = userRepository;
-		this.stockRepository = stockRepository;
-		this.addItemToBasketRepository = addItemToBasketRepository;
 	}
 	
 //	@InitBinder("regformDtoValidator")
@@ -75,8 +68,6 @@ public class RootController {
 		model.addAttribute("regformDto", regdto);
 		return "register";
 	}
-	
-	
 	
 	@RequestMapping(value = "/register", method = POST)
 	public String register(@ModelAttribute("regformDto") @Valid RegformDto regformDto, BindingResult result, 
@@ -145,61 +136,15 @@ public class RootController {
 		}
 	}
 	
-//	@RequestMapping(value = "/user", method = GET)
-//	public String user(Model model,
-//			@ModelAttribute("userUpdateDto") UserUpdateDto userUpdateDto
-//			) {
-//		model.addAttribute("userUpdateDto", userUpdateDto);
-//		return "user";
-//	}
-	
-//	@RequestMapping(value = "/user", method = POST)
-//	public String user(@ModelAttribute("userUpdateDto") @Valid UserUpdateDto userUpdateDto, BindingResult result, Model model) {
-////		logger.info(userUpdateDto);
-//		return "user";
-//	}
-	
-	
-/*	@RequestMapping(value = "/admin", method = GET)
-	public String admin(Model model) {
-		model.addAttribute("regformDto", new RegformDto());
-		return "admin";
-	}*/
-	
-	@RequestMapping(value="/home/{category}/{pageNumber}", method = GET)
-	public String home(@PathVariable String category, @PathVariable Integer pageNumber, 
-			Model model, RedirectAttributes redirectAttributes, HttpSession httpSession) {
-		if(httpSession.getAttribute("user") == null)  {
-			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
-			return "redirect:/";
-		}
-		
-		Page<Stock> items = stockRepository.findAll(new PageRequest(pageNumber, 3));
-    	int current = items.getNumber() + 1;
-        int begin = Math.max(0, current - 5);
-        int end = Math.min(begin + 10, items.getTotalPages()-1);
-        
-        model.addAttribute("beginIndex", begin);
-        model.addAttribute("endIndex", end);
-        model.addAttribute("currentIndex", current);
-    	model.addAttribute("itemsContent", items.getContent());
-    	model.addAttribute("items", items);
-		
-		return "home";
-	}
-	
 	@RequestMapping("/")
 	public String about() {
-		
 		return "about/about-us";
-		
 	}
 	
 	@RequestMapping(value ="/signin", method = GET)
 	public String signIn(Model model, HttpSession httpSession) {
 		model.addAttribute("loginDto", new LoginDto());
 		return "sign/signin";
-		
 	}
 	
 	@RequestMapping(value ="/signin", method = POST)
@@ -221,7 +166,6 @@ public class RootController {
 					return "redirect:/";
 			}
 		}
-		
 		return "sign/signin";
 	}
 	
@@ -260,7 +204,7 @@ public class RootController {
 		if(user != null) {
 			model.addAttribute("emailError", "E-mail address has already registered.");
 			return "sign/signup";
-		}	
+		}
 		
 		user = userRepository.findByUsername(regformDto.getUsername());
 		if(user != null) {
@@ -274,238 +218,11 @@ public class RootController {
 		
 		return "redirect:/";
 	}
-	
-	@RequestMapping(value="/logout", method=GET)
-	public String logout(RedirectAttributes redirectAttributes, Model model, HttpSession httpSession) {
-		httpSession.removeAttribute("user");
-		Util.flash(redirectAttributes, "success", "Sikeres kijelentkezés.");
-		return "redirect:/";
-		
-	}
-	
-	@RequestMapping("/product-category")
-	public String productCategory() {
-				
-		return "product/product-category";
-	}
-	
-	@RequestMapping(value="/product/{productId}", method=GET)
-	public String product(@PathVariable("productId") Long productId, Model model) {
-		Stock item = stockRepository.findByItemid(productId);
-		model.addAttribute("item", item);
-		model.addAttribute("addToBasketDto", new AddToBasketDto());
-		return "product/product";
-	}
-	
-	@RequestMapping(value="/product/{productId}", method=POST)
-	public String product(Model model, HttpSession session, @PathVariable("productId") Long productId, 
-			@ModelAttribute("addToBasketDto") @Valid AddToBasketDto addToBasketDto, 
-			BindingResult result,
-			RedirectAttributes redirectAttributes
-			) {
-		if(session.getAttribute("user") == null)  {
-			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
-			return "redirect:/";
-		}
-		Stock item = stockRepository.findByItemid(productId);
-		Long ret = 0L;
-		addItemToBasketRepository.addToBasket(
-				((User)session.getAttribute("user")).getId(),
-				item.getItemid(),
-				new Long(addToBasketDto.getQuantity()),
-				ret
-				);
-		
-//		model.addAttribute("item", item);
-//		model.addAttribute(new AddToBasketDto());
-		return "product/product";
-	}
-	
-	@RequestMapping("/basket")
-	public String basket(Model model) {
-		
-		return "basket/basket";
-	}
-	
-	@RequestMapping(value="/profil", method=GET)
-	public String profil(Model model, HttpSession httpSession, RedirectAttributes redirectAttributes) {
-		if(httpSession.getAttribute("user") == null)  {
-			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
-			return "redirect:/";
-		}
-		User user = (User) httpSession.getAttribute("user");
-		UserUpdateDto userUpdateDto = new UserUpdateDto();
-		userUpdateDto.setTitle(user.getTitle());
-		userUpdateDto.setLastname(user.getLastname());
-		userUpdateDto.setFirstname(user.getFirstname());
-		userUpdateDto.setEmail(user.getEmail());
-		userUpdateDto.setBirthDate(user.getBirthdate());
-		userUpdateDto.setUsername(user.getUsername());
-		userUpdateDto.setPhone(user.getPhone());
-		// Ország#Megye#Irányítószám#Város#Utca,Házszám,Emelet,Ajtószám
-		String address = user.getAddress();
-		String country = "";
-		String zipCode = "";
-		String settlement = "";
-		String streetDetails = "";
-		if(address != null) {
-			String[] parts = address.split("#");
-			int len = parts.length;
-			if (len > 0) {
-				country = parts[0];
-			} 
-			if (len > 1) {
-				zipCode = parts[1];
-			}
-			if(len > 2) {
-				settlement = parts[2];
-			}
-			if(len > 3) {
-				streetDetails = parts[3];
-			}
-		}
-		userUpdateDto.setCountry(country);
-		userUpdateDto.setZipCode(zipCode);
-		userUpdateDto.setSettlement(settlement);
-		userUpdateDto.setStreetDetails(streetDetails);
-		
-		model.addAttribute("userUpdateDto", userUpdateDto);
-		return "profil/profil";
-		
-	}
-	
-	@RequestMapping(value="/profil", method=POST)
-	public String profil(@ModelAttribute("userUpdateDto") @Valid UserUpdateDto userUpdateDto, 
-			Model model, HttpSession httpSession, RedirectAttributes redirectAttributes) {
-		if(httpSession.getAttribute("user") == null)  {
-			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
-			return "redirect:/";
-		}
-		User sessionUser = (User)httpSession.getAttribute("user");
-		long loggedInUserId = (sessionUser.getId());
-		userUpdateDto.setId(loggedInUserId);
-		
-		String newPassword      = userUpdateDto.getPassword();
-		String newPasswordAgain = userUpdateDto.getPassword();
-		if( ! newPassword.equals(newPasswordAgain)) {
-			model.addAttribute("passwordError", "A megadott jelszavak nem egyeznek.");
-			return "profil/profil";
-		} 
-		
-		if(userUpdateDto.getActualPassword().equals(sessionUser.getPassword()) && ! "".equals(userUpdateDto.getActualPassword())) {
-			userUpdateDto.setPassword(newPassword);
-		} else {
-			Util.flash(redirectAttributes, "danger", "Az adatmódosítás sikertelen. Hibás aktuális jelszó.");
-			return "redirect:/profil";
-		}
-		
-		userUpdateDto.setRole(sessionUser.getRole());
-		userService.updateUser(userUpdateDto);
-		Util.flash(redirectAttributes, "success", "Sikeres adatmódosítás.");
-		httpSession.setAttribute("user", Util.userUpdateDtoToEntity(userUpdateDto));
-		model.addAttribute("userUpdateDto", userUpdateDto);
-//		return "profil/profil";
-		return "redirect:/profil";
-	}
-	
-	@RequestMapping("/search-result")
-	public String searchResult() {
-		
-		return "search/search-result";
-		
-	}
-	
-	
-	@RequestMapping("/logout")
-	public String logout() {
-		
-		return "about/about-us";
-	}
-	
-	@RequestMapping("/search-more")
-	public String searchMore() {
-		
-		return "search/search-more";
-	}
 
-	@RequestMapping("/credits")
-	public String creditsHandler() {
-		
-		return "profil/credits";
-	}
 	
-	@RequestMapping("/orders")
-	public String ordersHandler() {
-		
-		return "basket/orders";
-	}
-	
-	@RequestMapping("/contact")
+	@RequestMapping(value="/contact", method=GET)
 	public String contactHandler() {
-		
 		return "contact";
 	}
-	
-	
-	/* Admin route-ok*/
-	@RequestMapping("/admin")
-	public String adminLogin() {
 		
-		return "admin/index";
-	}
-
-	@RequestMapping(value="/dashboard", method = GET)
-	public String adminDashboard(Model model) throws MessagingException {
-		List<User> users = userRepository.findAll();
-		List<Stock> products = stockRepository.findAll();
-		
-		Integer usersCount = users.size();
-		Integer productsCount = products.size();
-		Random rand = new Random();
-		int  r = rand.nextInt(2_000_00) + 1_000_00;
-		
-		
-		model.addAttribute("usersCount", usersCount);
-		model.addAttribute("productsCount", productsCount);
-		model.addAttribute("monthlyIncome", r);
-		return "admin/dashboard";
-	}	
-	
-	@RequestMapping("/admin-logout")
-	public String adminLogout() {
-		
-		return "admin/index";
-	}
-	
-	
-	@RequestMapping("/admin-termek")
-	public String adminTermek() {
-		
-		return "admin/product";
-	}
-	
-	@RequestMapping("/admin-raktar")
-	public String adminRaktar() {
-		
-		return "admin/storage";
-	}
-	
-	@RequestMapping("/admin-product-add")
-	public String adminProductAdd() {
-		
-		return "admin/product-add";
-	}
-	
-	@RequestMapping("/admin-product-modified")
-	public String adminProductModify() {
-		
-		return "admin/product-modified";
-	}
-	
-	@RequestMapping(value="/admin-reg", method=GET)
-	public String adminRegistration(Model model) {
-		model.addAttribute("regformDto", new RegformDto());
-		return "admin/admin-registration";
-	}
-	
 }

@@ -11,5 +11,6 @@ public interface OrderViewRepository extends JpaRepository<OrderView, Long> {
 	List<OrderView> findByUserid(long userid);
 	List<OrderView> findByItemid(long itemid);
 	List<OrderView> findByOrderstatusid(long orderstatusid);
+	List<OrderView> findByUseridAndOrderstatusid(Long userid, Long orderstatusid);
 	List<OrderView> findAll();
 }
