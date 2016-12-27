@@ -24,6 +24,12 @@ public class OrderView {
 	private long itemid;
 	
 	@Column(nullable=false)
+	private long itemname;
+	
+	@Column(nullable=false)
+	private byte[] picture;
+	
+	@Column(nullable=false)
 	private long quantity;
 	
 	@Column(nullable=false)
@@ -111,6 +117,22 @@ public class OrderView {
 
 	public void setDescription(long description) {
 		this.description = description;
+	}
+	
+	public long getItemname() {
+		return itemname;
+	}
+
+	public void setItemname(long itemname) {
+		this.itemname = itemname;
+	}
+	
+	public byte[] getPicture() {
+		return picture;
+	}
+
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
 	}
 
 	public OrderView() {

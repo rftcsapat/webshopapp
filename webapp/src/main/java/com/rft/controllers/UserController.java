@@ -3,6 +3,8 @@ package com.rft.controllers;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -10,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,34 +22,45 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rft.dto.AddToBasketDto;
 import com.rft.dto.UserUpdateDto;
+import com.rft.entities.OrderView;
 import com.rft.entities.Stock;
 import com.rft.entities.User;
 import com.rft.repositories.AddItemToBasketRepository;
+import com.rft.repositories.OrderViewRepository;
 import com.rft.repositories.StockRepository;
 import com.rft.repositories.UserRepository;
 import com.rft.services.UserService;
 import com.rft.util.Util;
 import com.rft.validators.RegformDtoValidator;
 
+
+@Controller
 public class UserController {
 	
 	Logger logger = Logger.getLogger(RootController.class);
 	
-	private UserService userService;
-	private RegformDtoValidator regformDtoValidator;
-	private UserRepository userRepository;
-	private StockRepository stockRepository;
-	private AddItemToBasketRepository addItemToBasketRepository;
-	
 	@Autowired
-	public UserController(UserService userService, RegformDtoValidator regformDtoValidator, 
-			UserRepository userRepository, StockRepository stockRepository, AddItemToBasketRepository addItemToBasketRepository) {
-		this.userService = userService;
-		this.regformDtoValidator = regformDtoValidator;
-		this.userRepository = userRepository;
-		this.stockRepository = stockRepository;
-		this.addItemToBasketRepository = addItemToBasketRepository;
-	}
+	private UserService userService;
+	@Autowired
+	private RegformDtoValidator regformDtoValidator;
+	@Autowired
+	private UserRepository userRepository;
+	@Autowired
+	private StockRepository stockRepository;
+	@Autowired
+	private AddItemToBasketRepository addItemToBasketRepository;
+	@Autowired
+	private OrderViewRepository orderViewRepository;
+	
+//	@Autowired
+//	public UserController(UserService userService, RegformDtoValidator regformDtoValidator, 
+//			UserRepository userRepository, StockRepository stockRepository, AddItemToBasketRepository addItemToBasketRepository) {
+//		this.userService = userService;
+//		this.regformDtoValidator = regformDtoValidator;
+//		this.userRepository = userRepository;
+//		this.stockRepository = stockRepository;
+//		this.addItemToBasketRepository = addItemToBasketRepository;
+//	}
 	
 	@RequestMapping(value="/home/{category}/{pageNumber}", method = GET)
 	public String home(@PathVariable String category, @PathVariable Integer pageNumber, 
@@ -118,8 +132,22 @@ public class UserController {
 	}
 	
 	@RequestMapping("/basket")
-	public String basket(Model model) {
-//		List<>
+	public String basket(Model model, RedirectAttributes redirectAttributes, HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
+		if(user == null)  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
+		List<OrderView> items = orderViewRepository.findByUseridAndOrderstatusid(new Long(user.getId()), 1L);
+//		int current = items.size() + 1;
+//        int begin = Math.max(0, current - 5);
+//        int end = Math.min(begin + 10, items.getTotalPages()-1);
+//        
+//        model.addAttribute("beginIndex", begin);
+//        model.addAttribute("endIndex", end);
+//        model.addAttribute("currentIndex", current);
+    	model.addAttribute("itemsContent", items);
+//    	model.addAttribute("items", items);
 		return "basket/basket";
 	}
 	

@@ -2,7 +2,7 @@
 
 <div class="container">
 	<form:errors />
-	<h1 class="page-title text-center">Regisztráció</h1>
+	<h1 class="page-title text-center"><font color="white">Regisztráció</font></h1>
 
 	<form:form modelAttribute="regformDto" class="signup-form" role="form">
 		<div class="form-group">

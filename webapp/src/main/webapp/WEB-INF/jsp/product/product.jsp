@@ -34,7 +34,7 @@
 							</div>
 						</div>
 						
-						<form:form class="basket-add-form" model="addToBasketDto">
+						<form:form class="basket-add-form" modelAttribute="addToBasketDto">
 							<div class="form-group">
 								<form:input path="quantity" class="product-add-db text-center" type="text" name="product-add-db" value="1"/>
 								<form:button class="btn btn-default">Kosárba</form:button>

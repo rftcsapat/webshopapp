@@ -8,6 +8,7 @@ import java.util.Random;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.MessagingException;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -20,6 +21,7 @@ import com.rft.repositories.UserRepository;
 import com.rft.services.UserService;
 import com.rft.validators.RegformDtoValidator;
 
+@Controller
 public class AdminController {
 	
 	Logger logger = Logger.getLogger(RootController.class);
