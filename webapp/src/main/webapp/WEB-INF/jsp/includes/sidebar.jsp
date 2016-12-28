@@ -5,11 +5,11 @@
 <div class="col-md-3 sidebar">
 	<p class="lead">Kategóriák</p>
 	<div class="list-group">
-		<a href="/product-category" class="list-group-item">Koncentrátumok</a> <a
-			href="/product-category" class="list-group-item">Krémek</a> <a href="/product-category"
-			class="list-group-item">Biokozmetika</a> <a href="/product-category"
-			class="list-group-item">Testápolás</a> <a href="/product-category"
-			class="list-group-item">Zöld élelmiszerek</a>
+		<a href="/home/Koncentrátumok/0" class="list-group-item">Koncentrátumok</a> 
+		<a href="/home/krémek/0" class="list-group-item">Krémek</a> 
+		<a href="/home/biokozmetika/0" class="list-group-item">Biokozmetika</a> 
+		<a href="/home/testápolás/0" class="list-group-item">Testápolás</a> 
+		<a href="/home/zöldélelmiszerek/0" class="list-group-item">Zöld élelmiszerek</a>
 	</div>
 
 	<form class="searchForm" method="post">

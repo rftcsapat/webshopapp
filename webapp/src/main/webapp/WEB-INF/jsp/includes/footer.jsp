@@ -13,9 +13,11 @@
 
     </div>
     
-    <a class="basket-button" href="/basket">
-    	Kosár megtekintése
-    </a>
+    <c:if test="${not empty user}">
+	    <a class="basket-button" href="/basket">
+	    	Kosár megtekintése
+	    </a>
+    </c:if>
     
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script

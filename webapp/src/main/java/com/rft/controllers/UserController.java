@@ -52,25 +52,20 @@ public class UserController {
 	@Autowired
 	private OrderViewRepository orderViewRepository;
 	
-//	@Autowired
-//	public UserController(UserService userService, RegformDtoValidator regformDtoValidator, 
-//			UserRepository userRepository, StockRepository stockRepository, AddItemToBasketRepository addItemToBasketRepository) {
-//		this.userService = userService;
-//		this.regformDtoValidator = regformDtoValidator;
-//		this.userRepository = userRepository;
-//		this.stockRepository = stockRepository;
-//		this.addItemToBasketRepository = addItemToBasketRepository;
-//	}
-	
 	@RequestMapping(value="/home/{category}/{pageNumber}", method = GET)
 	public String home(@PathVariable String category, @PathVariable Integer pageNumber, 
-			Model model, RedirectAttributes redirectAttributes, HttpSession httpSession) {
-		if(httpSession.getAttribute("user") == null)  {
+			Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
 		}
-		
-		Page<Stock> items = stockRepository.findAll(new PageRequest(pageNumber, 3));
+		Page<Stock> items = null;
+		if(category.equals("all")) {
+			items = stockRepository.findAll(new PageRequest(pageNumber, 3));
+		} else {
+			items = stockRepository.findByCategoryname(new PageRequest(pageNumber, 3), category);
+		}
     	int current = items.getNumber() + 1;
         int begin = Math.max(0, current - 5);
         int end = Math.min(begin + 10, items.getTotalPages()-1);
@@ -80,6 +75,7 @@ public class UserController {
         model.addAttribute("currentIndex", current);
     	model.addAttribute("itemsContent", items.getContent());
     	model.addAttribute("items", items);
+    	model.addAttribute("category", category);
 		
 		return "home";
 	}
@@ -94,7 +90,8 @@ public class UserController {
 	
 	@RequestMapping(value="/product/{productId}", method=GET)
 	public String product(@PathVariable("productId") Long productId, Model model, RedirectAttributes redirectAttributes, HttpSession session) {
-		if(session.getAttribute("user") == null)  {
+		User user = (User) session.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
 		}
@@ -110,14 +107,15 @@ public class UserController {
 			BindingResult result,
 			RedirectAttributes redirectAttributes
 			) {
-		if(session.getAttribute("user") == null)  {
+		User user = (User) session.getAttribute("user"); 
+		if(user == null || ( ! "0".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
 		}
 		Stock item = stockRepository.findByItemid(productId);
 		Long ret = -1000L;
 		addItemToBasketRepository.addToBasket(
-				((User)session.getAttribute("user")).getId(),
+				user.getId(),
 				item.getItemid(),
 				new Long(addToBasketDto.getQuantity()),
 				ret
@@ -134,30 +132,29 @@ public class UserController {
 	@RequestMapping("/basket")
 	public String basket(Model model, RedirectAttributes redirectAttributes, HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
-		if(user == null)  {
+		if(user == null || ( ! "0".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
 		}
-		List<OrderView> items = orderViewRepository.findByUseridAndOrderstatusid(new Long(user.getId()), 1L);
-//		int current = items.size() + 1;
-//        int begin = Math.max(0, current - 5);
-//        int end = Math.min(begin + 10, items.getTotalPages()-1);
-//        
-//        model.addAttribute("beginIndex", begin);
-//        model.addAttribute("endIndex", end);
-//        model.addAttribute("currentIndex", current);
+		
+		List<OrderView> items = orderViewRepository.findByUseridAndOrderstatusid(new Long(user.getId()), new Long(1));
     	model.addAttribute("itemsContent", items);
-//    	model.addAttribute("items", items);
+    	Long sum = 0L;
+    	for(OrderView ov : items) {
+    		sum += ov.getPrice();
+    	}
+    	model.addAttribute("sum", sum);
+    	model.addAttribute("count", items.size());
 		return "basket/basket";
 	}
 	
 	@RequestMapping(value="/profil", method=GET)
 	public String profil(Model model, HttpSession httpSession, RedirectAttributes redirectAttributes) {
-		if(httpSession.getAttribute("user") == null)  {
+		User user = (User) httpSession.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
 		}
-		User user = (User) httpSession.getAttribute("user");
 		UserUpdateDto userUpdateDto = new UserUpdateDto();
 		userUpdateDto.setTitle(user.getTitle());
 		userUpdateDto.setLastname(user.getLastname());
@@ -201,12 +198,12 @@ public class UserController {
 	@RequestMapping(value="/profil", method=POST)
 	public String profil(@ModelAttribute("userUpdateDto") @Valid UserUpdateDto userUpdateDto, 
 			Model model, HttpSession httpSession, RedirectAttributes redirectAttributes) {
-		if(httpSession.getAttribute("user") == null)  {
+		User user = (User)httpSession.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
 		}
-		User sessionUser = (User)httpSession.getAttribute("user");
-		long loggedInUserId = (sessionUser.getId());
+		long loggedInUserId = user.getId();
 		userUpdateDto.setId(loggedInUserId);
 		
 		String newPassword      = userUpdateDto.getPassword();
@@ -216,14 +213,14 @@ public class UserController {
 			return "profil/profil";
 		} 
 		
-		if(userUpdateDto.getActualPassword().equals(sessionUser.getPassword()) && ! "".equals(userUpdateDto.getActualPassword())) {
+		if(userUpdateDto.getActualPassword().equals(user.getPassword()) && ! "".equals(userUpdateDto.getActualPassword())) {
 			userUpdateDto.setPassword(newPassword);
 		} else {
 			Util.flash(redirectAttributes, "danger", "Az adatmódosítás sikertelen. Hibás aktuális jelszó.");
 			return "redirect:/profil";
 		}
 		
-		userUpdateDto.setRole(sessionUser.getRole());
+		userUpdateDto.setRole(user.getRole());
 		userService.updateUser(userUpdateDto);
 		Util.flash(redirectAttributes, "success", "Sikeres adatmódosítás.");
 		httpSession.setAttribute("user", Util.userUpdateDtoToEntity(userUpdateDto));

@@ -5,7 +5,7 @@
 	<div class="row">
 		<%@include file="../includes/sidebar.jsp"%>
 
-		<div class="col-md-9">
+		<div class="col-md-8">
 			<h1 class="page-title"><font color="white">Profil</font></h1>
 			<form:form modelAttribute="userUpdateDto" class="person-data-form" method="post">
 				<div class="profil">
@@ -59,11 +59,11 @@
 <!-- 								<label for="inv-code">Meghívó kód</label> <input type="text" -->
 <!-- 									class="form-control" id="inv-code"> -->
 <!-- 							</div> -->
-							<div class="form-group">
-								<label for="profil-image">Profilkép</label> 
-								<input type="file" id="profil-image">
-								<p class="help-block">A feltölthető fájl mérete maximum 1MB lehet!</p>
-							</div>
+<!-- 							<div class="form-group"> -->
+<!-- 								<label for="profil-image">Profilkép</label>  -->
+<!-- 								<input type="file" id="profil-image"> -->
+<!-- 								<p class="help-block">A feltölthető fájl mérete maximum 1MB lehet!</p> -->
+<!-- 							</div> -->
 <!-- 						</form> -->
 					</div>
 					<div class="profil-item">

@@ -37,58 +37,9 @@
                             </a>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="row">
-
-<!--                     <div class="col-sm-4 col-lg-4 col-md-4"> -->
-<!--                         <div class="thumbnail"> -->
-<!--                             <img src="/public/images/product/vironal.jpg" alt="vironal termek"> -->
-<!--                             <div class="caption"> -->
-<!--                                 <h4 class="pull-right">6000 Ft</h4> -->
-<!--                                 <h4><a href="/product">Vironal</a> -->
-<!--                                 </h4> -->
-<!--                                 <p>Bioinformacios, komplex gyogynoveny-koncentratum 16-fele gyogynovenybol</p> -->
-<!--                             </div> -->
-<!--                         </div> -->
-<!--                     </div> -->
-
-<!--                     <div class="col-sm-4 col-lg-4 col-md-4"> -->
-<!--                         <div class="thumbnail"> -->
-<!--                             <img src="/public/images/product/regalen.jpg" alt="regalen termek"> -->
-<!--                             <div class="caption"> -->
-<!--                                 <h4 class="pull-right">7500 Ft</h4> -->
-<!--                                 <h4><a href="/product">Regalen</a> -->
-<!--                                 </h4> -->
-<!--                                 <p>Bioinformacios, komplex gyogynoveny-koncentratum 14-fele gyogynovenybol</p> -->
-<!--                             </div> -->
-<!--                         </div> -->
-<!--                     </div> -->
-
-<!--                     <div class="col-sm-4 col-lg-4 col-md-4"> -->
-<!--                         <div class="thumbnail"> -->
-<!--                             <img src="/public/images/product/renol.jpg" alt="renol termek"> -->
-<!--                             <div class="caption"> -->
-<!--                                 <h4 class="pull-right">6300 Ft</h4> -->
-<!--                                 <h4><a href="#">Renol</a> -->
-<!--                                 </h4> -->
-<!--                                 <p>Bioinformacios, komplex gyogynoveny-koncentratum 15-fele gyogynovenybol</p> -->
-<!--                             </div> -->
-<!--                         </div> -->
-<!--                     </div> -->
-
-<!--                     <div class="col-sm-4 col-lg-4 col-md-4"> -->
-<!--                         <div class="thumbnail"> -->
-<!--                             <img src="/public/images/product/gynex.jpg" alt="gynex termek"> -->
-<!--                             <div class="caption"> -->
-<!--                                 <h4 class="pull-right">7300 Ft</h4> -->
-<!--                                 <h4><a href="#">Gynex</a> -->
-<!--                                 </h4> -->
-<!--                                 <p>Bioinformacios, komplex gyogynoveny-koncentratum 15-fele gyogynovenybol</p> -->
-<!--                             </div> -->
-<!--                         </div> -->
-<!--                     </div> -->
 					<c:forEach items="${itemsContent}" var="item" >
 				
 	                    <div class="col-sm-4 col-lg-4 col-md-4">
@@ -111,7 +62,6 @@
 	                        </div>
 	                    </div>
                     </c:forEach>
-
                 </div>
                 
                 <c:url var="firstUrl" value="/home/${category}/0" />

@@ -11,20 +11,20 @@ import javax.persistence.Table;
 @Table(name="orderview", indexes = {
 	@Index(columnList = "orderid", unique = true)
 })
-public class OrderView {
+public class OrderView implements Comparable<OrderView> {
 	
-	@Id
 	@Column
 	private long orderid;
 	
 	@Column(nullable=false)
 	private long userid;
 	
+	@Id
 	@Column(nullable=false)
 	private long itemid;
 	
 	@Column(nullable=false)
-	private long itemname;
+	private String itemname;
 	
 	@Column(nullable=false)
 	private byte[] picture;
@@ -42,10 +42,10 @@ public class OrderView {
 	private String statusdate;
 	
 	@Column(nullable=false, length=50)
-	private long orderstatusname;
+	private String orderstatusname;
 	
 	@Column(nullable=false, length=500)
-	private long description;
+	private String description;
 
 	public long getOrderid() {
 		return orderid;
@@ -102,31 +102,31 @@ public class OrderView {
 	public void setStatusdate(String statusdate) {
 		this.statusdate = statusdate;
 	}
-
-	public long getOrderstatusname() {
+	
+	public String getOrderstatusname() {
 		return orderstatusname;
 	}
 
-	public void setOrderstatusname(long orderstatusname) {
+	public void setOrderstatusname(String orderstatusname) {
 		this.orderstatusname = orderstatusname;
 	}
 
-	public long getDescription() {
+	public String getDescription() {
 		return description;
 	}
 
-	public void setDescription(long description) {
+	public void setDescription(String description) {
 		this.description = description;
 	}
 	
-	public long getItemname() {
+	public String getItemname() {
 		return itemname;
 	}
 
-	public void setItemname(long itemname) {
+	public void setItemname(String itemname) {
 		this.itemname = itemname;
 	}
-	
+
 	public byte[] getPicture() {
 		return picture;
 	}
@@ -137,6 +137,11 @@ public class OrderView {
 
 	public OrderView() {
 		super();
+	}
+
+	@Override
+	public int compareTo(OrderView o) {
+		return (int) (this.getItemid() - o.getItemid());
 	}
 	
 }
