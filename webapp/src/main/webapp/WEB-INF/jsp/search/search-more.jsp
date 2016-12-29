@@ -11,43 +11,35 @@
 		<%@include file="../includes/sidebar.jsp"%>
 
 		<div class="col-md-9">
-			<h1 class="page-title">Részletes keresés</h1>
+			<h1 class="page-title"><font color="white">Részletes keresés</font></h1>
 
-			<form class="form-search-more form-inline">
+			<form:form modelAttribute="searchMoreDto" class="form-search-more form-inline">
 				<div class="form-group">
-					<label for="termek-nev">Termék név</label> <input type="text"
-						class="form-control" id="termeknev" placeholder="termek-nev">
+					<label for="termek-nev">Termék név</label> 
+					<form:input path="name" type="text" class="form-control" id="termeknev" placeholder="termek-nev"/>
 				</div>
 				<div class="form-group">
 					<label for="gyarto">Gyártó</label>
-					<select class="form-control" id="gyarto">
-							<option>Gyártó 1</option>
-							<option>Gyártó 2</option>
-							<option>Gyártó 3</option>
-							<option>Gyártó 4</option>
-							<option>Gyártó 5</option>
-					</select>
+					<form:select path="manufacturer" class="form-control" items="${manufacturers}" id="gyarto"/>
 				</div>
 				<div class="form-group">
 					<label for="kategoriak">Kategória</label>
-					<select class="form-control" id="kategoriak">
-							<option>Kategória 1</option>
-							<option>Kategória 2</option>
-							<option>Kategória 3</option>
-							<option>Kategória 4</option>
-							<option>Kategória 5</option>
-					</select>
+					<form:select path="category" items="${categories}" class="form-control" id="kategoriak"/>
 				</div>
 				<br>
 				<div class="form-group">
 					<label for="price">Ár</label>
 					<div class="ar-valaszto-holder">
-						<input type="text" id="ar-valaszto" name="ar-valaszto" value="">
+					<form:input path="name" type="text" class="form-control" id="termeknev" placeholder="Alsó határ"/> 
+					<font color="white"> - </font>
+					<form:input path="name" type="text" class="form-control" id="termeknev" placeholder="Felső határ"/>
+					<font color="white">Kr</font>
+<!-- 						<input type="text" id="ar-valaszto" name="ar-valaszto" value=""> -->
 					</div>
 				</div>
 				<br>
 				<button type="submit" class="btn btn-default btn-md">Keresés</button>
-			</form>
+			</form:form>
 
 
 			<!--  találatok listázása -->

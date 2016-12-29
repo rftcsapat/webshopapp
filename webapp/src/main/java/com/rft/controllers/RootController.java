@@ -4,9 +4,13 @@ import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -23,6 +27,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rft.dto.AddToBasketDto;
@@ -45,21 +50,17 @@ public class RootController {
 	
 	Logger logger = Logger.getLogger(RootController.class);
 	
-	private UserService userService;
-	private UserRepository userRepository;
-	
 	@Autowired
-	public RootController(UserService userService, UserRepository userRepository) {
-		this.userService = userService;
-		this.userRepository = userRepository;
-	}
+	private UserService     userService;
+	@Autowired
+	private UserRepository  userRepository;
+	@Autowired
+	private StockRepository stockRepository;
 	
 //	@InitBinder("regformDtoValidator")
 //	protected void initRegformDtoValidator(WebDataBinder binder) {
 //		binder.setValidator(regformDtoValidator);
 //	}
-	
-	
 	
 	@RequestMapping(value = "/register", method = GET)
 	public String register(Model model) {
@@ -224,5 +225,13 @@ public class RootController {
 	public String contactHandler() {
 		return "contact";
 	}
-		
+
+	@RequestMapping(value = "/imageDisplay", method = GET)
+	  public void showImage(@RequestParam("id") Integer itemId, HttpServletResponse response, HttpServletRequest request) throws ServletException, IOException {
+	    Stock item = stockRepository.findByItemid(itemId);
+	    response.setContentType("image/jpeg, image/jpg, image/png, image/gif");
+	    response.getOutputStream().write(item.getPicture());
+	    response.getOutputStream().close();
+	}
+	
 }

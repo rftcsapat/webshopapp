@@ -3,7 +3,11 @@ package com.rft.controllers;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -13,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
+import org.springframework.test.util.MetaAnnotationUtils;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,17 +26,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rft.dto.AddToBasketDto;
+import com.rft.dto.SearchMoreDto;
 import com.rft.dto.UserUpdateDto;
+import com.rft.entities.Category;
+import com.rft.entities.Manufacturer;
 import com.rft.entities.OrderView;
 import com.rft.entities.Stock;
 import com.rft.entities.User;
 import com.rft.repositories.AddItemToBasketRepository;
+import com.rft.repositories.CategoryRepository;
+import com.rft.repositories.ManufacturerRepository;
 import com.rft.repositories.OrderViewRepository;
 import com.rft.repositories.StockRepository;
 import com.rft.repositories.UserRepository;
 import com.rft.services.UserService;
 import com.rft.util.Util;
 import com.rft.validators.RegformDtoValidator;
+
+import scala.collection.mutable.LinkedHashMap;
 
 
 @Controller
@@ -51,6 +63,12 @@ public class UserController {
 	private AddItemToBasketRepository addItemToBasketRepository;
 	@Autowired
 	private OrderViewRepository orderViewRepository;
+	@Autowired
+	private ManufacturerRepository manufacturerRepository;
+	@Autowired
+	private CategoryRepository categoryRepository;
+	
+	
 	
 	@RequestMapping(value="/home/{category}/{pageNumber}", method = GET)
 	public String home(@PathVariable String category, @PathVariable Integer pageNumber, 
@@ -229,8 +247,37 @@ public class UserController {
 		return "redirect:/profil";
 	}
 	
-	@RequestMapping("/search-more")
-	public String searchMore() {
+	@RequestMapping(value="/search-more", method=GET)
+	public String searchMore(Model model, @ModelAttribute String valami, RedirectAttributes redirectAttributes) {
+		logger.info(valami);
+		model.addAttribute("searchMoreDto", new SearchMoreDto());
+		
+		List<Category> listCategoryname = categoryRepository.findAll();
+		Map<String, String> manufacturers = new HashMap<String, String>();
+		manufacturers.put("", "Kérem válasszon a listából");
+		for(Category c :listCategoryname) {
+			manufacturers.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
+		}
+
+		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
+		Map<String, String> categories = new HashMap<String, String>();
+		categories.put("", "Kérem válasszon a listából");
+		for(Manufacturer m : listManufacturers) {
+			categories.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
+		}
+		
+		model.addAttribute("manufacturers", manufacturers);
+		model.addAttribute("categories", categories);
+		
+//		if(items != null) {
+//			;
+//		}
+		return "search/search-more";
+	}
+	
+	@RequestMapping(value="/search-more", method=POST)
+	public String searchMore(Model model, @ModelAttribute Page<Stock> items) {
+		model.addAttribute("valami", "valami");
 		
 		return "search/search-more";
 	}

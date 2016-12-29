@@ -20,14 +20,25 @@ public class CoinHistory {
 	@Column(nullable=false)
 	private long userid;
 	
-	@Column(nullable=false)
-	private long price;
+	@Column(nullable=true)
+	private long cash;
 	
 	@Column(nullable=false)
 	private long coins;
 	
 	@Column(nullable=false, length=10)
 	private long changedate;
+	
+	@Column(nullable=true, length=500)
+	private long desc;
+
+	public long getDesc() {
+		return desc;
+	}
+
+	public void setDesc(long desc) {
+		this.desc = desc;
+	}
 
 	public long getCoinhistoryid() {
 		return coinhistoryid;
@@ -45,12 +56,12 @@ public class CoinHistory {
 		this.userid = userid;
 	}
 
-	public long getPrice() {
-		return price;
+	public long getCash() {
+		return cash;
 	}
 
-	public void setPrice(long price) {
-		this.price = price;
+	public void setCash(long cash) {
+		this.cash = cash;
 	}
 
 	public long getCoins() {
