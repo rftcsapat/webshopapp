@@ -7,7 +7,6 @@ import javax.validation.constraints.Size;
 
 public class RegformDto {
 	
-	@NotNull
 	@Size(min=1, max=255)
 	private String title;
 	

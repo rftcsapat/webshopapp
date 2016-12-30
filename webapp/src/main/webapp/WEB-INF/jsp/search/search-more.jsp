@@ -20,19 +20,19 @@
 				</div>
 				<div class="form-group">
 					<label for="gyarto">Gyártó</label>
-					<form:select path="manufacturer" class="form-control" items="${manufacturers}" id="gyarto"/>
+					<form:select path="manufacturerId" class="form-control" items="${manufacturers}" id="gyarto"/>
 				</div>
 				<div class="form-group">
 					<label for="kategoriak">Kategória</label>
-					<form:select path="category" items="${categories}" class="form-control" id="kategoriak"/>
+					<form:select path="categoryId" items="${categories}" class="form-control" id="kategoriak"/>
 				</div>
 				<br>
 				<div class="form-group">
 					<label for="price">Ár</label>
 					<div class="ar-valaszto-holder">
-					<form:input path="name" type="text" class="form-control" id="termeknev" placeholder="Alsó határ"/> 
+					<form:input path="priceMin" type="text" class="form-control" id="also-hatar" placeholder="Alsó határ"/> 
 					<font color="white"> - </font>
-					<form:input path="name" type="text" class="form-control" id="termeknev" placeholder="Felső határ"/>
+					<form:input path="priceMax" type="text" class="form-control" id="felso-hatar" placeholder="Felső határ"/>
 					<font color="white">Kr</font>
 <!-- 						<input type="text" id="ar-valaszto" name="ar-valaszto" value=""> -->
 					</div>
@@ -44,125 +44,72 @@
 
 			<!--  találatok listázása -->
 			<div class="row">
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="public/images/product/vironal.jpg" alt="vironal termek">
-						<div class="caption">
-							<h4 class="pull-right">6000 Kr</h4>
-							<h4>
-								<a href="/product">Vironal</a>
-							</h4>
-							<p>Bioinformacios, komplex gyogynoveny-koncentratum 16-fele
-								gyogynovenybol</p>
-						</div>
-						<div class="ratings">
-							<p class="pull-right">15 reviews</p>
-							<p>
-								<span class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span>
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="public/images/product/regalen.jpg" alt="regalen termek">
-						<div class="caption">
-							<h4 class="pull-right">7500 Kr</h4>
-							<h4>
-								<a href="/product">Regalen</a>
-							</h4>
-							<p>Bioinformacios, komplex gyogynoveny-koncentratum 14-fele
-								gyogynovenybol</p>
-						</div>
-						<div class="ratings">
-							<p class="pull-right">15 reviews</p>
-							<p>
-								<span class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span>
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="public/images/product/renol.jpg" alt="renol termek">
-						<div class="caption">
-							<h4 class="pull-right">6300 Kr</h4>
-							<h4>
-								<a href="#">Renol</a>
-							</h4>
-							<p>Bioinformacios, komplex gyogynoveny-koncentratum 15-fele
-								gyogynovenybol</p>
-						</div>
-						<div class="ratings">
-							<p class="pull-right">31 reviews</p>
-							<p>
-								<span class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star-empty"></span>
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="public/images/product/gynex.jpg" alt="gynex termek">
-						<div class="caption">
-							<h4 class="pull-right">7300 Kr</h4>
-							<h4>
-								<a href="#">Gynex</a>
-							</h4>
-							<p>Bioinformacios, komplex gyogynoveny-koncentratum 15-fele
-								gyogynovenybol</p>
-						</div>
-						<div class="ratings">
-							<p class="pull-right">6 reviews</p>
-							<p>
-								<span class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star-empty"></span> <span
-									class="glyphicon glyphicon-star-empty"></span>
-							</p>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-sm-4 col-lg-4 col-md-4">
-					<div class="thumbnail">
-						<img src="public/images/product/korolen.jpg" alt="korolen termek">
-						<div class="caption">
-							<h4 class="pull-right">7200 Kr</h4>
-							<h4>
-								<a href="#">Korolen</a>
-							</h4>
-							<p>Bioinformacios, komplex gyogynoveny-koncentratum 15-fele
-								gyogynovenybol</p>
-						</div>
-						<div class="ratings">
-							<p class="pull-right">18 reviews</p>
-							<p>
-								<span class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star"></span> <span
-									class="glyphicon glyphicon-star-empty"></span>
-							</p>
-						</div>
-					</div>
-				</div>
+			
+				<c:forEach items="${itemsContent}" var="item" >
+				
+	                    <div class="col-sm-4 col-lg-4 col-md-4">
+	                        <div class="thumbnail">
+<!-- 	                            <img src="/public/images/product/korolen.jpg" alt="korolen termek"> -->
+	                            <img src="/imageDisplay?id=${item.itemid}" alt="korolen termek">
+	                            <div class="caption">
+	                                <h4 class="pull-right">${item.price} Ft</h4>
+	                                <h4><a href="/product/${item.itemid}">${item.itemname}</a></h4>
+	                                <p>
+                                	<c:choose>
+							            <c:when test="${empty item.description}">
+							                -
+							            </c:when>
+							            <c:otherwise>
+							                ${item.description}
+							            </c:otherwise>
+							        </c:choose>
+							        </p>
+	                            </div>
+	                        </div>
+	                    </div>
+                </c:forEach>
+                
+<%--                	<c:if test="${not empty items}"> --%>
+<%-- 	                <c:url var="firstUrl" value="/search-more/0" /> --%>
+<%-- 					<c:url var="prevUrl"  value="/search-more/${currentIndex - 2}" /> --%>
+<%-- 					<c:url var="nextUrl"  value="/search-more/${currentIndex}" /> --%>
+<%-- 					<c:url var="lastUrl"  value="/search-more/${items.totalPages - 1}" /> --%>
+<!-- 		  			<div> -->
+<!-- 					    <ul class="pagination"> -->
+<%-- 					        <c:choose> --%>
+<%-- 					            <c:when test="${currentIndex == 1}"> --%>
+<!-- 					                <li class="disabled"><a href="#">&lt;&lt;</a></li> -->
+<!-- 					                <li class="disabled"><a href="#">&lt;</a></li> -->
+<%-- 					            </c:when> --%>
+<%-- 					            <c:otherwise> --%>
+<%-- 					                <li><a href="${firstUrl}">&lt;&lt;</a></li> --%>
+<%-- 					                <li><a href="${prevUrl}">&lt;</a></li> --%>
+<%-- 					            </c:otherwise> --%>
+<%-- 					        </c:choose> --%>
+<%-- 					        <c:forEach var="i" begin="${beginIndex}" end="${endIndex}"> --%>
+<%-- 					            <c:url var="pageUrl" value="/search-more/${i}" /> --%>
+<%-- 					            <c:choose> --%>
+<%-- 					                <c:when test="${i == currentIndex - 1}"> --%>
+<%-- 					                    <li class="active"><a href="${pageUrl}"><c:out value="${i+1}" /></a></li> --%>
+<%-- 					                </c:when> --%>
+<%-- 					                <c:otherwise> --%>
+<%-- 					                    <li><a href="${pageUrl}"><c:out value="${i+1}" /></a></li> --%>
+<%-- 					                </c:otherwise> --%>
+<%-- 					            </c:choose> --%>
+<%-- 					        </c:forEach> --%>
+<%-- 					        <c:choose> --%>
+<%-- 					            <c:when test="${currentIndex == items.totalPages}"> --%>
+<!-- 					                <li class="disabled"><a href="#">&gt;</a></li> -->
+<!-- 					                <li class="disabled"><a href="#">&gt;&gt;</a></li> -->
+<%-- 					            </c:when> --%>
+<%-- 					            <c:otherwise> --%>
+<%-- 					                <li><a href="${nextUrl}">&gt;</a></li> --%>
+<%-- 					                <li><a href="${lastUrl}">&gt;&gt;</a></li> --%>
+<%-- 					            </c:otherwise> --%>
+<%-- 					        </c:choose> --%>
+<!-- 					    </ul> -->
+<!-- 					</div>	 -->
+<%-- 				</c:if> --%>
 			</div>
 		</div>
 	</div>

@@ -13,14 +13,15 @@ import javax.persistence.ParameterMode;
 @Entity
 @Table(name = "stock")
 @NamedStoredProcedureQueries({
-@NamedStoredProcedureQuery(name = "SearchItems", procedureName = "dbo.SearchItems",resultClasses = Stock.class, parameters = {
-  @StoredProcedureParameter(mode = ParameterMode.IN,  name = "itemname",        type = String.class),
-  @StoredProcedureParameter(mode = ParameterMode.IN,  name = "manufacturerid",  type = Long.class),
-  @StoredProcedureParameter(mode = ParameterMode.IN,  name = "categoryid",      type = Long.class),
-  @StoredProcedureParameter(mode = ParameterMode.IN,  name = "minprice",        type = Long.class),
-  @StoredProcedureParameter(mode = ParameterMode.IN,  name = "maxprice",        type = Long.class)})
-})
-public class SearchInStock implements Serializable{
+@NamedStoredProcedureQuery(name = "SearchItemsInStock", procedureName = "dbo.SearchItems", resultClasses = { Stock.class }, 
+	parameters = {
+	  @StoredProcedureParameter(mode = ParameterMode.IN,  name = "itemname",        type = String.class),
+	  @StoredProcedureParameter(mode = ParameterMode.IN,  name = "manufacturerid",  type = Long.class),
+	  @StoredProcedureParameter(mode = ParameterMode.IN,  name = "categoryid",      type = Long.class),
+	  @StoredProcedureParameter(mode = ParameterMode.IN,  name = "minprice",        type = Long.class),
+	  @StoredProcedureParameter(mode = ParameterMode.IN,  name = "maxprice",        type = Long.class)})
+	})
+public class SearchInStock implements Serializable {
 
 	/**
 	 * 

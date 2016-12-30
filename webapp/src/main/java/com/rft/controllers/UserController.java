@@ -3,19 +3,34 @@ package com.rft.controllers;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.FetchProfile.Item;
+import javax.persistence.EntityManager;
+import javax.persistence.StoredProcedureQuery;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.orm.hibernate3.AbstractSessionFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaSessionFactoryBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.test.util.MetaAnnotationUtils;
 import org.springframework.ui.Model;
@@ -37,14 +52,12 @@ import com.rft.repositories.AddItemToBasketRepository;
 import com.rft.repositories.CategoryRepository;
 import com.rft.repositories.ManufacturerRepository;
 import com.rft.repositories.OrderViewRepository;
+import com.rft.repositories.SearchInStockRepository;
 import com.rft.repositories.StockRepository;
 import com.rft.repositories.UserRepository;
 import com.rft.services.UserService;
 import com.rft.util.Util;
 import com.rft.validators.RegformDtoValidator;
-
-import scala.collection.mutable.LinkedHashMap;
-
 
 @Controller
 public class UserController {
@@ -67,8 +80,20 @@ public class UserController {
 	private ManufacturerRepository manufacturerRepository;
 	@Autowired
 	private CategoryRepository categoryRepository;
+	@Autowired
+	private SearchInStockRepository searchInStockRepository;
+	@Autowired
+	private EntityManager em;
+//	@Autowired
+//	private Session session;
 	
 	
+//	@Bean
+//	public AbstractSessionFactoryBean sessionFactoryBean(){
+//	    AnnotationSessionFactoryBean sessionFactoryBean = new AnnotationSessionFactoryBean();
+//	    sessionFactoryBean.setConfigLocation(new ClassPathResource("hibernate.cfg.xml"));
+//	    return sessionFactoryBean;
+//	}
 	
 	@RequestMapping(value="/home/{category}/{pageNumber}", method = GET)
 	public String home(@PathVariable String category, @PathVariable Integer pageNumber, 
@@ -131,15 +156,23 @@ public class UserController {
 			return "redirect:/";
 		}
 		Stock item = stockRepository.findByItemid(productId);
-		Long ret = -1000L;
-		addItemToBasketRepository.addToBasket(
-				user.getId(),
-				item.getItemid(),
-				new Long(addToBasketDto.getQuantity()),
-				ret
-				);
+//		Long ret = -1000L;
 		
-		logger.info(String.valueOf(ret));
+		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("addToBasket");
+		query.setParameter("userid", user.getId());
+		query.setParameter("itemid", item.getItemid());
+		query.setParameter("quantity", new Long(addToBasketDto.getQuantity()));
+		query.execute();
+		Long ret = (Long) query.getOutputParameterValue("ret");
+		
+//		addItemToBasketRepository.addToBasket(
+//				user.getId(),
+//				item.getItemid(),
+//				new Long(addToBasketDto.getQuantity()),
+//				ret
+//				);	
+		
+		logger.info("addToBasket return value: " + String.valueOf(ret));
 
 		
 //		model.addAttribute("item", item);
@@ -147,7 +180,7 @@ public class UserController {
 		return "product/product";
 	}
 	
-	@RequestMapping("/basket")
+	@RequestMapping(value="/basket", method=GET)
 	public String basket(Model model, RedirectAttributes redirectAttributes, HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
 		if(user == null || ( ! "0".equals(user.getRole())))  {
@@ -247,20 +280,25 @@ public class UserController {
 		return "redirect:/profil";
 	}
 	
-	@RequestMapping(value="/search-more", method=GET)
-	public String searchMore(Model model, @ModelAttribute String valami, RedirectAttributes redirectAttributes) {
+	@RequestMapping(value="/search-more/{pageNumber}", method=GET)
+	public String searchMore(Model model, @ModelAttribute String valami, RedirectAttributes redirectAttributes,
+			@ModelAttribute("manufacturers") HashMap<String, String> manufacturers,
+			@ModelAttribute("categories") HashMap<String, String> categories,
+			@PathVariable("pageNumber") Integer pageNumber) {
 		logger.info(valami);
 		model.addAttribute("searchMoreDto", new SearchMoreDto());
 		
 		List<Category> listCategoryname = categoryRepository.findAll();
-		Map<String, String> manufacturers = new HashMap<String, String>();
+//		Map<String, String> manufacturers = new HashMap<String, String>();
+		manufacturers = new HashMap<String, String>();
 		manufacturers.put("", "Kérem válasszon a listából");
 		for(Category c :listCategoryname) {
 			manufacturers.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
 		}
 
 		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
-		Map<String, String> categories = new HashMap<String, String>();
+//		Map<String, String> categories = new HashMap<String, String>();
+		categories = new HashMap<String, String>();
 		categories.put("", "Kérem válasszon a listából");
 		for(Manufacturer m : listManufacturers) {
 			categories.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
@@ -269,16 +307,58 @@ public class UserController {
 		model.addAttribute("manufacturers", manufacturers);
 		model.addAttribute("categories", categories);
 		
-//		if(items != null) {
-//			;
-//		}
 		return "search/search-more";
 	}
 	
-	@RequestMapping(value="/search-more", method=POST)
-	public String searchMore(Model model, @ModelAttribute Page<Stock> items) {
-		model.addAttribute("valami", "valami");
+	@RequestMapping(value="/search-more/{pageNumber}", method=POST)
+	public String searchMore(Model model, 
+			@ModelAttribute("searchMoreDto") SearchMoreDto searchMoreDto,
+			@ModelAttribute("manufacturers") HashMap<String, String> manufacturers,
+			@ModelAttribute("categories") HashMap<String, String> categories,
+			@PathVariable("pageNumber") Integer pageNumber) {
+//		model.addAttribute("valami", "valami");
 		
+		final Integer priceMin = searchMoreDto.getPriceMin() != null       ? searchMoreDto.getPriceMin() : -1;
+		final Integer priceMax = searchMoreDto.getPriceMax() != null       ? searchMoreDto.getPriceMax() : -1;
+		final Integer catId    = searchMoreDto.getCategoryId() != null     ? (int)(double)(long) Long.decode(String.valueOf(searchMoreDto.getCategoryId()))         : -1;  // ZSÍRKIRÁJ
+		final Integer manId    = searchMoreDto.getManufacturerId() != null ? (int)(long)searchMoreDto.getManufacturerId()     : -1;
+
+//		List<Object> items = searchInStockRepository.SearchItemsInStock(
+//				searchMoreDto.getName(),
+//				manId, catId, priceMin, priceMax);
+//		
+		List<Stock> items = stockRepository.find(
+				searchMoreDto.getName(), manId, catId, priceMin, priceMax);
+		
+		
+//		int current = items.getNumber() + 1;
+//        int begin = Math.max(0, current - 5);
+//        int end = Math.min(begin + 10, items.getTotalPages()-1);
+//        
+//        model.addAttribute("beginIndex", begin);
+//        model.addAttribute("endIndex", end);
+//        model.addAttribute("currentIndex", current);
+//    	model.addAttribute("itemsContent", items.getContent());
+    	model.addAttribute("itemsContent", items);
+//    	model.addAttribute("items", items);
+    	List<Category> listCategoryname = categoryRepository.findAll();
+//		Map<String, String> manufacturers = new HashMap<String, String>();
+		manufacturers = new HashMap<String, String>();
+		manufacturers.put("", "Kérem válasszon a listából");
+		for(Category c :listCategoryname) {
+			manufacturers.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
+		}
+
+		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
+//		Map<String, String> categories = new HashMap<String, String>();
+		categories = new HashMap<String, String>();
+		categories.put("", "Kérem válasszon a listából");
+		for(Manufacturer m : listManufacturers) {
+			categories.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
+		}
+		
+		model.addAttribute("manufacturers", manufacturers);
+		model.addAttribute("categories", categories);
 		return "search/search-more";
 	}
 

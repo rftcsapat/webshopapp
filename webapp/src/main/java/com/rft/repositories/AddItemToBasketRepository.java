@@ -9,4 +9,5 @@ public interface AddItemToBasketRepository extends CrudRepository<AddItemToBaske
     @Procedure(procedureName = "addItem", outputParameterName = "ret")
    // void inOnlyTest(Long userid,Long itemid,Long quantity,Long ret);
     void addToBasket(@Param("userid") Long userid, @Param("itemid") Long itemid, @Param("quantity") Long quantity, @Param("ret") Long ret);
+//    AddItemToBasket addToBasket(@Param("userid") Long userid, @Param("itemid") Long itemid, @Param("quantity") Long quantity, @Param("ret") Long ret);
 }

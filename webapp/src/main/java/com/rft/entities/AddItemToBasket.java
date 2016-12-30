@@ -7,17 +7,18 @@ import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.StoredProcedureParameter;
 import javax.persistence.Table;
+
 import javax.persistence.Id;
 import javax.persistence.ParameterMode;
 
 @Entity
 @Table(name = "orders")
 @NamedStoredProcedureQueries({
-@NamedStoredProcedureQuery(name = "addItem", procedureName = "dbo.addItem", parameters = {
-  @StoredProcedureParameter(mode = ParameterMode.IN,  name = "userid",   type = Long.class),
-  @StoredProcedureParameter(mode = ParameterMode.IN,  name = "itemid",   type = Long.class),
-  @StoredProcedureParameter(mode = ParameterMode.IN,  name = "quantity", type = Long.class),
-  @StoredProcedureParameter(mode = ParameterMode.OUT, name = "ret",      type = Long.class)})
+@NamedStoredProcedureQuery(name = "addToBasket", procedureName = "dbo.addItem", parameters = {
+  @StoredProcedureParameter(mode = ParameterMode.IN,    name = "userid",   type = Long.class),
+  @StoredProcedureParameter(mode = ParameterMode.IN,    name = "itemid",   type = Long.class),
+  @StoredProcedureParameter(mode = ParameterMode.IN,    name = "quantity", type = Long.class),
+  @StoredProcedureParameter(mode = ParameterMode.OUT,   name = "ret",      type = Long.class)})
 })
 public class AddItemToBasket implements Serializable {
 	
@@ -27,12 +28,22 @@ public class AddItemToBasket implements Serializable {
 	@GeneratedValue
 	private Long orderrowid;
 
+	private Long ret;
+	
 	public Long getOrderrowid() {
 		return orderrowid;
 	}
 
 	public void setOrderrowid(Long orderrowid) {
 		this.orderrowid = orderrowid;
+	}
+
+	public Long getRet() {
+		return ret;
+	}
+
+	public void setRet(Long ret) {
+		this.ret = ret;
 	}
 	
 }

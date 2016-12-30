@@ -19,7 +19,7 @@
 		</div>
 		<button type="submit" class="btn btn-default">Keresés</button>
 		<div class="search-more-link">
-			<a href="/search-more">Részletes keresés</a>
+			<a href="/search-more/0">Részletes keresés</a>
 		</div>
 	</form>
 </div>
