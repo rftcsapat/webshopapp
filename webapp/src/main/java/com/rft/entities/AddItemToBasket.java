@@ -28,7 +28,6 @@ public class AddItemToBasket implements Serializable {
 	@GeneratedValue
 	private Long orderrowid;
 
-	private Long ret;
 	
 	public Long getOrderrowid() {
 		return orderrowid;
@@ -36,14 +35,6 @@ public class AddItemToBasket implements Serializable {
 
 	public void setOrderrowid(Long orderrowid) {
 		this.orderrowid = orderrowid;
-	}
-
-	public Long getRet() {
-		return ret;
-	}
-
-	public void setRet(Long ret) {
-		this.ret = ret;
 	}
 	
 }
