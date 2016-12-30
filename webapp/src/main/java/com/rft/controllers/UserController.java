@@ -3,6 +3,13 @@ package com.rft.controllers;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import static com.rft.util.Constants.PACK_STANDARD_FT;
+import static com.rft.util.Constants.PACK_STANDARD_KR;
+import static com.rft.util.Constants.PACK_ELITE_FT;
+import static com.rft.util.Constants.PACK_ELITE_KR;
+import static com.rft.util.Constants.PACK_PREMIUM_FT;
+import static com.rft.util.Constants.PACK_PREMIUM_KR;
+
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -41,6 +48,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rft.dto.AddToBasketDto;
+import com.rft.dto.CreditDto;
+import com.rft.dto.SearchDto;
 import com.rft.dto.SearchMoreDto;
 import com.rft.dto.UserUpdateDto;
 import com.rft.entities.Category;
@@ -48,6 +57,7 @@ import com.rft.entities.Manufacturer;
 import com.rft.entities.OrderView;
 import com.rft.entities.Stock;
 import com.rft.entities.User;
+import com.rft.entities.Warehouse;
 import com.rft.repositories.AddItemToBasketRepository;
 import com.rft.repositories.CategoryRepository;
 import com.rft.repositories.ManufacturerRepository;
@@ -55,6 +65,7 @@ import com.rft.repositories.OrderViewRepository;
 import com.rft.repositories.SearchInStockRepository;
 import com.rft.repositories.StockRepository;
 import com.rft.repositories.UserRepository;
+import com.rft.repositories.WarehouseRepository;
 import com.rft.services.UserService;
 import com.rft.util.Util;
 import com.rft.validators.RegformDtoValidator;
@@ -83,17 +94,9 @@ public class UserController {
 	@Autowired
 	private SearchInStockRepository searchInStockRepository;
 	@Autowired
+	private WarehouseRepository warehouseRepository;
+	@Autowired
 	private EntityManager em;
-//	@Autowired
-//	private Session session;
-	
-	
-//	@Bean
-//	public AbstractSessionFactoryBean sessionFactoryBean(){
-//	    AnnotationSessionFactoryBean sessionFactoryBean = new AnnotationSessionFactoryBean();
-//	    sessionFactoryBean.setConfigLocation(new ClassPathResource("hibernate.cfg.xml"));
-//	    return sessionFactoryBean;
-//	}
 	
 	@RequestMapping(value="/home/{category}/{pageNumber}", method = GET)
 	public String home(@PathVariable String category, @PathVariable Integer pageNumber, 
@@ -103,11 +106,13 @@ public class UserController {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
 		}
+		model.addAttribute("searchDto", new SearchDto());
 		Page<Stock> items = null;
+		Integer pageSize = 9;
 		if(category.equals("all")) {
-			items = stockRepository.findAll(new PageRequest(pageNumber, 3));
+			items = stockRepository.findAll(new PageRequest(pageNumber, pageSize));
 		} else {
-			items = stockRepository.findByCategoryname(new PageRequest(pageNumber, 3), category);
+			items = stockRepository.findByCategoryname(new PageRequest(pageNumber, pageSize), category);
 		}
     	int current = items.getNumber() + 1;
         int begin = Math.max(0, current - 5);
@@ -121,6 +126,78 @@ public class UserController {
     	model.addAttribute("category", category);
 		
 		return "home";
+	}
+	
+	@RequestMapping(value="/home/{category}/{pageNumber}", method = POST)
+	public String home(@ModelAttribute("searchDto") SearchDto searchDto, Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+		model.addAttribute("searchDto", searchDto);
+		model.addAttribute("keyword", searchDto.getKeyword());
+		List<Stock> items = stockRepository.find(searchDto.getKeyword());
+		model.addAttribute("resultCount", items.size());
+		model.addAttribute("itemsContent", items);
+		return "search/search-result";
+	}
+	
+	@RequestMapping(value="/search/", method = GET)
+	public String search(
+//			@PathVariable String keyword, 
+			@ModelAttribute("searchDto") SearchDto searchDto,
+			Model model, 
+			RedirectAttributes redirectAttributes, 
+			HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
+		model.addAttribute("searchDto", searchDto.getKeyword());
+		model.addAttribute("keyword", searchDto);
+		List<Stock> items = stockRepository.find(searchDto.getKeyword());
+		model.addAttribute("resultCount", searchDto);
+//    	int current = items.getNumber() + 1;
+//      int begin = Math.max(0, current - 5);
+//      int end = Math.min(begin + 10, items.getTotalPages()-1);
+//      
+//      model.addAttribute("beginIndex", begin);
+//      model.addAttribute("endIndex", end);
+//      model.addAttribute("currentIndex", current);
+    	model.addAttribute("itemsContent", items);
+    	
+//    	model.addAttribute("items", items);
+//    	model.addAttribute("category", category);
+		
+		return "search/search-result";
+	}
+	
+	@RequestMapping(value="/deleteBasketEntry/{itemId}/{quantity}", method = GET)
+	public String search(
+			@PathVariable("itemId") Long itemId,
+			@PathVariable("quantity") Long quantity,
+			Model model, 
+			@ModelAttribute("searchDto") SearchDto searchDto,
+			RedirectAttributes redirectAttributes, 
+			HttpSession session) {
+		User user = (User) session.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
+		model.addAttribute("searchDto", searchDto);
+		Stock item = stockRepository.findByItemid(itemId);
+		
+		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("addToBasket");
+		query.setParameter("userid", user.getId());
+		query.setParameter("itemid", item.getItemid());
+		query.setParameter("quantity", quantity * (-1));
+		query.execute();
+//		Long ret = (Long) query.getOutputParameterValue("ret");
+		
+		
+		
+//    	model.addAttribute("items", items);
+//    	model.addAttribute("category", category);
+		
+		return "redirect:/basket";
 	}
 	
 	@RequestMapping(value="/logout", method=GET)
@@ -138,33 +215,45 @@ public class UserController {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
 		}
+		model.addAttribute("searchDto", new SearchDto());
 		Stock item = stockRepository.findByItemid(productId);
 		model.addAttribute("item", item);
 		model.addAttribute("addToBasketDto", new AddToBasketDto());
+		
 		return "product/product";
 	}
 	
 	@RequestMapping(value="/product/{productId}", method=POST)
 	public String product(Model model, HttpSession session, @PathVariable("productId") Long productId, 
-			@ModelAttribute("addToBasketDto") @Valid AddToBasketDto addToBasketDto, 
+			@ModelAttribute("addToBasketDto") @Valid AddToBasketDto addToBasketDto,
 			BindingResult result,
-			RedirectAttributes redirectAttributes
-			) {
+//			@ModelAttribute("productId") Integer productId,
+//			@ModelAttribute("addToBasketDto") AddToBasketDto addToBasketDto,
+//			@ModelAttribute("creditDto") CreditDto creditDto,
+			RedirectAttributes redirectAttributes ) {
+		model.addAttribute("searchDto", new SearchDto());
+//		model.addAttribute("creditDto", creditDto);
 		User user = (User) session.getAttribute("user"); 
 		if(user == null || ( ! "0".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
 		}
 		Stock item = stockRepository.findByItemid(productId);
-//		Long ret = -1000L;
-		
+		Long quantity = new Long(addToBasketDto.getQuantity());
 		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("addToBasket");
 		query.setParameter("userid", user.getId());
 		query.setParameter("itemid", item.getItemid());
-		query.setParameter("quantity", new Long(addToBasketDto.getQuantity()));
+		query.setParameter("quantity", quantity);
 		query.execute();
 		Long ret = (Long) query.getOutputParameterValue("ret");
 		
+		if(ret == 0L) {
+			model.addAttribute("message", "Sikeresen hozzáadta a kosarához.");
+			String newQuantity = String.valueOf(Integer.decode(item.getQuantity()) - quantity);
+			item.setQuantity(newQuantity);
+		} else if(ret == -1L) {
+			model.addAttribute("errorMessage", "A hozzáadás sikertelen.");
+		}
 //		addItemToBasketRepository.addToBasket(
 //				user.getId(),
 //				item.getItemid(),
@@ -175,7 +264,7 @@ public class UserController {
 		logger.info("addToBasket return value: " + String.valueOf(ret));
 
 		
-//		model.addAttribute("item", item);
+		model.addAttribute("item", item);
 //		model.addAttribute(new AddToBasketDto());
 		return "product/product";
 	}
@@ -187,7 +276,7 @@ public class UserController {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
 		}
-		
+		model.addAttribute("searchDto", new SearchDto());
 		List<OrderView> items = orderViewRepository.findByUseridAndOrderstatusid(new Long(user.getId()), new Long(1));
     	model.addAttribute("itemsContent", items);
     	Long sum = 0L;
@@ -206,6 +295,7 @@ public class UserController {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
 		}
+		model.addAttribute("searchDto", new SearchDto());
 		UserUpdateDto userUpdateDto = new UserUpdateDto();
 		userUpdateDto.setTitle(user.getTitle());
 		userUpdateDto.setLastname(user.getLastname());
@@ -247,8 +337,8 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/profil", method=POST)
-	public String profil(@ModelAttribute("userUpdateDto") @Valid UserUpdateDto userUpdateDto, 
-			Model model, HttpSession httpSession, RedirectAttributes redirectAttributes) {
+	public String profil(Model model, @ModelAttribute("userUpdateDto") @Valid UserUpdateDto userUpdateDto, 
+			 HttpSession httpSession, RedirectAttributes redirectAttributes) {
 		User user = (User)httpSession.getAttribute("user");
 		if(user == null || ( ! "0".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
@@ -285,7 +375,7 @@ public class UserController {
 			@ModelAttribute("manufacturers") HashMap<String, String> manufacturers,
 			@ModelAttribute("categories") HashMap<String, String> categories,
 			@PathVariable("pageNumber") Integer pageNumber) {
-		logger.info(valami);
+		model.addAttribute("searchDto", new SearchDto());
 		model.addAttribute("searchMoreDto", new SearchMoreDto());
 		
 		List<Category> listCategoryname = categoryRepository.findAll();
@@ -362,38 +452,74 @@ public class UserController {
 		return "search/search-more";
 	}
 
-	@RequestMapping("/credits")
-	public String creditsHandler() {
+	@RequestMapping(value="/credits", method=GET)
+	public String creditsHandler(Model model) {
+		model.addAttribute("searchDto", new SearchDto());
+		model.addAttribute("creditDto", new CreditDto());
+		return "profil/credits";
+	}
+	
+	@RequestMapping(value="/credits", method=POST)
+	public String creditsHandler(Model model,
+			@ModelAttribute("searchMoreDto") SearchMoreDto searchMoreDto,
+			@ModelAttribute("creditDto") CreditDto creditDto
+			) {
+		
+		String cardNumber     = creditDto.getCardNumber();
+		String cardExpiration = creditDto.getCardExpiration();
+		String cardCvc        = creditDto.getCardCvc();
+		String packageName    = creditDto.getPackageName();
+		
+		Integer amountKr = 0;
+		Integer amountFt = 0;
+		
+		switch(packageName) {
+			case "standard":
+				amountKr = PACK_STANDARD_KR;
+				amountFt = PACK_STANDARD_FT;	
+				break;
+			case "premium":
+				amountKr = PACK_PREMIUM_KR;
+				amountFt = PACK_PREMIUM_FT;
+				break;
+			case "elite":
+				amountKr = PACK_ELITE_KR;
+				amountFt = PACK_ELITE_FT;
+				break;
+		}
+	
+		
+//		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("addToBasket");
+////		query.setParameter("userid", user.getId());
+////		query.setParameter("itemid", item.getItemid());
+////		query.setParameter("quantity", new Long(addToBasketDto.getQuantity()));
+//		query.execute();
+//		Long ret = (Long) query.getOutputParameterValue("ret");
 		
 		return "profil/credits";
 	}
 
-	@RequestMapping("/product-category")
-	public String productCategory() {
-				
+	@RequestMapping(value="/product-category", method=GET)
+	public String productCategory(Model model) {
+		model.addAttribute("searchDto", new SearchDto());
 		return "product/product-category";
 	}
 	
-	
-	
-	@RequestMapping("/search-result")
-	public String searchResult() {
-		
+	@RequestMapping(value="/search-result", method=GET)
+	public String searchResult(Model model) {
+		model.addAttribute("searchDto", new SearchDto());
 		return "search/search-result";
 	}
 	
+//	@RequestMapping(value="/logout", method=GET)
+//	public String logout(Model model) {
+//		model.addAttribute("searchDto", new SearchDto());
+//		return "about/about-us";
+//	}
 	
-	@RequestMapping("/logout")
-	public String logout() {
-		
-		return "about/about-us";
-	}
-	
-	
-	
-	@RequestMapping("/orders")
-	public String ordersHandler() {
-		
+	@RequestMapping(value="/orders", method=GET)
+	public String ordersHandler(Model model) {
+		model.addAttribute("searchDto", new SearchDto());
 		return "basket/orders";
 	}
 	

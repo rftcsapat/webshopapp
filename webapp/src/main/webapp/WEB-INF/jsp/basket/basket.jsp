@@ -36,7 +36,7 @@
 							</div>
 						</div>
 						<div class="col-md-2">
-							<a class="basket-item-del-link" href="#"><font color="white">Tétel törlése</font></a>
+							<a class="basket-item-del-link" href="/deleteBasketEntry/${item.itemid}/${item.quantity}"><font color="white">Tétel törlése</font></a>
 						</div>
 					</div>
                 </c:forEach>

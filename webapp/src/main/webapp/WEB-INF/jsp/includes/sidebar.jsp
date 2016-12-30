@@ -5,22 +5,22 @@
 <div class="col-md-3 sidebar">
 	<p class="lead">Kategóriák</p>
 	<div class="list-group">
-		<a href="/home/Koncentrátumok/0" class="list-group-item">Koncentrátumok</a> 
+		<a href="/home/koncentrátumok/0" class="list-group-item">Koncentrátumok</a> 
 		<a href="/home/krémek/0" class="list-group-item">Krémek</a> 
 		<a href="/home/biokozmetika/0" class="list-group-item">Biokozmetika</a> 
 		<a href="/home/testápolás/0" class="list-group-item">Testápolás</a> 
-		<a href="/home/zöldélelmiszerek/0" class="list-group-item">Zöld élelmiszerek</a>
+		<a href="/home/zöld_élelmiszerek/0" class="list-group-item">Zöld élelmiszerek</a>
 	</div>
 
-	<form class="searchForm" method="post">
+	<form:form modelAttribute="searchDto" class="searchForm" method="post">
 		<div class="form-group">
-			<label for="search">Keresés</label> <input type="text"
-				class="form-control" id="search" placeholder="Termék kereső">
+			<label for="search">Keresés</label> 
+			<form:input path="keyword" type="text" class="form-control" id="search" placeholder="Termék kereső"/>
 		</div>
 		<button type="submit" class="btn btn-default">Keresés</button>
 		<div class="search-more-link">
 			<a href="/search-more/0">Részletes keresés</a>
 		</div>
-	</form>
+	</form:form>
 </div>
 

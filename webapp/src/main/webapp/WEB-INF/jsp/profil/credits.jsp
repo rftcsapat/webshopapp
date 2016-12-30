@@ -9,29 +9,32 @@
 		<div class="col-md-9">
 
 			<h1 class="page-title">Kreditek</h1>
-
+			<form:form modelAttribute="creditDto">
 			<div class="panel panel-default credit-card-box">
 				<div class="panel-heading display-table">
 					<div class="row display-tr">
-						<h3 class="panel-title display-td">Payment Details</h3>
+						<h3 class="panel-title display-td">Paymen	t Details</h3>
 						<div class="display-td">
 							<img class="img-responsive pull-right"
 								src="http://i76.imgup.net/accepted_c22e0.png">
 						</div>
 					</div>
 				</div>
+				
 				<div class="panel-body">
-					<form role="form" id="payment-form" method="POST"
-						action="javascript:void(0);">
+<!-- 					<form role="form" id="payment-form" method="POST" -->
+<!-- 						action="javascript:void(0);"> -->
 						<div class="row">
 							<div class="col-xs-12">
 								<div class="form-group">
 									<label for="cardNumber">CARD NUMBER</label>
 									<div class="input-group">
-										<input type="tel" class="form-control" name="cardNumber"
+										<form:input 
+											path="cardNumber" type="tel" class="form-control" name="cardNumber"
 											placeholder="Valid Card Number" autocomplete="cc-number"
-											required autofocus /> <span class="input-group-addon"><i
-											class="fa fa-credit-card"></i></span>
+											required="true" autofocus="true" />
+<!-- 											required autofocus />  -->
+										<span class="input-group-addon"><i class="fa fa-credit-card"></i></span>
 									</div>
 								</div>
 							</div>
@@ -40,35 +43,35 @@
 							<div class="col-xs-7 col-md-7">
 								<div class="form-group">
 									<label for="cardExpiry"><span class="hidden-xs">EXPIRATION</span><span
-										class="visible-xs-inline">EXP</span> DATE</label> <input type="tel"
-										class="form-control" name="cardExpiry" placeholder="MM / YY"
-										autocomplete="cc-exp" required />
+										class="visible-xs-inline">EXP</span> DATE</label> 
+									<form:input path="cardExpiration" type="tel" class="form-control" name="cardExpiry" placeholder="MM / YY"  
+										autocomplete="cc-exp" required="true" />
 								</div>
 							</div>
 							<div class="col-xs-5 col-md-5 pull-right">
 								<div class="form-group">
-									<label for="cardCVC">CV CODE</label> <input type="tel"
-										class="form-control" name="cardCVC" placeholder="CVC"
-										autocomplete="cc-csc" required />
+									<label for="cardCVC">CV CODE</label> 
+									<form:input path="cardCvc" type="tel" class="form-control" name="cardCVC" placeholder="CVC"
+										autocomplete="cc-csc" required="true" />
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-xs-12">
-								<button class="btn btn-lg btn-primary" type="button">Fizetés</button>
-							</div>
-						</div>
+<!-- 						<div class="row"> -->
+<!-- 							<div class="col-xs-12"> -->
+<!-- 								<button class="btn btn-lg btn-primary" type="button">Fizetés</button> -->
+<!-- 							</div> -->
+<!-- 						</div> -->
 						<div class="row" style="display: none;">
 							<div class="col-xs-12">
 								<p class="payment-errors"></p>
 							</div>
 						</div>
-					</form>
+<!-- 					</form> -->
 				</div>
 			</div>
 			<div class="row">
 				<div class="col-sm-4 col-md-4">
-					<form>
+					
 						<div class="well">
 							<h2>Standard</h2>
 							<p>
@@ -79,7 +82,9 @@
 							</p>
 
 							<div class="radio">
-								<label> <input type="radio" name="optionsRadios" checked>
+								<label> 
+								<form:radiobutton path="packageName" name="optionsRadios" checked="true" value="standard"/>
+<%-- 								<form:radiobutton path="packageName" type="radio" name="optionsRadios" checked="true"/> --%>
 								</label>
 							</div>
 
@@ -95,7 +100,9 @@
 							<strong>18.000 Kr</strong>
 					    </p>
 						<div class="radio">
-							<label> <input type="radio" name="optionsRadios">
+							<label> 
+<%-- 							<form:input path="packageName" type="radio" name="optionsRadios"/> --%>
+							<form:radiobutton path="packageName" name="optionsRadios" value="premium"/>
 							</label>
 						</div>
 
@@ -111,25 +118,29 @@
 							<strong>43.000 Kr</strong>
 						</p>
 						<div class="radio">
-							<label> <input type="radio" name="optionsRadios">
+							<label> 
+<%-- 							<form:input path="packageName" type="radio" name="optionsRadios"/> --%>
+							<form:radiobutton path="packageName" name="optionsRadios" value="elite"/>
 							</label>
 						</div>
 					</div>
 				</div>
-				</form>
 			</div>
-			<div class="kredit-actual well" >
-				<h2>Aktuális egyenleg</h2>
-				<p>23.000 Kr</p>
-			</div>
-			<form class="form-kredit">
-				<div class="form-group">
-					<input type="text" class="form-control" name="kredit_db"
-						placeholder="Ide ird az összeget"> <span class="currency">Kr</span>
+				<div class="kredit-actual well" >
+					<h2>Aktuális egyenleg</h2>
+					<p>23.000 Kr</p>
 				</div>
-				<button type="submit" class="btn btn-lg btn-primary">Kredit
-					feltöltése</button>
-			</form>
+				<button type="submit" class="btn btn-lg btn-primary">Kredit feltöltése</button>
+			</form:form>
+	</div>
+			
+<!-- 			<form class="form-kredit"> -->
+<!-- 				<div class="form-group"> -->
+<!-- 					<input type="text" class="form-control" name="kredit_db" -->
+<!-- 						placeholder="Ide ird az összeget"> <span class="currency">Kr</span> -->
+<!-- 				</div> -->
+				
+<!-- 			</form> -->
 		</div>
 	</div>
 </div>

@@ -18,10 +18,6 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
     List<Stock> findByCategoryid(String categoryid);
     List<Stock> findByManufacturername(String manufacturername);
     List<Stock> findByManufacturerid(String manufacturerid);
-//    @Query(value = "SELECT * from Stock s where 'itemname'='' or s.itemname like ('%'+'itemname'+'%')) and ('manufacturerid'=-1 or 'manufacturerid'=s.manufacturerid) and ('categoryid'=-1 or 'categoryid'=s.categoryid)",
-//            nativeQuery=true
-//    )
-//    public List<Stock> findAll(String itemname, Long manufacturerid, Long categoryid);
     
     @Query("SELECT e FROM Stock e WHERE " +
     	      "(:itemname='' or e.itemname like ('%'+:itemname+'%')) and"  +
@@ -50,5 +46,8 @@ public interface StockRepository extends JpaRepository<Stock, Long> {
              @Param("minprice")       Integer minprice,
              @Param("maxprice")       Integer maxprice);
     
+    @Query("SELECT e FROM Stock e WHERE " +
+    	      "(:itemname='' or e.itemname like ('%'+:itemname+'%'))" )
+    List<Stock> find(@Param("itemname") String itemname);
     List<Stock> findAll();
 }
