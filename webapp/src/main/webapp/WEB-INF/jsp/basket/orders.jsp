@@ -110,7 +110,11 @@
 			<hr>
 			<div class="row">
 				<div class="pull-right basket-amounts">
-					Termék darabszám: <strong>${count}</strong><br> Fizetendő: <strong>${sum} Kr</strong>
+					Termék darabszám: <strong>${count}</strong>
+					<br> 
+					Fizetendő: <strong>${sum} Kr</strong>
+					<br><br>
+					Egyenleg: <strong>${user.coins} Kr</strong>
 				</div>
 			</div>
 
@@ -155,7 +159,7 @@
 						</div>
 					</div>
 					<div class="row text-center">
-						<button type="submit" class="btn btn-primary btn-lg" href="/">Rendelés Küldése</button>
+						<button type="submit" class="btn btn-primary btn-lg" >Rendelés Küldése</button>
 					</div>
 				</form:form>
 			</div>

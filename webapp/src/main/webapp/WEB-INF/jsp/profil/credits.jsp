@@ -13,7 +13,7 @@
 			<div class="panel panel-default credit-card-box">
 				<div class="panel-heading display-table">
 					<div class="row display-tr">
-						<h3 class="panel-title display-td">Paymen	t Details</h3>
+						<h3 class="panel-title display-td">Payment Details</h3>
 						<div class="display-td">
 							<img class="img-responsive pull-right"
 								src="http://i76.imgup.net/accepted_c22e0.png">
@@ -128,7 +128,9 @@
 			</div>
 				<div class="kredit-actual well" >
 					<h2>Aktuális egyenleg</h2>
-					<p>23.000 Kr</p>
+<%-- 					<p>${user.coins} Kr</p> --%>
+					<p><fmt:formatNumber type="number" pattern="###,###" value="${user.coins}" /> Kr</p>
+					
 				</div>
 				<button type="submit" class="btn btn-lg btn-primary">Kredit feltöltése</button>
 			</form:form>

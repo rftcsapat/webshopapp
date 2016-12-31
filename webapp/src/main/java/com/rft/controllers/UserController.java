@@ -49,6 +49,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rft.dto.AddToBasketDto;
 import com.rft.dto.CreditDto;
+import com.rft.dto.InvitationDto;
 import com.rft.dto.SearchDto;
 import com.rft.dto.SearchMoreDto;
 import com.rft.dto.UserUpdateDto;
@@ -485,8 +486,8 @@ public class UserController {
 	
 	@RequestMapping(value="/credits", method=POST)
 	public String creditsHandler(Model model,
-			@ModelAttribute("searchMoreDto") SearchMoreDto searchMoreDto,
 			@ModelAttribute("creditDto") CreditDto creditDto,
+			@ModelAttribute("searchDto") SearchDto searchDto,
 			RedirectAttributes redirectAttributes, 
 			HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
@@ -519,6 +520,9 @@ public class UserController {
 		}
 	
 		coinUploadRepository.coinUpload(user.getId(), amountFt, amountKr);
+		user.setCoins(user.getCoins() + amountKr);
+		
+		Util.flash(redirectAttributes, "success", "Gratulálunk, sikeresen feltöltötte egyenlegét! Kellemes vásárlást kívánunk!");
 		
 //		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("addToBasket");
 ////		query.setParameter("userid", user.getId());
@@ -527,7 +531,7 @@ public class UserController {
 //		query.execute();
 //		Long ret = (Long) query.getOutputParameterValue("ret");
 		
-		return "profil/credits";
+		return "redirect:/credits";
 	}
 
 	@RequestMapping(value="/product-category", method=GET)
@@ -615,12 +619,14 @@ public class UserController {
 		userUpdateDto.setSettlement(settlement);
 		userUpdateDto.setStreetDetails(streetDetails);
 		model.addAttribute("userUpdateDto", userUpdateDto);
+		
 		return "basket/orders";
 	}
 	
 	@RequestMapping(value="/orders", method=POST)
 	public String ordersHandler(Model model, 
 			@ModelAttribute("userUpdateDto") UserUpdateDto userUpdateDto,
+//			@ModelAttribute("items") List<OrderView> items,
 			RedirectAttributes redirectAttributes, 
 			HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
@@ -630,11 +636,22 @@ public class UserController {
 		}
 		model.addAttribute("searchDto", new SearchDto());
 		
+		List<OrderView> items = orderViewRepository.findByUseridAndOrderstatusid(new Long(user.getId()), new Long(1));
+    	Long sum = 0L;
+    	for(OrderView ov : items) {
+    		sum += ov.getPrice();
+    	}
+		
+		if(user.getCoins() < sum) {
+			Util.flash(redirectAttributes, "danger", "A rendelés nem lehetséges, nincs elég kredit az egyenlegén!");
+			return "redirect:/orders";
+		}
+		
 //		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("Payment");
 //		query.setParameter("userid", user.getId());
 //		query.execute();
 		
-		paymentRepository.Payment(user.getId());	
+		paymentRepository.Payment(user.getId());
 		
 		Util.flash(redirectAttributes, "success", "Köszönjük a vásárlást!");
 //		model.addAttribute("message", );
@@ -642,6 +659,40 @@ public class UserController {
 		return "redirect:/home/all/0";
 	}
 	
+
+
+	@RequestMapping(value="/invitation", method=GET)
+	public String invitation(Model model, 
+			RedirectAttributes redirectAttributes, 
+			HttpSession httpSession) {
+		model.addAttribute("searchDto", new SearchDto());
+		User user = (User) httpSession.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
+		
+		model.addAttribute("invitationDto", new InvitationDto());
+		return "product/product-category";
+	}
+	
+	@RequestMapping(value="/invitation", method=POST)
+	public String invitation(Model model, 
+			@ModelAttribute("invitationDto") InvitationDto invitationDto,
+			RedirectAttributes redirectAttributes, 
+			HttpSession httpSession) {
+		model.addAttribute("searchDto", new SearchDto());
+		User user = (User) httpSession.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
+		
+		// VALAHOL ITT JÖHET A MEGHÍVÁS. az invitationDto-ban (!!észrevenni, hogy paraméterként át van már adva!!) van a beírt email
+		
+		
+		return "search/search-result";
+	}
 	
 	
 }
