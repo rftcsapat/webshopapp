@@ -47,7 +47,7 @@
 <!-- 	                            <img src="/public/images/product/korolen.jpg" alt="korolen termek"> -->
 	                            <img src="/imageDisplay?id=${item.itemid}" alt="korolen termek">
 	                            <div class="caption">
-	                                <h4 class="pull-right">${item.price} Ft</h4>
+	                                <h4 class="pull-right">${item.price} Kr</h4>
 	                                <h4><a href="/product/${item.itemid}">${item.itemname}</a></h4>
 	                                <p>
                                 	<c:choose>

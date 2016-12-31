@@ -60,8 +60,10 @@ import com.rft.entities.User;
 import com.rft.entities.Warehouse;
 import com.rft.repositories.AddItemToBasketRepository;
 import com.rft.repositories.CategoryRepository;
+import com.rft.repositories.CoinUploadRepository;
 import com.rft.repositories.ManufacturerRepository;
 import com.rft.repositories.OrderViewRepository;
+import com.rft.repositories.PaymentRepository;
 import com.rft.repositories.SearchInStockRepository;
 import com.rft.repositories.StockRepository;
 import com.rft.repositories.UserRepository;
@@ -94,9 +96,12 @@ public class UserController {
 	@Autowired
 	private SearchInStockRepository searchInStockRepository;
 	@Autowired
-	private WarehouseRepository warehouseRepository;
+	private CoinUploadRepository coinUploadRepository;
+	@Autowired
+	private PaymentRepository paymentRepository ;
 	@Autowired
 	private EntityManager em;
+	
 	
 	@RequestMapping(value="/home/{category}/{pageNumber}", method = GET)
 	public String home(@PathVariable String category, @PathVariable Integer pageNumber, 
@@ -270,7 +275,9 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/basket", method=GET)
-	public String basket(Model model, RedirectAttributes redirectAttributes, HttpSession httpSession) {
+	public String basket(Model model, 
+			RedirectAttributes redirectAttributes, 
+			HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
 		if(user == null || ( ! "0".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
@@ -374,7 +381,13 @@ public class UserController {
 	public String searchMore(Model model, @ModelAttribute String valami, RedirectAttributes redirectAttributes,
 			@ModelAttribute("manufacturers") HashMap<String, String> manufacturers,
 			@ModelAttribute("categories") HashMap<String, String> categories,
-			@PathVariable("pageNumber") Integer pageNumber) {
+			@PathVariable("pageNumber") Integer pageNumber,
+			HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
 		model.addAttribute("searchDto", new SearchDto());
 		model.addAttribute("searchMoreDto", new SearchMoreDto());
 		
@@ -405,9 +418,14 @@ public class UserController {
 			@ModelAttribute("searchMoreDto") SearchMoreDto searchMoreDto,
 			@ModelAttribute("manufacturers") HashMap<String, String> manufacturers,
 			@ModelAttribute("categories") HashMap<String, String> categories,
-			@PathVariable("pageNumber") Integer pageNumber) {
-//		model.addAttribute("valami", "valami");
-		
+			RedirectAttributes redirectAttributes,
+			@PathVariable("pageNumber") Integer pageNumber, 
+			HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
 		final Integer priceMin = searchMoreDto.getPriceMin() != null       ? searchMoreDto.getPriceMin() : -1;
 		final Integer priceMax = searchMoreDto.getPriceMax() != null       ? searchMoreDto.getPriceMax() : -1;
 		final Integer catId    = searchMoreDto.getCategoryId() != null     ? (int)(double)(long) Long.decode(String.valueOf(searchMoreDto.getCategoryId()))         : -1;  // ZSÍRKIRÁJ
@@ -453,7 +471,13 @@ public class UserController {
 	}
 
 	@RequestMapping(value="/credits", method=GET)
-	public String creditsHandler(Model model) {
+	public String creditsHandler(Model model, RedirectAttributes redirectAttributes, 
+			HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
 		model.addAttribute("searchDto", new SearchDto());
 		model.addAttribute("creditDto", new CreditDto());
 		return "profil/credits";
@@ -462,16 +486,22 @@ public class UserController {
 	@RequestMapping(value="/credits", method=POST)
 	public String creditsHandler(Model model,
 			@ModelAttribute("searchMoreDto") SearchMoreDto searchMoreDto,
-			@ModelAttribute("creditDto") CreditDto creditDto
-			) {
+			@ModelAttribute("creditDto") CreditDto creditDto,
+			RedirectAttributes redirectAttributes, 
+			HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
 		
 		String cardNumber     = creditDto.getCardNumber();
 		String cardExpiration = creditDto.getCardExpiration();
 		String cardCvc        = creditDto.getCardCvc();
 		String packageName    = creditDto.getPackageName();
 		
-		Integer amountKr = 0;
-		Integer amountFt = 0;
+		Long amountKr = 0L;
+		Long amountFt = 0L;
 		
 		switch(packageName) {
 			case "standard":
@@ -488,6 +518,7 @@ public class UserController {
 				break;
 		}
 	
+		coinUploadRepository.coinUpload(user.getId(), amountFt, amountKr);
 		
 //		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("addToBasket");
 ////		query.setParameter("userid", user.getId());
@@ -500,13 +531,25 @@ public class UserController {
 	}
 
 	@RequestMapping(value="/product-category", method=GET)
-	public String productCategory(Model model) {
+	public String productCategory(Model model, RedirectAttributes redirectAttributes, 
+			HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
 		model.addAttribute("searchDto", new SearchDto());
 		return "product/product-category";
 	}
 	
 	@RequestMapping(value="/search-result", method=GET)
-	public String searchResult(Model model) {
+	public String searchResult(Model model, RedirectAttributes redirectAttributes, 
+			HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
 		model.addAttribute("searchDto", new SearchDto());
 		return "search/search-result";
 	}
@@ -518,9 +561,87 @@ public class UserController {
 //	}
 	
 	@RequestMapping(value="/orders", method=GET)
-	public String ordersHandler(Model model) {
+	public String ordersHandler(Model model, 
+			RedirectAttributes redirectAttributes, 
+			HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
 		model.addAttribute("searchDto", new SearchDto());
+		
+		List<OrderView> items = orderViewRepository.findByUseridAndOrderstatusid(new Long(user.getId()), new Long(1));
+    	model.addAttribute("itemsContent", items);
+    	Long sum = 0L;
+    	for(OrderView ov : items) {
+    		sum += ov.getPrice();
+    	}
+    	model.addAttribute("sum", sum);
+    	model.addAttribute("count", items.size());
+		
+		UserUpdateDto userUpdateDto = new UserUpdateDto();
+		userUpdateDto.setTitle(user.getTitle());
+		userUpdateDto.setLastname(user.getLastname());
+		userUpdateDto.setFirstname(user.getFirstname());
+		userUpdateDto.setEmail(user.getEmail());
+		userUpdateDto.setBirthDate(user.getBirthdate());
+		userUpdateDto.setUsername(user.getUsername());
+		userUpdateDto.setPhone(user.getPhone());
+		// Ország#Megye#Irányítószám#Város#Utca,Házszám,Emelet,Ajtószám
+		String address = user.getAddress();
+		String country = "";
+		String zipCode = "";
+		String settlement = "";
+		String streetDetails = "";
+		if(address != null) {
+			String[] parts = address.split("#");
+			int len = parts.length;
+			if (len > 0) {
+				country = parts[0];
+			} 
+			if (len > 1) {
+				zipCode = parts[1];
+			}
+			if(len > 2) {
+				settlement = parts[2];
+			}
+			if(len > 3) {
+				streetDetails = parts[3];
+			}
+		}
+		userUpdateDto.setCountry(country);
+		userUpdateDto.setZipCode(zipCode);
+		userUpdateDto.setSettlement(settlement);
+		userUpdateDto.setStreetDetails(streetDetails);
+		model.addAttribute("userUpdateDto", userUpdateDto);
 		return "basket/orders";
 	}
+	
+	@RequestMapping(value="/orders", method=POST)
+	public String ordersHandler(Model model, 
+			@ModelAttribute("userUpdateDto") UserUpdateDto userUpdateDto,
+			RedirectAttributes redirectAttributes, 
+			HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
+		if(user == null || ( ! "0".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
+		model.addAttribute("searchDto", new SearchDto());
+		
+//		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("Payment");
+//		query.setParameter("userid", user.getId());
+//		query.execute();
+		
+		paymentRepository.Payment(user.getId());	
+		
+		Util.flash(redirectAttributes, "success", "Köszönjük a vásárlást!");
+//		model.addAttribute("message", );
+		
+		return "redirect:/home/all/0";
+	}
+	
+	
 	
 }

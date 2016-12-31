@@ -9,7 +9,7 @@
 		<div class="col-md-9">
 			<h1 class="page-title"><font color="white">Kosár</font></h1>
 
-		<div class="basket">
+		     <div class="basket">
 		
 				<c:forEach items="${itemsContent}" var="item" >
                     <div class="basket-item row">
