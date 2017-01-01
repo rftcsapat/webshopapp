@@ -27,6 +27,7 @@ label {
 	color: #fff;
 }
 
+
 a {
 	color: #000;
 	transition: all .25s;
@@ -330,7 +331,7 @@ main {
 	font-weight: 500;
 }
 
-span.fixwidth {
+.product-s .price {
 	display: inline-block;
 	width: 100px;
 }
@@ -355,3 +356,22 @@ span.fixwidth {
 	color: #000;
 }
 
+
+/* credit card */
+.kredit-actual {
+	max-width: 450px;
+}
+
+.credit-card-box {
+	max-width: 450px;
+}
+
+.credit-card-box .panel-title {
+	padding: 15px;
+	font-size: 20px;
+	float: left;
+}
+
+.invitation-form {
+	max-width: 450px;
+}

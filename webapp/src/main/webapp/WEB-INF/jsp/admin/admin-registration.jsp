@@ -27,6 +27,13 @@
 						<form:errors path="lastname" cssClass="error" />
 					</div>
 					<div class="form-group">
+					<label for="email">Email</label> 
+					<form:input path="email" type="text" class="form-control" id="email"/>
+					<c:if test="${not empty emailError}">
+					<font color="red">${emailError}</font><br/>
+					</c:if> 
+					</div>
+					<div class="form-group">
 						<form:label path="username" for="username">Felhasználónév</form:label>
 						<form:input path="username" type="text" class="form-control"
 							id="usernameInput" placeholder="Your Username" />
@@ -56,7 +63,7 @@
 					</div>
 					<div class="form-group">
 						<form:label path="passwordAgain" for="passwordAgain">Jelszó ismét:</form:label>
-						<form:input path="passwordAgain" typ-e="password"
+						<form:input path="passwordAgain" type="password"
 							class="form-control" id="passwordAgain"
 							placeholder="Password again" />
 						<form:errors path="passwordAgain" cssClass="error" />
