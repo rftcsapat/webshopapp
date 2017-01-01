@@ -12,15 +12,16 @@
 
 				<h1 class="page-title">Meghivó</h1>
 				<p>Add meg az email cimet a meghivó kiküldéséhez</p>
-				<form class="invitation-form">
+				<form:form class="invitation-form" modelAttribute="invitationDto">
 					<div class="form-group">
 						<label for="mail">Email cim</label>
-						<input type="text" name="mail" id="mail" class="form-control">
+						<form:input path="email" type="text" class="form-control"/>
 					</div>
 					<div class="form-group">
-						<input type="submit" class="btn btn-primary" name="submit" id="submit">
+						<button type="submit" class="btn btn-primary">Elküldés</button>
+<!-- 						<input type="submit" class="btn btn-primary" name="submit" id="submit"> -->
 					</div>
-				</form>
+				</form:form>
 			</div>
 		
         </div>

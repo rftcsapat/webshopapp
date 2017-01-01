@@ -12,7 +12,7 @@ import javax.persistence.ParameterMode;
 
 @Entity
 @Table(name = "invitations")
-@NamedStoredProcedureQuery(name = "invite", procedureName = "dbo.invite", parameters = {
+@NamedStoredProcedureQuery(name = "inviteUser", procedureName = "dbo.invite", parameters = {
   @StoredProcedureParameter(mode = ParameterMode.IN,    name = "userid",   type = Long.class),
   @StoredProcedureParameter(mode = ParameterMode.IN,    name = "email",    type = String.class),
   @StoredProcedureParameter(mode = ParameterMode.OUT,   name = "ret",      type = Long.class)})

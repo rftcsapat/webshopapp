@@ -62,6 +62,7 @@ import com.rft.entities.Warehouse;
 import com.rft.repositories.AddItemToBasketRepository;
 import com.rft.repositories.CategoryRepository;
 import com.rft.repositories.CoinUploadRepository;
+import com.rft.repositories.InvitationsRepository;
 import com.rft.repositories.ManufacturerRepository;
 import com.rft.repositories.OrderViewRepository;
 import com.rft.repositories.PaymentRepository;
@@ -99,7 +100,9 @@ public class UserController {
 	@Autowired
 	private CoinUploadRepository coinUploadRepository;
 	@Autowired
-	private PaymentRepository paymentRepository ;
+	private PaymentRepository paymentRepository;
+	@Autowired
+	private InvitationsRepository invitationsRepository;
 	@Autowired
 	private EntityManager em;
 	
@@ -414,13 +417,15 @@ public class UserController {
 		return "search/search-more";
 	}
 	
+//	@RequestMapping(value="/search-more", method=POST)
 	@RequestMapping(value="/search-more/{pageNumber}", method=POST)
 	public String searchMore(Model model, 
 			@ModelAttribute("searchMoreDto") SearchMoreDto searchMoreDto,
+			@ModelAttribute("searchDto") SearchDto searchDto,
 			@ModelAttribute("manufacturers") HashMap<String, String> manufacturers,
 			@ModelAttribute("categories") HashMap<String, String> categories,
 			RedirectAttributes redirectAttributes,
-			@PathVariable("pageNumber") Integer pageNumber, 
+//			@PathVariable("pageNumber") Integer pageNumber, 
 			HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
 		if(user == null || ( ! "0".equals(user.getRole())))  {
@@ -523,13 +528,6 @@ public class UserController {
 		user.setCoins(user.getCoins() + amountKr);
 		
 		Util.flash(redirectAttributes, "success", "Gratulálunk, sikeresen feltöltötte egyenlegét! Kellemes vásárlást kívánunk!");
-		
-//		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("addToBasket");
-////		query.setParameter("userid", user.getId());
-////		query.setParameter("itemid", item.getItemid());
-////		query.setParameter("quantity", new Long(addToBasketDto.getQuantity()));
-//		query.execute();
-//		Long ret = (Long) query.getOutputParameterValue("ret");
 		
 		return "redirect:/credits";
 	}
@@ -673,7 +671,7 @@ public class UserController {
 		}
 		
 		model.addAttribute("invitationDto", new InvitationDto());
-		return "product/product-category";
+		return "profil/invitation";
 	}
 	
 	@RequestMapping(value="/invitation", method=POST)
@@ -688,10 +686,21 @@ public class UserController {
 			return "redirect:/";
 		}
 		
-		// VALAHOL ITT JÖHET A MEGHÍVÁS. az invitationDto-ban (!!észrevenni, hogy paraméterként át van már adva!!) van a beírt email
+		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("inviteUser");
+		query.setParameter("userid", user.getId());
+		query.setParameter("email", invitationDto.getEmail());
+		query.execute();
+		Long ret = (Long) query.getOutputParameterValue("ret");
 		
+		if (ret == -1) {
+			Util.flash(redirectAttributes, "danger", "Sikertelen meghívás!");
+		} else if(ret == 0) {
+			Util.flash(redirectAttributes, "success", "Sikeres meghívó küldés a(z) \""+invitationDto.getEmail()+"\" e-mail címre!");
+		} else if(ret == 1) {
+			Util.flash(redirectAttributes, "success", "Sikeres meghívó újraküldés a(z) \""+invitationDto.getEmail()+"\" e-mail címre!");
+		}
 		
-		return "search/search-result";
+		return "redirect:/invitation";
 	}
 	
 	

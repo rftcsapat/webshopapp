@@ -35,7 +35,7 @@
 						            </c:choose>
 									 db
 									</span></li>
-									<li><span class="fixwidth"><strong>Űrtartalom: </strong></span><span>${item.itemquantity} ml</span></li>
+									<li><span class="fixwidth"><strong>Űrtartalom: </strong></span><span>${item.itemquantity} ${item.unit}</span></li>
 									
 								</ul>
 							</div>
@@ -64,7 +64,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<h3>Leírás</h3>
-						<p>${item.description}</p>
+						<p>${item.largedesc}</p>
 					</div>
 				</div>
 			</section>

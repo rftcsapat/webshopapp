@@ -21,21 +21,21 @@
 
 				<div class="col-md-12">
 							<form class="form-product-modify">
-								<div class="form-group">
-									<label for="termek-neve-m">Termék neve</label>
-									<select class="form-control" id="termek-neve-m">
-										<option>Valásszon a terméket</option>
-										<option>Termék 1</option>
-										<option>Termék 2</option>
-										<option>Termék 3</option>
-										<option>Termék 4</option>
-										<option>Termék 5</option>
-									</select>
-								</div>
-								<div class="form-group">
-									<label for="termek-cikkszam-m">Termék cikkszám</label> <input
-										type="text" class="form-control" id="termek-cikkszam-m">
-								</div>
+<!-- 								<div class="form-group"> -->
+<!-- 									<label for="termek-neve-m">Termék neve</label> -->
+<!-- 									<select class="form-control" id="termek-neve-m"> -->
+<!-- 										<option>Valásszon a terméket</option> -->
+<!-- 										<option>Termék 1</option> -->
+<!-- 										<option>Termék 2</option> -->
+<!-- 										<option>Termék 3</option> -->
+<!-- 										<option>Termék 4</option> -->
+<!-- 										<option>Termék 5</option> -->
+<!-- 									</select> -->
+<!-- 								</div> -->
+<!-- 								<div class="form-group"> -->
+<!-- 									<label for="termek-cikkszam-m">Termék cikkszám</label> <input -->
+<!-- 										type="text" class="form-control" id="termek-cikkszam-m"> -->
+<!-- 								</div> -->
 								<div class="form-group">
 									<label for="termek-leiras-m">Termék rövid leírás</label> <input
 										type="text" class="form-control" id="termek-leiras-m">
@@ -45,8 +45,8 @@
 									<textarea class="form-control" id="termek-leiras-m"></textarea>
 								</div>
 								<div class="form-group">
-									<label for="termek-gyarto-m">Termék gyártó</label> <select
-										class="form-control" id="termek-gyarto-m">
+									<label for="termek-gyarto-m">Termék gyártó</label> 
+									<select class="form-control" id="termek-gyarto-m">
 										<option>Gyártó 1</option>
 										<option>Gyártó 2</option>
 										<option>Gyártó 3</option>

@@ -17,18 +17,18 @@
 					<div class="form-group">
 						<form:label path="firstname" for="name">Vezetéknév </form:label>
 						<form:input path="firstname" type="text" class="form-control"
-							id="nameInput" placeholder="YourName" />
+							id="nameInput" placeholder="Új adminisztrátor vezetékneve" />
 						<form:errors path="firstname" cssClass="error" />
 					</div>
 					<div class="form-group">
 						<form:label path="lastname" for="name">Keresztnév</form:label>
 						<form:input path="lastname" type="text" class="form-control"
-							id="nameInput" placeholder="YourName" />
+							id="nameInput" placeholder="Új adminisztrátor keresztneve" />
 						<form:errors path="lastname" cssClass="error" />
 					</div>
 					<div class="form-group">
 					<label for="email">Email</label> 
-					<form:input path="email" type="text" class="form-control" id="email"/>
+					<form:input path="email" type="text" class="form-control" id="email" placeholder="E-mail"/>
 					<c:if test="${not empty emailError}">
 					<font color="red">${emailError}</font><br/>
 					</c:if> 
@@ -36,7 +36,7 @@
 					<div class="form-group">
 						<form:label path="username" for="username">Felhasználónév</form:label>
 						<form:input path="username" type="text" class="form-control"
-							id="usernameInput" placeholder="Your Username" />
+							id="usernameInput" placeholder="Új adminisztrátor felhasználóneve" />
 						<!-- 		<div class="form-group col-lg-4 col-sm-6 col-xs-12"> -->
 						<%-- 			<font color="red">${usernameError}</font> --%>
 						<!-- 		</div><br/> -->
@@ -58,14 +58,14 @@
 					<div class="form-group">
 						<form:label path="password" for="password">Jelszó</form:label>
 						<form:input path="password" type="password" class="form-control"
-							id="password" placeholder="Password" />
+							id="password" placeholder="Jelszó" />
 						<form:errors path="password" cssClass="error" />
 					</div>
 					<div class="form-group">
 						<form:label path="passwordAgain" for="passwordAgain">Jelszó ismét:</form:label>
 						<form:input path="passwordAgain" type="password"
 							class="form-control" id="passwordAgain"
-							placeholder="Password again" />
+							placeholder="Jelszó újra" />
 						<form:errors path="passwordAgain" cssClass="error" />
 						<div class="form-group col-lg-4 col-sm-6 col-xs-12">
 							<font color="red">${passwordError}</font>
