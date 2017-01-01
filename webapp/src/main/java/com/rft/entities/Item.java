@@ -25,6 +25,9 @@ public class Item {
 	@Column(nullable=true, length=1000)
 	private String description;
 	
+	@Column(nullable=true, length=100000)
+	private byte[] picture;
+	
 	@Column(nullable=false, length=10)
 	private String price;
 	
@@ -74,6 +77,14 @@ public class Item {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public byte[] getPicture() {
+		return picture;
+	}
+
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
 	}
 
 	public String getPrice() {
