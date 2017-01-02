@@ -24,7 +24,7 @@
 							<label for="termek-neve-m">Termék neve</label>
 							<form:select path="itemId" items="${items}" class="form-control" id="termek-neve-m"/>
 						</div>
-						<button type="submit" class="btn btn-default">Mentés</button>
+						<button type="submit" class="btn btn-default">Tovább</button>
 					</form:form>
 				</div>
 			</div>

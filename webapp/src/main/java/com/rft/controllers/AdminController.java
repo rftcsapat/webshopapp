@@ -3,13 +3,15 @@ package com.rft.controllers;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+import javax.persistence.EntityManager;
+import javax.persistence.StoredProcedureQuery;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
-import org.apache.hadoop.mapred.gethistory_jsp;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.MessagingException;
@@ -21,18 +23,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.rft.dto.ItemModDto;
 import com.rft.dto.ProductSelectDto;
 import com.rft.dto.RegformDto;
+import com.rft.entities.Category;
+import com.rft.entities.Manufacturer;
 import com.rft.entities.Stock;
 import com.rft.entities.User;
 import com.rft.repositories.AddItemToBasketRepository;
+import com.rft.repositories.CategoryRepository;
+import com.rft.repositories.ItemUploadRepository;
+import com.rft.repositories.ManufacturerRepository;
 import com.rft.repositories.StockRepository;
 import com.rft.repositories.UserRepository;
 import com.rft.services.UserService;
 import com.rft.util.Util;
 import com.rft.validators.RegformDtoValidator;
 
-import scala.collection.mutable.HashMap;
 
 @Controller
 public class AdminController {
@@ -49,6 +56,14 @@ public class AdminController {
 	private StockRepository stockRepository;
 	@Autowired
 	private AddItemToBasketRepository addItemToBasketRepository;
+	@Autowired
+	private CategoryRepository categoryRepository;
+	@Autowired
+	private ManufacturerRepository manufacturerRepository;
+	@Autowired
+	private ItemUploadRepository itemUploadRepository;
+	@Autowired
+	private EntityManager em;
 	
 	
 	@RequestMapping(value="/admin")
@@ -133,15 +148,112 @@ public class AdminController {
 	public String adminProductModify(Model model,
 //			@ModelAttribute("item") Stock item,
 			@PathVariable("itemId") Long itemId,
-			RedirectAttributes redirectAttributes, 
+			RedirectAttributes redirectAttributes,
 			HttpSession httpSession) {
 		User user = (User) httpSession.getAttribute("user");
 		if(user == null || ( ! "1".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
 			return "redirect:/";
 		}
+		   
+		List<Category> listCategoryname = categoryRepository.findAll();
+//		Map<String, String> manufacturers = new HashMap<String, String>();
+		HashMap<String, String> manufacturers = new HashMap<String, String>();
+		manufacturers.put("", "Kérem válasszon a listából");
+		for(Category c :listCategoryname) {
+			manufacturers.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
+		}
+
+		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
+//		Map<String, String> categories = new HashMap<String, String>();
+		HashMap<String, String> categories = new HashMap<String, String>();
+		categories.put("", "Kérem válasszon a listából");
+		for(Manufacturer m : listManufacturers) {
+			categories.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
+		}
 		
+		model.addAttribute("manufacturers", manufacturers);
+		model.addAttribute("categories", categories);
+		
+		Stock item = stockRepository.findByItemid(itemId);
+		model.addAttribute("item", item);
+		ItemModDto mod = new ItemModDto();
+		mod.setName(item.getItemname());
+		mod.setDescription(item.getDescription());
+		mod.setLargeDesc(item.getLargedesc());
+		mod.setManufacturerId(item.getManufacturerid());
+		mod.setCategoryId(item.getCategoryid());
+		mod.setPicture(item.getPicture());
+		mod.setItemQuantity(Long.decode(item.getItemquantity()));
+		mod.setUnit(item.getUnit());
+		mod.setQuantity(Long.decode(item.getQuantity()));
+		mod.setPrice(Long.decode(item.getPrice()));
+		
+		model.addAttribute("itemModDto", mod);
 		return "admin/product-modified";
+	}
+	
+	@RequestMapping(value="/admin-product-modified/{itemId}", method = POST)
+	public String adminProductModify(Model model,
+			@ModelAttribute("itemModDto") ItemModDto mod,
+			@ModelAttribute("item") Stock item,
+			@PathVariable("itemId") Long itemId,
+			RedirectAttributes redirectAttributes,
+			HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
+		if(user == null || ( ! "1".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
+			return "redirect:/";
+		}
+		   
+		List<Category> listCategoryname = categoryRepository.findAll();
+//		Map<String, String> manufacturers = new HashMap<String, String>();
+		HashMap<String, String> manufacturers = new HashMap<String, String>();
+		manufacturers.put("", "Kérem válasszon a listából");
+		for(Category c :listCategoryname) {
+			manufacturers.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
+		}
+
+		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
+//		Map<String, String> categories = new HashMap<String, String>();
+		HashMap<String, String> categories = new HashMap<String, String>();
+		categories.put("", "Kérem válasszon a listából");
+		for(Manufacturer m : listManufacturers) {
+			categories.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
+		}
+		model.addAttribute("manufacturers", manufacturers);
+		model.addAttribute("categories", categories);
+		
+//		Stock item = stockRepository.findByItemid(itemId);
+//		ItemModDto mod = new ItemModDto();
+//		mod.setName(item.getItemname());
+//		mod.setDescription(item.getDescription());
+//		mod.setLongDesc(item.getLargedesc());
+//		mod.setCategoryId(item.getCategoryid());
+//		mod.setManufacturerId(item.getManufacturerid());
+		
+		model.addAttribute("itemModDto", mod);
+		
+		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("itemupload");
+		query.setParameter("itemid", item.getItemid());
+		query.setParameter("itemname", mod.getName());
+		query.setParameter("description", mod.getDescription());
+		query.setParameter("picture", mod.getPicture());
+		query.setParameter("price", mod.getPrice());
+		query.setParameter("itemquantity", mod.getItemQuantity());
+		query.setParameter("unit", mod.getUnit());
+		query.setParameter("largedesc", mod.getLargeDesc());
+		query.setParameter("manufacturerid", Long.decode(mod.getManufacturerId()));
+		query.setParameter("categoryid", Long.decode(mod.getCategoryId()));
+		query.setParameter("quantity", mod.getQuantity());
+		query.execute();
+		Long ret = (Long) query.getOutputParameterValue("ret");
+		
+		if(ret > -1) {
+			Util.flash(redirectAttributes, "success", "Sikeres termék módosítás!");
+		}
+		
+		return "redirect:/admin/product-modified/"+item.getItemid();
 	}
 	
 	@RequestMapping(value="/admin-product-select", method = GET)
@@ -176,7 +288,7 @@ public class AdminController {
 		}
 //		Stock item = stockRepository.findByItemid(Long.decode(productSelectDto.getItemId()));
 //		model.addAttribute("itemId", item);
-		return "redirect:/product-modified/" + String.valueOf(productSelectDto.getItemId());
+		return "redirect:/admin-product-modified/" + String.valueOf(productSelectDto.getItemId());
 	}
 	
 	@RequestMapping(value="/admin-reg", method=GET)
