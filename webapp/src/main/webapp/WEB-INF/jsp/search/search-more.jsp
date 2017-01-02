@@ -18,6 +18,8 @@
 					<label for="termek-nev">Termék név</label> 
 					<form:input path="name" type="text" class="form-control" id="termeknev" placeholder="termek-nev"/>
 				</div>
+				<br/>
+				<br/>
 				<div class="form-group">
 					<label for="gyarto">Gyártó</label>
 					<form:select path="manufacturerId" class="form-control" items="${manufacturers}" id="gyarto"/>
@@ -44,30 +46,35 @@
 
 			<!--  találatok listázása -->
 			<div class="row">
-			
-				<c:forEach items="${itemsContent}" var="item" >
 				
-	                    <div class="col-sm-4 col-lg-4 col-md-4">
-	                        <div class="thumbnail">
-<!-- 	                            <img src="/public/images/product/korolen.jpg" alt="korolen termek"> -->
-	                            <img src="/imageDisplay?id=${item.itemid}" alt="korolen termek">
-	                            <div class="caption">
-	                                <h4 class="pull-right">${item.price} Ft</h4>
-	                                <h4><a href="/product/${item.itemid}">${item.itemname}</a></h4>
-	                                <p>
-                                	<c:choose>
-							            <c:when test="${empty item.description}">
-							                -
-							            </c:when>
-							            <c:otherwise>
-							                ${item.description}
-							            </c:otherwise>
-							        </c:choose>
-							        </p>
-	                            </div>
-	                        </div>
-	                    </div>
-                </c:forEach>
+				<c:if  test="${fn:length(itemsContent) > 0}">
+					<c:forEach items="${itemsContent}" var="item" >
+					
+		                    <div class="col-sm-4 col-lg-4 col-md-4">
+		                        <div class="thumbnail">
+	<!-- 	                            <img src="/public/images/product/korolen.jpg" alt="korolen termek"> -->
+		                            <img src="/imageDisplay?id=${item.itemid}" alt="korolen termek">
+		                            <div class="caption">
+		                                <h4 class="pull-right">${item.price} Ft</h4>
+		                                <h4><a href="/product/${item.itemid}">${item.itemname}</a></h4>
+		                                <p>
+	                                	<c:choose>
+								            <c:when test="${empty item.description}">
+								                -
+								            </c:when>
+								            <c:otherwise>
+								                ${item.description}
+								            </c:otherwise>
+								        </c:choose>
+								        </p>
+		                            </div>
+		                        </div>
+		                    </div>
+	                </c:forEach>
+                </c:if>
+                <c:if  test="${fn:length(itemsContent) < 1 }">
+                	<font size="4" color="white">Nincs megjeleníthető elem</font>
+                </c:if>
                 
 <%--                	<c:if test="${not empty items}"> --%>
 <%-- 	                <c:url var="firstUrl" value="/search-more/0" /> --%>

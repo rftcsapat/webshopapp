@@ -432,6 +432,7 @@ public class UserController {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
 		}
+		model.addAttribute("searchDto", searchDto);
 		final Integer priceMin = searchMoreDto.getPriceMin() != null       ? searchMoreDto.getPriceMin() : -1;
 		final Integer priceMax = searchMoreDto.getPriceMax() != null       ? searchMoreDto.getPriceMax() : -1;
 		final Integer catId    = searchMoreDto.getCategoryId() != null     ? (int)(double)(long) Long.decode(String.valueOf(searchMoreDto.getCategoryId()))         : -1;  // ZSÍRKIRÁJ

@@ -141,7 +141,78 @@ public class AdminController {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
 			return "redirect:/";
 		}
+		model.addAttribute("itemModDto", new ItemModDto());
+		List<Category> listCategoryname = categoryRepository.findAll();
+//		Map<String, String> manufacturers = new HashMap<String, String>();
+		HashMap<String, String> manufacturers = new HashMap<String, String>();
+		manufacturers.put("", "Kérem válasszon a listából");
+		for(Category c :listCategoryname) {
+			manufacturers.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
+		}
+
+		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
+//		Map<String, String> categories = new HashMap<String, String>();
+		HashMap<String, String> categories = new HashMap<String, String>();
+		categories.put("", "Kérem válasszon a listából");
+		for(Manufacturer m : listManufacturers) {
+			categories.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
+		}
+		
+		model.addAttribute("manufacturers", manufacturers);
+		model.addAttribute("categories", categories);
 		return "admin/product-add";
+	}
+	
+	@RequestMapping(value="/admin-product-add", method = POST)
+	public String adminProductAdd(Model model,
+			@ModelAttribute("itemModDto") ItemModDto mod,
+			RedirectAttributes redirectAttributes, 
+			HttpSession httpSession) {
+		User user = (User) httpSession.getAttribute("user");
+		if(user == null || ( ! "1".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
+			return "redirect:/";
+		}
+		model.addAttribute("itemModDto", mod);
+		List<Category> listCategoryname = categoryRepository.findAll();
+//		Map<String, String> manufacturers = new HashMap<String, String>();
+		HashMap<String, String> manufacturers = new HashMap<String, String>();
+		manufacturers.put("", "Kérem válasszon a listából");
+		for(Category c :listCategoryname) {
+			manufacturers.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
+		}
+
+		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
+//		Map<String, String> categories = new HashMap<String, String>();
+		HashMap<String, String> categories = new HashMap<String, String>();
+		categories.put("", "Kérem válasszon a listából");
+		for(Manufacturer m : listManufacturers) {
+			categories.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
+		}
+		
+		model.addAttribute("manufacturers", manufacturers);
+		model.addAttribute("categories", categories);
+
+		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("itemupload");
+		query.setParameter("itemid", null);
+		query.setParameter("itemname", mod.getName());
+		query.setParameter("description", mod.getDescription());
+		query.setParameter("picture", mod.getPicture());
+		query.setParameter("price", mod.getPrice());
+		query.setParameter("itemquantity", mod.getItemQuantity());
+		query.setParameter("unit", mod.getUnit());
+		query.setParameter("largedesc", mod.getLargeDesc());
+		query.setParameter("manufacturerid", Long.decode(mod.getManufacturerId()));
+		query.setParameter("categoryid", Long.decode(mod.getCategoryId()));
+		query.setParameter("quantity", mod.getQuantity());
+		query.execute();
+		Long ret = (Long) query.getOutputParameterValue("ret");
+		
+		if(ret > -1) {
+			Util.flash(redirectAttributes, "success", "Sikeres termék módosítás!");
+		}
+		
+		return "redirect:/admin-product-add";
 	}
 	
 	@RequestMapping(value="/admin-product-modified/{itemId}", method = GET)
