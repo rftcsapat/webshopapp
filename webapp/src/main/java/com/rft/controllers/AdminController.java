@@ -26,6 +26,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.rft.dto.ItemModDto;
 import com.rft.dto.ProductSelectDto;
 import com.rft.dto.RegformDto;
+import com.rft.dto.SearchDto;
+import com.rft.dto.UserUpdateDto;
 import com.rft.entities.Category;
 import com.rft.entities.Manufacturer;
 import com.rft.entities.Stock;
@@ -94,7 +96,10 @@ public class AdminController {
 		model.addAttribute("productsCount", productsCount);
 		model.addAttribute("monthlyIncome", r);
 		return "admin/dashboard";
-	}	
+	}
+	
+	
+	
 	
 	@RequestMapping(value="/admin-logout", method = GET)
 	public String adminLogout(RedirectAttributes redirectAttributes, 
@@ -104,7 +109,9 @@ public class AdminController {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
 			return "redirect:/";
 		}
-		return "admin/index";
+		httpSession.removeAttribute("user");
+		Util.flash(redirectAttributes, "success", "Sikeres kijelentkezés.");
+		return "redirect:/";
 	}
 	
 	
@@ -348,5 +355,93 @@ public class AdminController {
 		
 		return "redirect:/dashboard";
 	}
+	
+	/*@RequestMapping("/admin-profil")
+	public String adminProfil() throws MessagingException {
+	 	return "admin/admin-profil";
+	}*/
+	
+	@RequestMapping(value="/admin-profil", method=GET)
+	public String profil(Model model, HttpSession httpSession, RedirectAttributes redirectAttributes) {
+		User user = (User) httpSession.getAttribute("user");
+		if(user == null || ( ! "1".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
+		UserUpdateDto userUpdateDto = new UserUpdateDto();
+		userUpdateDto.setTitle(user.getTitle());
+		userUpdateDto.setLastname(user.getLastname());
+		userUpdateDto.setFirstname(user.getFirstname());
+		userUpdateDto.setEmail(user.getEmail());
+		userUpdateDto.setBirthDate(user.getBirthdate());
+		userUpdateDto.setUsername(user.getUsername());
+		userUpdateDto.setPhone(user.getPhone());
+		// Ország#Megye#Irányítószám#Város#Utca,Házszám,Emelet,Ajtószám
+		/*String address = user.getAddress();
+		String country = "";
+		String zipCode = "";
+		String settlement = "";
+		String streetDetails = "";
+		if(address != null) {
+			String[] parts = address.split("#");
+			int len = parts.length;
+			if (len > 0) {
+				country = parts[0];
+			} 
+			if (len > 1) {
+				zipCode = parts[1];
+			}
+			if(len > 2) {
+				settlement = parts[2];
+			}
+			if(len > 3) {
+				streetDetails = parts[3];
+			}
+		}
+		userUpdateDto.setCountry(country);
+		userUpdateDto.setZipCode(zipCode);
+		userUpdateDto.setSettlement(settlement);
+		userUpdateDto.setStreetDetails(streetDetails);*/
+		
+		model.addAttribute("userUpdateDto", userUpdateDto);
+		return "admin/admin-profil";
+		
+	}
+	
+	@RequestMapping(value="/admin-profil", method=POST)
+	public String profil(Model model, @ModelAttribute("userUpdateDto") @Valid UserUpdateDto userUpdateDto, 
+			 HttpSession httpSession, RedirectAttributes redirectAttributes) {
+		User user = (User)httpSession.getAttribute("user");
+		if(user == null || ( ! "1".equals(user.getRole())))  {
+			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
+			return "redirect:/";
+		}
+		long loggedInUserId = user.getId();
+		userUpdateDto.setId(loggedInUserId);
+		
+		String newPassword      = userUpdateDto.getPassword();
+		String newPasswordAgain = userUpdateDto.getPassword();
+		if( ! newPassword.equals(newPasswordAgain)) {
+			model.addAttribute("passwordError", "A megadott jelszavak nem egyeznek.");
+			return "admin-profil/admin-profil";
+		} 
+		
+		if(userUpdateDto.getActualPassword().equals(user.getPassword()) && ! "".equals(userUpdateDto.getActualPassword())) {
+			userUpdateDto.setPassword(newPassword);
+		} else {
+			Util.flash(redirectAttributes, "danger", "Az adatmódosítás sikertelen. Hibás aktuális jelszó.");
+			return "redirect:/admin-profil";
+		}
+		
+		userUpdateDto.setRole(user.getRole());
+		userService.updateUser(userUpdateDto);
+		Util.flash(redirectAttributes, "success", "Sikeres adatmódosítás.");
+		httpSession.setAttribute("user", Util.userUpdateDtoToEntity(userUpdateDto));
+		model.addAttribute("userUpdateDto", userUpdateDto);
+//		return "profil/profil";
+		return "redirect:/dashboard";
+	}
+
+
 	
 }
