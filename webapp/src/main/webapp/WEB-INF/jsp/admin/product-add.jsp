@@ -18,10 +18,22 @@
 			</div>
 
 			<div class="row">
+			
+			<div class="col-lg-12">
+					<c:if test="${not empty flashMessage}">
+							<div class="alert alert-${flashKind} alert-dismissable">
+								<button type="button" class="close" data-dismiss="alert"
+									aria-hidden="true">&times;</button>
+								${flashMessage}
+							</div>
+						</div>
+					</c:if>
+			</div>
+			
 
 				<div class="col-md-12">
 
-					<form:form modelAttribute="itemModDto" class="form-product-modify">
+					<form:form enctype="multipart/form-data" method="POST" action="/admin-product-add" modelAttribute="itemModDto" class="form-product-modify">
 						<div class="form-group">
 							<label for="termek-leiras-m">Neve</label>
 							<form:input path="name" type="text" class="form-control"
@@ -68,8 +80,9 @@
 								class="form-control" id="termek-kategoria-m" required="true"/>
 						</div>
 						<div class="form-group">
-							<label for="termek-kep-m">Kép</label> <input type="file"
-								id="termek-kep-m">
+							<label for="termek-kep-m">Kép</label> 
+							<input type="file" name="file" value="upload"
+								id="termek-kep-m"/>
 							<p class="help-block" required="true">A kép mérete max. 1MB méretű lehet.</p>
 						</div>
 						<button type="submit" class="btn btn-default">Mentés</button>

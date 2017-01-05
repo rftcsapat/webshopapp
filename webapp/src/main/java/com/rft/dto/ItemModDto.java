@@ -7,15 +7,18 @@ public class ItemModDto {
 	public String largeDesc;
 	public String manufacturerId;
 	public String categoryId;
-	public byte[] picture;
+	public String picture;
 	public Long itemQuantity;
 	public String unit;
 	public Long quantity;
 	public Long price;
 	public String isToRemove;
 
+	
+
+
 	public ItemModDto(String name, String description, String largeDesc, String manufacturerId, String categoryId,
-			byte[] picture, Long itemQuantity, String unit, Long quantity, Long price, String isToRemove) {
+			String picture, Long itemQuantity, String unit, Long quantity, Long price, String isToRemove) {
 		super();
 		this.name = name;
 		this.description = description;
@@ -29,6 +32,25 @@ public class ItemModDto {
 		this.price = price;
 		this.isToRemove = isToRemove;
 	}
+
+
+	@Override
+	public String toString() {
+		return "ItemModDto ["+ " name=" + name + ", description=" + description + ", largeDesc="
+				+ largeDesc + ", manufacturerId=" + manufacturerId + ", categoryId=" + categoryId + ", picture="
+				+ picture + ", itemQuantity=" + itemQuantity + ", unit=" + unit + ", quantity=" + quantity + ", price="
+				+ price + ", isToRemove=" + isToRemove + "]";
+	}
+
+
+	public String getPicture() {
+		return picture;
+	}
+
+	public void setPicture(String picture) {
+		this.picture = picture;
+	}
+
 	public ItemModDto() {
 		super();
 	}
@@ -75,12 +97,7 @@ public class ItemModDto {
 	public void setIsToRemove(String isToRemove) {
 		this.isToRemove = isToRemove;
 	}
-	public byte[] getPicture() {
-		return picture;
-	}
-	public void setPicture(byte[] picture) {
-		this.picture = picture;
-	}
+	
 	public Long getPrice() {
 		return price;
 	}

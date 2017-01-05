@@ -3,6 +3,7 @@ package com.rft.controllers;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -21,6 +22,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.rft.dto.ItemModDto;
@@ -65,6 +72,7 @@ public class AdminController {
 	@Autowired
 	private EntityManager em;
 	
+
 	
 	@RequestMapping(value="/admin")
 	public String adminLogin() {
@@ -143,19 +151,19 @@ public class AdminController {
 		}
 		model.addAttribute("itemModDto", new ItemModDto());
 		List<Category> listCategoryname = categoryRepository.findAll();
-//		Map<String, String> manufacturers = new HashMap<String, String>();
+		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
+
 		HashMap<String, String> manufacturers = new HashMap<String, String>();
-		manufacturers.put("", "Kérem válasszon a listából");
+		HashMap<String, String> categories = new HashMap<String, String>();
+		
+		categories.put("", "Kérem válasszon a listából");
 		for(Category c :listCategoryname) {
-			manufacturers.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
+			categories.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
 		}
 
-		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
-//		Map<String, String> categories = new HashMap<String, String>();
-		HashMap<String, String> categories = new HashMap<String, String>();
-		categories.put("", "Kérem válasszon a listából");
+		manufacturers.put("", "Kérem válasszon a listából");
 		for(Manufacturer m : listManufacturers) {
-			categories.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
+			manufacturers.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
 		}
 		
 		model.addAttribute("manufacturers", manufacturers);
@@ -164,40 +172,50 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value="/admin-product-add", method = POST)
-	public String adminProductAdd(Model model,
+	public  String adminProductAdd(Model model,
 			@ModelAttribute("itemModDto") ItemModDto mod,
 			RedirectAttributes redirectAttributes, 
-			HttpSession httpSession) {
+			HttpSession httpSession,
+			@RequestParam("name") String[] names,
+			@RequestParam("file") MultipartFile[] files) throws IOException {
+		
+		
+
 		User user = (User) httpSession.getAttribute("user");
 		if(user == null || ( ! "1".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
-			return "redirect:/";
+			return new String("redirect:/");
 		}
+		
+		byte[] imagein= files[0].getBytes();
+		Byte[] imageout = new Byte[imagein.length];
+		for (int i=0;i<imagein.length;i++)
+			imageout[i]=imagein[i];
+	
 		model.addAttribute("itemModDto", mod);
+		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
+		HashMap<String, String> categories = new HashMap<String, String>();
 		List<Category> listCategoryname = categoryRepository.findAll();
-//		Map<String, String> manufacturers = new HashMap<String, String>();
 		HashMap<String, String> manufacturers = new HashMap<String, String>();
 		manufacturers.put("", "Kérem válasszon a listából");
 		for(Category c :listCategoryname) {
-			manufacturers.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
+			categories.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
 		}
 
-		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
-//		Map<String, String> categories = new HashMap<String, String>();
-		HashMap<String, String> categories = new HashMap<String, String>();
+		
 		categories.put("", "Kérem válasszon a listából");
 		for(Manufacturer m : listManufacturers) {
-			categories.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
+			manufacturers.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
 		}
 		
 		model.addAttribute("manufacturers", manufacturers);
 		model.addAttribute("categories", categories);
 
 		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("itemupload");
-		query.setParameter("itemid", null);
+		query.setParameter("itemid", new Long(-1));
 		query.setParameter("itemname", mod.getName());
 		query.setParameter("description", mod.getDescription());
-		query.setParameter("picture", mod.getPicture());
+		query.setParameter("picture", imageout);
 		query.setParameter("price", mod.getPrice());
 		query.setParameter("itemquantity", mod.getItemQuantity());
 		query.setParameter("unit", mod.getUnit());
@@ -208,16 +226,17 @@ public class AdminController {
 		query.execute();
 		Long ret = (Long) query.getOutputParameterValue("ret");
 		
+		
 		if(ret > -1) {
-			Util.flash(redirectAttributes, "success", "Sikeres termék módosítás!");
+			Util.flash(redirectAttributes, "success", "Sikeres termék hozzáadás!");
 		}
 		
-		return "redirect:/admin-product-add";
+		return new String("redirect:/admin-product-add");
+		
 	}
 	
 	@RequestMapping(value="/admin-product-modified/{itemId}", method = GET)
 	public String adminProductModify(Model model,
-//			@ModelAttribute("item") Stock item,
 			@PathVariable("itemId") Long itemId,
 			RedirectAttributes redirectAttributes,
 			HttpSession httpSession) {
@@ -225,22 +244,21 @@ public class AdminController {
 		if(user == null || ( ! "1".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
 			return "redirect:/";
-		}
-		   
+		}		   	
 		List<Category> listCategoryname = categoryRepository.findAll();
-//		Map<String, String> manufacturers = new HashMap<String, String>();
+		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
+
 		HashMap<String, String> manufacturers = new HashMap<String, String>();
-		manufacturers.put("", "Kérem válasszon a listából");
+		HashMap<String, String> categories = new HashMap<String, String>();
+		
+		categories.put("", "Kérem válasszon a listából");
 		for(Category c :listCategoryname) {
-			manufacturers.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
+			categories.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
 		}
 
-		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
-//		Map<String, String> categories = new HashMap<String, String>();
-		HashMap<String, String> categories = new HashMap<String, String>();
-		categories.put("", "Kérem válasszon a listából");
+		manufacturers.put("", "Kérem válasszon a listából");
 		for(Manufacturer m : listManufacturers) {
-			categories.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
+			manufacturers.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
 		}
 		
 		model.addAttribute("manufacturers", manufacturers);
@@ -254,7 +272,7 @@ public class AdminController {
 		mod.setLargeDesc(item.getLargedesc());
 		mod.setManufacturerId(item.getManufacturerid());
 		mod.setCategoryId(item.getCategoryid());
-		mod.setPicture(item.getPicture());
+		mod.setPicture(null);
 		mod.setItemQuantity(Long.decode(item.getItemquantity()));
 		mod.setUnit(item.getUnit());
 		mod.setQuantity(Long.decode(item.getQuantity()));
@@ -270,15 +288,22 @@ public class AdminController {
 			@ModelAttribute("item") Stock item,
 			@PathVariable("itemId") Long itemId,
 			RedirectAttributes redirectAttributes,
-			HttpSession httpSession) {
+			HttpSession httpSession,
+			@RequestParam("name") String[] names,
+			@RequestParam("file") MultipartFile[] files) throws IOException {
+						
 		User user = (User) httpSession.getAttribute("user");
 		if(user == null || ( ! "1".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
-			return "redirect:/";
+			return new String("redirect:/");
 		}
+		
+		byte[] imagein= files[0].getBytes();
+		Byte[] imageout = new Byte[imagein.length];
+		for (int i=0;i<imagein.length;i++)
+			imageout[i]=imagein[i];
 		   
 		List<Category> listCategoryname = categoryRepository.findAll();
-//		Map<String, String> manufacturers = new HashMap<String, String>();
 		HashMap<String, String> manufacturers = new HashMap<String, String>();
 		manufacturers.put("", "Kérem válasszon a listából");
 		for(Category c :listCategoryname) {
@@ -286,7 +311,6 @@ public class AdminController {
 		}
 
 		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
-//		Map<String, String> categories = new HashMap<String, String>();
 		HashMap<String, String> categories = new HashMap<String, String>();
 		categories.put("", "Kérem válasszon a listából");
 		for(Manufacturer m : listManufacturers) {
@@ -306,10 +330,10 @@ public class AdminController {
 		model.addAttribute("itemModDto", mod);
 		
 		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("itemupload");
-		query.setParameter("itemid", item.getItemid());
+		query.setParameter("itemid", itemId);
 		query.setParameter("itemname", mod.getName());
 		query.setParameter("description", mod.getDescription());
-		query.setParameter("picture", mod.getPicture());
+		query.setParameter("picture", imageout);
 		query.setParameter("price", mod.getPrice());
 		query.setParameter("itemquantity", mod.getItemQuantity());
 		query.setParameter("unit", mod.getUnit());
@@ -324,7 +348,7 @@ public class AdminController {
 			Util.flash(redirectAttributes, "success", "Sikeres termék módosítás!");
 		}
 		
-		return "redirect:/admin/product-modified/"+item.getItemid();
+		return "redirect:/admin-product-modified/"+itemId;
 	}
 	
 	@RequestMapping(value="/admin-product-select", method = GET)
