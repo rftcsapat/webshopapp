@@ -17,11 +17,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	List<User> findAll();
 	List<User> findByRole(String role);
 	
-	 @Query("select id from User x "
+	 @Query("select x from User x "
 	 	   + "where x.id=(select y.userid from Invitations y "
 	 	   + "where y.email=(select z.email from User z "
 	 	   + "where :id=z.id))")
-     long find(@Param("id")  long id);
+    User find(@Param("id")  long id);
 	 
 
 	
