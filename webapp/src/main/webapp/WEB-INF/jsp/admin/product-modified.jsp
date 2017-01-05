@@ -12,7 +12,7 @@
 				<!-- Page Heading -->
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">Termékek Módositás</h1>
+						<h1 class="page-header">Termék Módositás</h1>
 					</div>
 				</div>
 		
@@ -30,14 +30,14 @@
 							</div>
 							<div class="form-group">
 								<label for="termek-leiras-m">Mértékegység</label> 
-								<form:input path="unit" type="text" class="form-control" id="termek-leiras-m"/> Kr
+								<form:input path="unit" type="text" class="form-control" id="termek-leiras-m"/>
 							</div>
 							<div class="form-group">
 								<label for="termek-leiras-m">Mennyisége a raktárban</label>
 								<form:input path="quantity" type="text" class="form-control" id="termek-leiras-m"/>
 							</div>
 							<div class="form-group">
-								<label for="termek-leiras-m">Ár</label> 
+								<label for="termek-leiras-m">Ár (kredit)</label> 
 								<form:input path="price" type="text" class="form-control" id="termek-leiras-m"/>
 							</div>					
 							<div class="form-group">
@@ -46,7 +46,7 @@
 							</div>
 							<div class="form-group">
 								<label for="termek-leiras-m">Részletes leírás</label>
-								<form:textarea path="largeDesc" class="form-control" id="termek-leiras-m"/>
+								<form:textarea path="largeDesc" class="form-control" id="termek-leiras-m" rows="10"/>
 							</div>
 							<div class="form-group">
 								<label for="termek-gyarto-m">Gyártó</label> 
