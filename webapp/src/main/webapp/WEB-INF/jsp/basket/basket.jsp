@@ -7,36 +7,37 @@
 		<%@include file="../includes/sidebar.jsp"%>
 
 		<div class="col-md-9">
-			<h1 class="page-title"><font color="white">Kosár</font></h1>
+			<h1 class="page-title">Kosár</h1>
 
 		     <div class="basket">
 		
 				<c:forEach items="${itemsContent}" var="item" >
                     <div class="basket-item row">
 						<div class="col-md-2">
-							<img src="public/images/product/vironal.jpg" alt="vironal termek">
+							<img src="/imageDisplay?id=${item.itemid}" alt="termek_kep">
 						</div>
 						<div class="col-md-8">
 							<div class="basket-item-1of2">
-								<h2 class="basket-item-name"><font color="white">${item.itemname}</font></h2>
+								<h2 class="basket-item-name"><a href="/product/${item.itemid}">${item.itemname}</a></h2>
+<%-- 								<h4><a href="/product/${item.itemid}">${item.itemname}</a></h4> --%>
 								<div class="basket-item-info">
-									<span><font color="white">Termék azonosító: ${item.itemid}</font></span>
+									<span>Termék azonosító: ${item.itemid}</span>
 								</div>
 							</div>
 							<div class="basket-item-2of2">
 								<div class="basket-item-db">
-									<b><font color="white">${item.quantity}</font></b>
-									<span><font color="white">db</font></span> 
+									<b>${item.quantity}</b>
+									<span>db</span> 
 								</div>
 								<div class="basket-item-price">
-									<font color="white">Ár</font><br> 
-									<span class="price"><font color="white">${item.price}</font></span>
-									<span class="currency"><font color="white">Kr</font></span>
+									Ár<br> 
+									<span class="price">${item.price}</span>
+									<span class="currency">Kr</span>
 								</div>
 							</div>
 						</div>
 						<div class="col-md-2">
-							<a class="basket-item-del-link" href="/deleteBasketEntry/${item.itemid}/${item.quantity}"><font color="white">Tétel törlése</font></a>
+							<a class="basket-item-del-link" href="/deleteBasketEntry/${item.itemid}/${item.quantity}">Tétel törlése</a>
 						</div>
 					</div>
                 </c:forEach>

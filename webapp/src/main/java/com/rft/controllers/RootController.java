@@ -33,6 +33,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.rft.dto.AddToBasketDto;
 import com.rft.dto.LoginDto;
 import com.rft.dto.RegformDto;
+import com.rft.dto.SearchDto;
 import com.rft.dto.UserUpdateDto;
 import com.rft.entities.Stock;
 import com.rft.entities.User;
@@ -222,7 +223,8 @@ public class RootController {
 
 	
 	@RequestMapping(value="/contact", method=GET)
-	public String contactHandler() {
+	public String contactHandler(Model model) {
+		model.addAttribute("searchDto", new SearchDto());
 		return "contact";
 	}
 
