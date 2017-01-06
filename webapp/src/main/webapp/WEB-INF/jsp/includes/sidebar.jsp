@@ -13,11 +13,14 @@
 	</div>
 
 	<form:form modelAttribute="searchDto" class="searchForm" method="post">
-		<div class="form-group">
-			<label for="search">Keresés</label> 
-			<form:input path="keyword" type="text" class="form-control" id="search" placeholder="Termék kereső"/>
-		</div>
-		<button type="submit" class="btn btn-default">Keresés</button>
+	 	<c:url var="actualMapping" value="${requestScope['javax.servlet.forward.request_uri']}" />
+		<c:if test="${fn:containsIgnoreCase(actualMapping, '/home/')}">
+			<div class="form-group">
+				<label for="search">Keresés</label> 
+				<form:input path="keyword" type="text" class="form-control" id="search" placeholder="Termék kereső"/>
+			</div>
+			<button type="submit" class="btn btn-default">Keresés</button>
+		</c:if>
 		<div class="search-more-link">
 			<a href="/search-more/0">Részletes keresés</a>
 		</div>

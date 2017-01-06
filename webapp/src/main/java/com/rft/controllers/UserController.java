@@ -360,24 +360,39 @@ public class UserController {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be.");
 			return "redirect:/";
 		}
+		model.addAttribute("searchDto", new SearchDto());
 		long loggedInUserId = user.getId();
 		userUpdateDto.setId(loggedInUserId);
 		
-		String newPassword      = userUpdateDto.getPassword();
-		String newPasswordAgain = userUpdateDto.getPassword();
-		if( ! newPassword.equals(newPasswordAgain)) {
-			model.addAttribute("passwordError", "A megadott jelszavak nem egyeznek.");
-			return "profil/profil";
-		} 
+		String newPasswordInput      = userUpdateDto.getPassword();
+		String newPasswordAgainInput = userUpdateDto.getPasswordAgain();
+		String actualPasswordInput   = userUpdateDto.getActualPassword();
+		String userPassword          = user.getPassword();
 		
-		if(userUpdateDto.getActualPassword().equals(user.getPassword()) && ! "".equals(userUpdateDto.getActualPassword())) {
-			userUpdateDto.setPassword(newPassword);
+		if(actualPasswordInput.equals(userPassword) && ! "".equals(actualPasswordInput)) {
+			if( ! newPasswordInput.equals(newPasswordAgainInput)) {
+				model.addAttribute("passwordError", "A megadott jelszavak nem egyeznek.");
+				return "profil/profil";
+			} else {
+				if( ! "".equals(newPasswordInput) && ! "".equals(newPasswordAgainInput) ) {
+					userUpdateDto.setPassword(newPasswordInput);
+				} else {
+					userUpdateDto.setPassword(userPassword);
+				}
+			}
 		} else {
 			Util.flash(redirectAttributes, "danger", "Az adatmódosítás sikertelen. Hibás aktuális jelszó.");
+//			model.addAttribute("actualPasswordError", "A megadott jelszó helytelen.");
 			return "redirect:/profil";
 		}
 		
 		userUpdateDto.setRole(user.getRole());
+		userUpdateDto.setCoins(user.getCoins());
+		User inviter = userRepository.find(user.getId());
+		if(inviter != null) {
+			userUpdateDto.setInvitedby(inviter.getUsername());
+		}
+//		userUpdateDto.set
 		userService.updateUser(userUpdateDto);
 		Util.flash(redirectAttributes, "success", "Sikeres adatmódosítás.");
 		httpSession.setAttribute("user", Util.userUpdateDtoToEntity(userUpdateDto));

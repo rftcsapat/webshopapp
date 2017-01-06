@@ -99,9 +99,9 @@
 					<div class="form-group">
 						<label for="address-utcahaz">Aktuális jelszó</label> 
 						<form:input path="actualPassword" type="password" class="form-control" id="address-utcahaz"/>
-						<c:if test="${not empty passwordError}">
+						<c:if test="${not empty actualPasswordError}">
 							<div class="form-group col-lg-4 col-sm-6 col-xs-12">
-									<font color="red">${passwordError}</font>
+									<font color="red">${actualPasswordError}</font>
 							</div><br/>
 						</c:if>
 					</div>
