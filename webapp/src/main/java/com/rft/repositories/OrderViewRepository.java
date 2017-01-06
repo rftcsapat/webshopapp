@@ -19,10 +19,10 @@ public interface OrderViewRepository extends JpaRepository<OrderView, Long> {
 	 @Query("select  count(distinct o.orderid) from OrderView o where o.statusdate=:nap and o.orderstatusid=2")
 	 Long find(@Param("nap")  String nap);
 	 
-	 @Query("select sum(max(o.orderprice)) from OrderView o " +
+	 @Query("select max(o.orderprice) from OrderView o " +
 			"where :start<=o.statusdate and :end>=o.statusdate " +
 			"and o.orderstatusid=2 group by o.orderid")
-	 Long find(@Param("start") String start,@Param("end")  String end);
+	 List<Long> find(@Param("start") String start,@Param("end")  String end);
 		 
 }
 
