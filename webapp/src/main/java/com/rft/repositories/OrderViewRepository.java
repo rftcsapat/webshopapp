@@ -3,8 +3,11 @@ package com.rft.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.rft.entities.OrderView;
+import com.rft.entities.User;
 
 public interface OrderViewRepository extends JpaRepository<OrderView, Long> {
 	OrderView findByOrderid(long orderid);
@@ -14,5 +17,8 @@ public interface OrderViewRepository extends JpaRepository<OrderView, Long> {
 	List<OrderView> findDistinctOrderViewsByUseridAndOrderstatusid(Long userid, Long orderstatusid);
 	List<OrderView> findByUseridAndOrderstatusid(Long userid, Long orderstatusid);
 	List<OrderView> findAll();
+	 @Query("select  count(distinct o.orderid) from OrderView o where o.statusdate=:nap and o.orderstatusid=2")
+	 Long find(@Param("nap")  String nap);
+		 
 }
 
