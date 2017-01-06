@@ -41,7 +41,6 @@ public class Util {
 		user.setEmail(dto.getEmail());
 		user.setFirstname(dto.getFirstname());
 		user.setId(dto.getId());
-		user.setImage(dto.getImage());
 		user.setInvitedby(dto.getInvitedby());
 		user.setLastname(dto.getLastname());
 		user.setUsername(dto.getUsername());

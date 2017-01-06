@@ -41,9 +41,6 @@ public class User {
 	@Column(nullable=false, length=1)
 	private String role;
 	
-	@Column(nullable=true, length=100000)
-	private byte[] image;
-	
 	@Column(nullable=true, length=50)
 	private String title;
 	
@@ -150,17 +147,6 @@ public class User {
 		this.role = role;
 	}
 	
-	
-	
-
-	public byte[] getImage() {
-		return image;
-	}
-
-	public void setImage(byte[] image) {
-		this.image = image;
-	}
-
 	public String getFirstname() {
 		return firstname;
 	}
