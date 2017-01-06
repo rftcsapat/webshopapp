@@ -59,7 +59,7 @@
 							<div class="row">
 								<div class="col-xs-12 panel-item text-right">
 									<div class="huge">
-									<fmt:formatNumber type="number" pattern="###,###" value="${productsCount}" /> Kr
+									<fmt:formatNumber type="number" pattern="###,###" value="${productsCount}" />
 									</div>
 									<div>Termékek száma</div>
 								</div>
