@@ -51,6 +51,11 @@ a:hover {
 	border-color: #7A433D;
 }
 
+.thumbnail {
+	height: 300px;
+}
+
+
 .btn-primary,
 .btn-default {
 	background: #1E824C;
