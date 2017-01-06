@@ -48,7 +48,14 @@
 	                            <img src="/imageDisplay?id=${item.itemid}" alt="korolen termek">
 	                            <div class="caption">
 	                                <h4 class="pull-right">${item.price} Kr</h4>
-	                                <h4><a href="/product/${item.itemid}">${item.itemname}</a></h4>
+	                                <h4><a href="/product/${item.itemid}">
+	                                	<c:if test="${item.quantity == 0}">
+	                                       <font color = "red">${item.itemname}</font>
+                                       </c:if>
+	                                    <c:if test="${item.quantity > 0}">
+	                                    	${item.itemname}
+	                                    </c:if>
+	                                </a></h4>
 	                                <p>
                                 	<c:choose>
 							            <c:when test="${empty item.description}">

@@ -44,6 +44,12 @@
 								<label for="username">Felhasználónév</label> 
 								<form:input path="username" type="text" class="form-control" id="username" readonly="true"/>
 							</div>
+							<c:if test="${not empty inviterName}">
+								<div class="form-group">
+								<label for="username">Meghívó</label> 
+								<input type="text" class="form-control" id="username" readonly value="${inviterName}"/>
+							</div>
+							</c:if>
 							<div class="form-group">
 								<label for="pass">Új jelszó</label> 
 								<form:input path="password" type="password" class="form-control" id="pass"/>
@@ -102,7 +108,7 @@
 					<br/>
 				</div>
 				<div class="row">
-					<a class="btn btn-default" href="/home">Mégse</a> 
+					<a class="btn btn-default" href="/home/all/0">Mégse</a> 
 					<form:button type="submit" class="btn btn-default pull-right">Mentés</form:button>
 				</div>
 			</form:form>

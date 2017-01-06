@@ -4,6 +4,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -36,11 +37,13 @@ import com.rft.dto.RegformDto;
 import com.rft.dto.SearchDto;
 import com.rft.dto.UserUpdateDto;
 import com.rft.entities.Category;
+import com.rft.entities.DeleteItem;
 import com.rft.entities.Manufacturer;
 import com.rft.entities.Stock;
 import com.rft.entities.User;
 import com.rft.repositories.AddItemToBasketRepository;
 import com.rft.repositories.CategoryRepository;
+import com.rft.repositories.DeleteItemRepository;
 import com.rft.repositories.ItemUploadRepository;
 import com.rft.repositories.ManufacturerRepository;
 import com.rft.repositories.StockRepository;
@@ -72,20 +75,23 @@ public class AdminController {
 	@Autowired
 	private ItemUploadRepository itemUploadRepository;
 	@Autowired
+	private DeleteItemRepository deleteItemRepository;
+	@Autowired
 	private EntityManager em;
 	
 
 	
-	@RequestMapping(value="/admin")
-	public String adminLogin() {
-		
-		return "admin/index";
-	}
+//	@RequestMapping(value="/admin")
+//	public String adminLogin() {
+//		
+//		return "admin/index";
+//	}
 
 	@RequestMapping(value="/dashboard", method = GET)
 	public String adminDashboard(Model model,
 			RedirectAttributes redirectAttributes, 
 			HttpSession httpSession) {
+		model.addAttribute("menuIndex", 1);
 		User user = (User) httpSession.getAttribute("user");
 		if(user == null || ( ! "1".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
@@ -106,9 +112,6 @@ public class AdminController {
 		return "admin/dashboard";
 	}
 	
-	
-	
-	
 	@RequestMapping(value="/admin-logout", method = GET)
 	public String adminLogout(RedirectAttributes redirectAttributes, 
 			HttpSession httpSession) {
@@ -127,6 +130,7 @@ public class AdminController {
 	public String adminTermek(Model model,
 			RedirectAttributes redirectAttributes, 
 			HttpSession httpSession) {
+		model.addAttribute("menuIndex", 2);
 		User user = (User) httpSession.getAttribute("user");
 		if(user == null || ( ! "1".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
@@ -151,6 +155,7 @@ public class AdminController {
 	public String adminProductAdd(Model model,
 			RedirectAttributes redirectAttributes, 
 			HttpSession httpSession) {
+		model.addAttribute("menuIndex", 2);
 		User user = (User) httpSession.getAttribute("user");
 		if(user == null || ( ! "1".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
@@ -187,7 +192,7 @@ public class AdminController {
 			@RequestParam("file") MultipartFile[] files) throws IOException {
 		
 		
-
+		model.addAttribute("menuIndex", 2);
 		User user = (User) httpSession.getAttribute("user");
 		if(user == null || ( ! "1".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
@@ -247,6 +252,7 @@ public class AdminController {
 			@PathVariable("itemId") Long itemId,
 			RedirectAttributes redirectAttributes,
 			HttpSession httpSession) {
+		model.addAttribute("menuIndex", 2);
 		User user = (User) httpSession.getAttribute("user");
 		if(user == null || ( ! "1".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
@@ -292,13 +298,12 @@ public class AdminController {
 	@RequestMapping(value="/admin-product-modified/{itemId}", method = POST)
 	public String adminProductModify(Model model,
 			@ModelAttribute("itemModDto") ItemModDto mod,
-			@ModelAttribute("item") Stock item,
 			@PathVariable("itemId") Long itemId,
 			RedirectAttributes redirectAttributes,
 			HttpSession httpSession,
 			@RequestParam("name") String[] names,
 			@RequestParam("file") MultipartFile[] files) throws IOException {
-						
+		model.addAttribute("menuIndex", 2);
 		User user = (User) httpSession.getAttribute("user");
 		if(user == null || ( ! "1".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
@@ -336,32 +341,56 @@ public class AdminController {
 		
 		model.addAttribute("itemModDto", mod);
 		
-		StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("itemupload");
-		query.setParameter("itemid", itemId);
-		query.setParameter("itemname", mod.getName());
-		query.setParameter("description", mod.getDescription());
-		query.setParameter("picture", imageout);
-		query.setParameter("price", mod.getPrice());
-		query.setParameter("itemquantity", mod.getItemQuantity());
-		query.setParameter("unit", mod.getUnit());
-		query.setParameter("largedesc", mod.getLargeDesc());
-		query.setParameter("manufacturerid", Long.decode(mod.getManufacturerId()));
-		query.setParameter("categoryid", Long.decode(mod.getCategoryId()));
-		query.setParameter("quantity", mod.getQuantity());
-		query.execute();
-		Long ret = (Long) query.getOutputParameterValue("ret");
-		
-		if(ret > -1) {
-			Util.flash(redirectAttributes, "success", "Sikeres termék módosítás!");
+		if("toRemove".equals(mod.getIsToRemove())) {
+			StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("deleteitem");
+			query.setParameter("itemid", itemId);
+			query.execute();
+			Long ret = (Long) query.getOutputParameterValue("ret");
+			
+			if(ret > -1) {
+				Util.flash(redirectAttributes, "success", "Sikeres termék törlés!");
+			}
+			return "redirect:/dashboard";
+		} else {
+			StoredProcedureQuery query = this.em.createNamedStoredProcedureQuery("itemupload");
+			query.setParameter("itemid", itemId);
+			query.setParameter("itemname", mod.getName());
+			query.setParameter("description", mod.getDescription());
+			if(imagein.length == 0) {
+				Stock itemData = stockRepository.findByItemid(itemId);
+				byte[] imageActual = itemData.getPicture();
+				Byte[] image = new Byte[imageActual.length];
+				for (int i = 0; i < image.length; i++) {
+					image[i] = imageActual[i];
+				}
+				query.setParameter("picture", image);
+			} else {
+				query.setParameter("picture", imageout);
+			}
+			query.setParameter("price", mod.getPrice());
+			query.setParameter("itemquantity", mod.getItemQuantity());
+			query.setParameter("unit", mod.getUnit());
+			query.setParameter("largedesc", mod.getLargeDesc());
+			query.setParameter("manufacturerid", Long.decode(mod.getManufacturerId()));
+			query.setParameter("categoryid", Long.decode(mod.getCategoryId()));
+			query.setParameter("quantity", mod.getQuantity());
+			query.execute();
+			Long ret = (Long) query.getOutputParameterValue("ret");
+			
+			if(ret > -1) {
+				Util.flash(redirectAttributes, "success", "Sikeres termék módosítás!");
+			}
+			return "redirect:/admin-product-modified/"+itemId;
 		}
 		
-		return "redirect:/admin-product-modified/"+itemId;
+		
 	}
 	
 	@RequestMapping(value="/admin-product-select", method = GET)
 	public String adminProductSelect(Model model,
 			RedirectAttributes redirectAttributes,
 			HttpSession httpSession) {
+		model.addAttribute("menuIndex", 2);
 		User user = (User) httpSession.getAttribute("user");
 		if(user == null || ( ! "1".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
@@ -370,9 +399,10 @@ public class AdminController {
 		model.addAttribute("productSelectDto", new ProductSelectDto());
 		HashMap<String, String> items = new HashMap<String, String>();
 		List<Stock> stockItems = stockRepository.findAll();
+		Collections.sort(stockItems);
 		for(Stock item : stockItems) {
-			items.put(String.valueOf(item.getItemid()), 
-					item.getItemid() + " - " + item.getItemname() + " - " + item.getItemquantity() + " ml");
+			items.put(String.valueOf(item.getItemid()), item.getItemid() + " - " + item.getItemname() + " - " + item.getItemquantity() + " ml - " + item.getQuantity() + " db");
+//			items.put(String.valueOf(item.getItemid()), item.getItemname() + " - " + item.getItemquantity() + " ml - " + item.getQuantity() + " db");
 		}
 		model.addAttribute("items", items);
 		return "admin/product-select";
@@ -383,6 +413,7 @@ public class AdminController {
 			@ModelAttribute("productSelectDto") ProductSelectDto productSelectDto,
 			RedirectAttributes redirectAttributes, 
 			HttpSession httpSession) {
+		model.addAttribute("menuIndex", 2);
 		User user = (User) httpSession.getAttribute("user");
 		if(user == null || ( ! "1".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
@@ -397,6 +428,7 @@ public class AdminController {
 	public String adminRegistration(Model model,
 			RedirectAttributes redirectAttributes, 
 			HttpSession httpSession) {
+		model.addAttribute("menuIndex", 3);
 		User user = (User) httpSession.getAttribute("user");
 		if(user == null || ( ! "1".equals(user.getRole())))  {
 			Util.flash(redirectAttributes, "danger", "Kérem, a folytatáshoz jelentkezzen be adminisztrátorként!");
@@ -409,7 +441,7 @@ public class AdminController {
 	@RequestMapping(value="/admin-reg", method=POST)
 	public String adminRegistration(@ModelAttribute("regformDto") @Valid RegformDto regformDto, BindingResult result,
 			RedirectAttributes redirectAttributes, Model model) {
-		
+		model.addAttribute("menuIndex", 3);
 		if(regformDto == null) 
 		{ return "redirect:/dashboard"; }
 	

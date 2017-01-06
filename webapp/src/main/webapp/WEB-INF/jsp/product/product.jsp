@@ -12,7 +12,7 @@
 	
 		<div class="col-md-9">
 			<section class="product-s">
-				<h1 class="page-title">Termék neve</h1>
+				<h1 class="page-title">${item.itemname}</h1>
 				<div class="row">
 					<div class="col-md-3">
 <!-- 						<img class="img-responsive" src="public/images/product/vironal.jpg"> -->
@@ -28,13 +28,12 @@
 									<li><span class="fixwidth"><strong>Raktáron: </strong></span><span >
 									<c:choose>
 						                <c:when test="${item.quantity > 0}">
-						                    ${item.quantity}
+						                    ${item.quantity} db
 						                </c:when>
 						                <c:otherwise>
-						                    0
+						                    <font color="red">0 db</font>
 						                </c:otherwise>
 						            </c:choose>
-									 db
 									</span></li>
 									<li><span class="fixwidth"><strong>Űrtartalom: </strong></span><span>${item.itemquantity} ${item.unit}</span></li>
 									

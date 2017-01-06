@@ -342,6 +342,11 @@ public class UserController {
 		userUpdateDto.setSettlement(settlement);
 		userUpdateDto.setStreetDetails(streetDetails);
 		
+		User inviter = userRepository.find(user.getId());
+		if (inviter != null) {
+			model.addAttribute("inviterName", inviter.getUsername());
+		}
+		
 		model.addAttribute("userUpdateDto", userUpdateDto);
 		return "profil/profil";
 		

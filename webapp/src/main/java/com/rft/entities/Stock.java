@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Table(name="stock", indexes = {
 	@Index(columnList = "itemname", unique = true)
 })
-public class Stock {
+public class Stock implements Comparable<Stock> {
 	
 	@Id
 	@Column
@@ -181,4 +181,11 @@ public class Stock {
 	public Stock() {
 		super();
 	}
+
+	@Override
+	public int compareTo(Stock o) {
+		return (int) ((int)(long)this.getItemid() - o.getItemid());
+	}
+	
+	
 }

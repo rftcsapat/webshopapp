@@ -8,7 +8,7 @@
 			<span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span>
 			<span class="icon-bar"></span> <span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="/admin/dashboard">Energy Admin</a>
+		<a class="navbar-brand" href="/dashboard">Energy Admin</a>
 	</div>
 	<!-- Top Menu Items -->
 	<ul class="nav navbar-right top-nav">
@@ -18,7 +18,7 @@
 				class="caret"></b></a>
 			<ul class="dropdown-menu">
 				<li><a href="/admin-profil/"><i class="fa fa-fw fa-user"></i> Profil</a></li>
-				<li><a href="/admin-settings/"><i class="fa fa-fw fa-gear"></i> Beállítások</a></li>
+<!-- 				<li><a href="/admin-settings/"><i class="fa fa-fw fa-gear"></i> Beállítások</a></li> -->
 				<li class="divider"></li>
 				<li><a href="/admin-logout"><i class="fa fa-fw fa-power-off"></i> Kijelentkezés</a></li>
 			</ul></li>
@@ -26,14 +26,32 @@
 	<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
 	<div class="collapse navbar-collapse navbar-ex1-collapse">
 		<ul class="nav navbar-nav side-nav">
-			<li class="active"><a href="/dashboard"><i
-					class="fa fa-fw fa-dashboard"></i> Dashboard</a></li>
-			<li><a href="/admin-termek"><i class="fa fa-fw fa-bar-chart-o"></i>
-					Termékek</a></li>
-			<li><a href="/admin-raktar"><i
-					class="fa fa-fw fa-desktop"></i>Raktárkezelés</a></li>
-			<li><a href="/admin-reg"><i
-					class="fa fa-fw fa-desktop"></i>Admin regisztráció</a></li>
+			<c:if test="${menuIndex == 1}">
+				<li class="active">
+			</c:if>
+			<c:if test="${menuIndex != 1}">
+				<li>
+			</c:if>
+					<a href="/dashboard"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+				</li>
+			<c:if test="${menuIndex == 2}">
+				<li class="active">
+			</c:if>
+			<c:if test="${menuIndex != 2}">
+				<li>
+			</c:if>
+					<a href="/admin-termek"><i class="fa fa-fw fa-bar-chart-o"></i>Termékek</a>
+				</li>
+<!-- 			<li><a href="/admin-raktar"><i -->
+<!-- 					class="fa fa-fw fa-desktop"></i>Raktárkezelés</a></li> -->
+			<c:if test="${menuIndex == 3}">
+				<li class="active">
+			</c:if>
+			<c:if test="${menuIndex != 3}">
+				<li>
+			</c:if>
+					<a href="/admin-reg"><i class="fa fa-fw fa-desktop"></i>Admin regisztráció</a>
+				</li>
 		</ul>
 	</div>
 	<!-- /.navbar-collapse -->

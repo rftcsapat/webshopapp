@@ -66,9 +66,13 @@
 							<div class="form-group">
 								<label for="termek-kategoria-m">Kategória</label>
 								<form:select path="categoryId" items="${categories}" class="form-control" id="termek-kategoria-m"/>
+							</div>					
+							<div class="form-group">
+								<label for="termek-kategoria-m">Aktuális kép</label><br/>
+								<img src="/imageDisplay?id=${itemId}" alt="korolen termek">
 							</div>
 							<div class="form-group">
-								<label for="termek-kep-m">Kép</label> 
+								<label for="termek-kep-m">Új kép</label> 
 							    <input type="file" name="file" value="upload"
 									id="termek-kep-m">
 								<p class="help-block">A kép mérete max. 1MB méretű lehet.</p>

@@ -17,7 +17,7 @@
 						</div>
 						<div class="col-md-10">
 							<div class="basket-item-1of2">
-								<h2 class="basket-item-name"><font color="white">${item.itemname}</font></h2>
+								<h2 class="basket-item-name"><a href="/product/${item.itemid}"><font color="white">${item.itemname}</font></a></h2>
 								<div class="basket-item-info">
 									<span><font color="white">Termék azonosító: ${item.itemid}</font></span>
 								</div>
@@ -40,72 +40,6 @@
 					</div>
                 </c:forEach>
 			
-<!-- 				<div class="basket-item row"> -->
-<!-- 					<div class="col-md-2"> -->
-<!-- 						<img src="public/images/product/vironal.jpg" alt="vironal termek"> -->
-<!-- 					</div> -->
-<!-- 					<div class="col-md-10"> -->
-<!-- 						<div class="basket-item-1of2"> -->
-<!-- 							<h2 class="basket-item-name">Vironal</h2> -->
-<!-- 							<div class="basket-item-info"> -->
-<!-- 								<span>Cikkszám: 2121212</span> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						<div class="basket-item-2of2"> -->
-<!-- 							<div class="basket-item-db"> -->
-<!-- 								<span>3 db</span> -->
-<!-- 							</div> -->
-<!-- 							<div class="basket-item-price"> -->
-<!-- 								Ár<br> <span class="price">6000</span><span -->
-<!-- 									class="currency">Kr</span> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 				<div class="basket-item row"> -->
-<!-- 					<div class="col-md-2"> -->
-<!-- 						<img src="public/images/product/regalen.jpg" alt="vironal termek"> -->
-<!-- 					</div> -->
-<!-- 					<div class="col-md-10"> -->
-<!-- 						<div class="basket-item-1of2"> -->
-<!-- 							<h2 class="basket-item-name">Regalen</h2> -->
-<!-- 							<div class="basket-item-info"> -->
-<!-- 								<span>Cikkszám: 2121212</span> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						<div class="basket-item-2of2"> -->
-<!-- 							<div class="basket-item-db"> -->
-<!-- 								<span>23 db</span> -->
-<!-- 							</div> -->
-<!-- 							<div class="basket-item-price"> -->
-<!-- 								Ár<br> <span class="price">6000</span><span -->
-<!-- 									class="currency">Kr</span> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 				<div class="basket-item row"> -->
-<!-- 					<div class="col-md-2"> -->
-<!-- 						<img src="public/images/product/gynex.jpg" alt="vironal termek"> -->
-<!-- 					</div> -->
-<!-- 					<div class="col-md-10"> -->
-<!-- 						<div class="basket-item-1of2"> -->
-<!-- 							<h2 class="basket-item-name">Gynex</h2> -->
-<!-- 							<div class="basket-item-info"> -->
-<!-- 								<span>Cikkszám: 2121212</span> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 						<div class="basket-item-2of2"> -->
-<!-- 							<div class="basket-item-db"> -->
-<!-- 								<span>9 db</span> -->
-<!-- 							</div> -->
-<!-- 							<div class="basket-item-price"> -->
-<!-- 								Ár<br> <span class="price">6000</span><span -->
-<!-- 									class="currency">Kr</span> -->
-<!-- 							</div> -->
-<!-- 						</div> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
 			</div>
 			<hr>
 			<div class="row">
