@@ -25,15 +25,17 @@ public class CoinUpload implements Serializable{
 	
 	@Id 
 	@GeneratedValue
-	private Long coinhisotryid;
+	private Long coinhistoryid;
 
-	public Long getCoinhisotryid() {
-		return coinhisotryid;
+	public Long getCoinhistoryid() {
+		return coinhistoryid;
 	}
 
-	public void setCoinhisotryid(Long coinhisotryid) {
-		this.coinhisotryid = coinhisotryid;
+	public void setCoinhistoryid(Long coinhistoryid) {
+		this.coinhistoryid = coinhistoryid;
 	}
+
+	
 	
 	
 
