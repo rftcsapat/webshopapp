@@ -36,6 +36,9 @@ public class OrderView implements Comparable<OrderView> {
 	private long price;
 	
 	@Column(nullable=false)
+	private long orderprice;
+	
+	@Column(nullable=false)
 	private long orderstatusid;
 	
 	@Column(nullable=false, length=10)
@@ -46,6 +49,16 @@ public class OrderView implements Comparable<OrderView> {
 	
 	@Column(nullable=false, length=500)
 	private String description;
+	
+	
+
+	public long getOrderprice() {
+		return orderprice;
+	}
+
+	public void setOrderprice(long orderprice) {
+		this.orderprice = orderprice;
+	}
 
 	public long getOrderid() {
 		return orderid;

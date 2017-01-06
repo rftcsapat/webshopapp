@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.rft.entities.OrderView;
-import com.rft.entities.User;
 
 public interface OrderViewRepository extends JpaRepository<OrderView, Long> {
 	OrderView findByOrderid(long orderid);
@@ -19,6 +18,11 @@ public interface OrderViewRepository extends JpaRepository<OrderView, Long> {
 	List<OrderView> findAll();
 	 @Query("select  count(distinct o.orderid) from OrderView o where o.statusdate=:nap and o.orderstatusid=2")
 	 Long find(@Param("nap")  String nap);
+	 
+	 @Query("select sum(max(o.orderprice)) from OrderView o " +
+			"where :start<=o.statusdate and :end>=o.statusdate " +
+			"and o.orderstatusid=2 group by o.orderid")
+	 Long find(@Param("start") String start,@Param("end")  String end);
 		 
 }
 
