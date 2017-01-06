@@ -1,10 +1,15 @@
 package com.rft.controllers;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -39,6 +44,7 @@ import com.rft.dto.UserUpdateDto;
 import com.rft.entities.Category;
 import com.rft.entities.DeleteItem;
 import com.rft.entities.Manufacturer;
+import com.rft.entities.OrderView;
 import com.rft.entities.Stock;
 import com.rft.entities.User;
 import com.rft.repositories.AddItemToBasketRepository;
@@ -46,6 +52,7 @@ import com.rft.repositories.CategoryRepository;
 import com.rft.repositories.DeleteItemRepository;
 import com.rft.repositories.ItemUploadRepository;
 import com.rft.repositories.ManufacturerRepository;
+import com.rft.repositories.OrderViewRepository;
 import com.rft.repositories.StockRepository;
 import com.rft.repositories.UserRepository;
 import com.rft.services.UserService;
@@ -77,6 +84,8 @@ public class AdminController {
 	@Autowired
 	private DeleteItemRepository deleteItemRepository;
 	@Autowired
+	private OrderViewRepository orderViewRepository;
+	@Autowired
 	private EntityManager em;
 	
 
@@ -99,16 +108,41 @@ public class AdminController {
 		}
 		List<User> users = userRepository.findAll();
 		List<Stock> products = stockRepository.findAll();
+		List<OrderView> orders = orderViewRepository.findByOrderstatusid(2);
+		int orderCount = 0;
+		int incomeCount = 0;
+		if(orders != null) {
+			Calendar c = Calendar.getInstance();
+		    c.set(Calendar.DAY_OF_MONTH, 1);
+		    Date monthStart = c.getTime();       
+		    
+			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+			Date today = new Date();
+			String todayStr = df.format(today);
+			Date statusDate;
+			for(OrderView iv : orders) {
+				try {
+					if(todayStr.equals(iv.getStatusdate())) {
+						orderCount++;
+					}
+					
+					statusDate = df.parse(iv.getStatusdate());
+					if(monthStart.equals(statusDate) || monthStart.before(statusDate))  {
+						incomeCount += iv.getPrice();
+					}
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		model.addAttribute("orderCount", orderCount);
+		model.addAttribute("incomeCount", incomeCount);
 		
 		Integer usersCount = users.size();
 		Integer productsCount = products.size();
-		Random rand = new Random();
-		int  r = rand.nextInt(2_000_00) + 1_000_00;
-		
 		
 		model.addAttribute("usersCount", usersCount);
 		model.addAttribute("productsCount", productsCount);
-		model.addAttribute("monthlyIncome", r);
 		return "admin/dashboard";
 	}
 	

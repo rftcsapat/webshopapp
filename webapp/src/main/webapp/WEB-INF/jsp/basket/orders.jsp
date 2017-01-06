@@ -46,9 +46,9 @@
 				<div class="pull-right basket-amounts">
 					Termék darabszám: <strong>${count}</strong>
 					<br> 
-					Fizetendő: <strong>${sum} Kr</strong>
+					Fizetendő: <strong><fmt:formatNumber type="number" pattern="###,###" value="${sum}" /> Kr</strong>
 					<br><br>
-					Egyenleg: <strong>${user.coins} Kr</strong>
+					Egyenleg: <strong><fmt:formatNumber type="number" pattern="###,###" value="${user.coins}" /> Kr</strong>
 				</div>
 			</div>
 

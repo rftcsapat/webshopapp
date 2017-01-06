@@ -46,7 +46,7 @@
 			<div class="row">
 				<div class="pull-right basket-amounts">
 					Termék darabszám: <strong>${count}</strong><br> 
-					Fizetendő: <strong>${sum} Kr</strong>
+					Fizetendő: <strong><fmt:formatNumber type="number" pattern="###,###" value="${sum}" /> Kr</strong>
 				</div>
 			</div>
 			<div class="row">

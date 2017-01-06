@@ -34,7 +34,7 @@
 						<div class="panel-heading">
 							<div class="row">
 								<div class="col-xs-12 panel-item text-right">
-									<div class="huge">${usersCount}</div>
+									<div class="huge"><fmt:formatNumber type="number" pattern="###,###" value="${usersCount}" /></div>
 									<div>Regisztrált felhasználók</div>
 								</div>
 							</div>
@@ -46,7 +46,7 @@
 						<div class="panel-heading">
 							<div class="row">
 								<div class="col-xs-12 panel-item text-right">
-									<div class="huge">30</div>
+									<div class="huge"><fmt:formatNumber type="number" pattern="###,###" value="${orderCount}" /></div>
 									<div>Napi megrendelések</div>
 								</div>
 							</div>
@@ -58,7 +58,9 @@
 						<div class="panel-heading">
 							<div class="row">
 								<div class="col-xs-12 panel-item text-right">
-									<div class="huge">${productsCount}</div>
+									<div class="huge">
+									<fmt:formatNumber type="number" pattern="###,###" value="${productsCount}" /> Kr
+									</div>
 									<div>Termékek száma</div>
 								</div>
 							</div>
@@ -70,7 +72,8 @@
 						<div class="panel-heading">
 							<div class="row">
 								<div class="col-xs-12 panel-item text-right">
-									<div class="huge">20000 Ft</div>
+									<div class="huge">
+									<fmt:formatNumber type="number" pattern="###,###" value="${incomeCount}" /> Kr</div>
 									<div>Havi bevétel</div>
 								</div>
 							</div>

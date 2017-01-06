@@ -1,7 +1,7 @@
 <%@include file="../includes/header.jsp"%>
 
 <div class="container">
-	<h1 class="page-title text-center">Bejelentkezés</h1>
+	<h1 class="page-title text-center"><font color="white">Bejelentkezés</font></h1>
 
 	<form:form modelAttribute="loginDto" class="signin-form">
 		<div class="form-group">
