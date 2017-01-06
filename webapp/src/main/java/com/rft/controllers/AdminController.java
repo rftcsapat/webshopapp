@@ -108,41 +108,32 @@ public class AdminController {
 		}
 		List<User> users = userRepository.findAll();
 		List<Stock> products = stockRepository.findAll();
-		List<OrderView> orders = orderViewRepository.findByOrderstatusid(2);
-		int orderCount = 0;
-		int incomeCount = 0;
-		if(orders != null) {
-			Calendar c = Calendar.getInstance();
-		    c.set(Calendar.DAY_OF_MONTH, 1);
-		    Date monthStart = c.getTime();       
-		    
-			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-			Date today = new Date();
-			String todayStr = df.format(today);
-			Date statusDate;
-			for(OrderView iv : orders) {
-				try {
-					if(todayStr.equals(iv.getStatusdate())) {
-						orderCount++;
-					}
-					
-					statusDate = df.parse(iv.getStatusdate());
-					if(monthStart.equals(statusDate) || monthStart.before(statusDate))  {
-						incomeCount += iv.getPrice();
-					}
-				} catch(Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		model.addAttribute("orderCount", orderCount);
-		model.addAttribute("incomeCount", incomeCount);
-		
 		Integer usersCount = users.size();
 		Integer productsCount = products.size();
-		
 		model.addAttribute("usersCount", usersCount);
 		model.addAttribute("productsCount", productsCount);
+		
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		Date today = new Date();
+		String todayStr = df.format(today);
+		Long orderCount = orderViewRepository.find(todayStr);
+		
+		Calendar c1 = Calendar.getInstance();
+	    c1.set(Calendar.DAY_OF_MONTH, 1);
+	    String monthStart = df.format(c1.getTime());
+		
+		Calendar c2 = Calendar.getInstance();
+		c2.set(Calendar.DAY_OF_MONTH, c2.getActualMaximum(Calendar.DAY_OF_MONTH));
+		String monthEnd = df.format(c2.getTime());
+		
+		List<Long> listIncomeCount = orderViewRepository.find(monthStart, monthEnd);
+		Long  incomeCount = 0L;
+		for(Long l : listIncomeCount) {
+			incomeCount += l;
+		}
+		model.addAttribute("incomeCount", incomeCount);
+		model.addAttribute("orderCount", orderCount);
+
 		return "admin/dashboard";
 	}
 	
