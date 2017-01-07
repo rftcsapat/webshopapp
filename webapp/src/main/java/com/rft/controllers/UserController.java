@@ -418,18 +418,18 @@ public class UserController {
 		
 		List<Category> listCategoryname = categoryRepository.findAll();
 //		Map<String, String> manufacturers = new HashMap<String, String>();
-		manufacturers = new HashMap<String, String>();
-		manufacturers.put("", "Kérem válasszon a listából");
+		categories = new HashMap<String, String>();
+		categories.put("", "Kérem válasszon a listából");
 		for(Category c :listCategoryname) {
-			manufacturers.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
+			categories.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
 		}
 
 		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
 //		Map<String, String> categories = new HashMap<String, String>();
-		categories = new HashMap<String, String>();
-		categories.put("", "Kérem válasszon a listából");
+		manufacturers = new HashMap<String, String>();
+		manufacturers.put("", "Kérem válasszon a listából");
 		for(Manufacturer m : listManufacturers) {
-			categories.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
+			manufacturers.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
 		}
 		
 		model.addAttribute("manufacturers", manufacturers);
@@ -479,18 +479,18 @@ public class UserController {
 //    	model.addAttribute("items", items);
     	List<Category> listCategoryname = categoryRepository.findAll();
 //		Map<String, String> manufacturers = new HashMap<String, String>();
-		manufacturers = new HashMap<String, String>();
-		manufacturers.put("", "Kérem válasszon a listából");
+    	categories = new HashMap<String, String>();
+		categories.put("", "Kérem válasszon a listából");
 		for(Category c :listCategoryname) {
-			manufacturers.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
+			categories.put(String.valueOf(c.getCategoryid()), c.getCategoryname());
 		}
 
 		List<Manufacturer> listManufacturers = manufacturerRepository.findAll();
 //		Map<String, String> categories = new HashMap<String, String>();
-		categories = new HashMap<String, String>();
-		categories.put("", "Kérem válasszon a listából");
+		manufacturers = new HashMap<String, String>();
+		manufacturers.put("", "Kérem válasszon a listából");
 		for(Manufacturer m : listManufacturers) {
-			categories.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
+			manufacturers.put(String.valueOf(m.getManufacturerid()), m.getManufacturername());
 		}
 		
 		model.addAttribute("manufacturers", manufacturers);
