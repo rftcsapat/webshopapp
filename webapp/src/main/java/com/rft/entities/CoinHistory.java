@@ -15,68 +15,68 @@ public class CoinHistory {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long coinhistoryid;
+	private Long coinhistoryid;
 	
 	@Column(nullable=false)
-	private long userid;
+	private Long userid;
 	
 	@Column(nullable=true)
-	private long cash;
+	private Long cash;
 	
 	@Column(nullable=false)
-	private long coins;
+	private Long coins;
 	
 	@Column(nullable=false, length=10)
-	private long changedate;
+	private String changedate;
 	
 	@Column(nullable=true, length=500)
-	private long desc;
+	private String description;
 
-	public long getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDesc(long desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
-	public long getCoinhistoryid() {
+	public Long getCoinhistoryid() {
 		return coinhistoryid;
 	}
 
-	public void setCoinhistoryid(long coinhistoryid) {
+	public void setCoinhistoryid(Long coinhistoryid) {
 		this.coinhistoryid = coinhistoryid;
 	}
 
-	public long getUserid() {
+	public Long getUserid() {
 		return userid;
 	}
 
-	public void setUserid(long userid) {
+	public void setUserid(Long userid) {
 		this.userid = userid;
 	}
 
-	public long getCash() {
+	public Long getCash() {
 		return cash;
 	}
 
-	public void setCash(long cash) {
+	public void setCash(Long cash) {
 		this.cash = cash;
 	}
 
-	public long getCoins() {
+	public Long getCoins() {
 		return coins;
 	}
 
-	public void setCoins(long coins) {
+	public void setCoins(Long coins) {
 		this.coins = coins;
 	}
 
-	public long getChangedate() {
+	public String getChangedate() {
 		return changedate;
 	}
 
-	public void setChangedate(long changedate) {
+	public void setChangedate(String changedate) {
 		this.changedate = changedate;
 	}
 

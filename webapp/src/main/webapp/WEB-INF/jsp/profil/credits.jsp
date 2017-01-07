@@ -8,7 +8,7 @@
 		<%@include file="../includes/sidebar.jsp"%>
 		<div class="col-md-9">
 
-			<h1 class="page-title">Kreditek</h1>
+			<h1 class="page-title"><font color="white">Kreditek</font></h1>
 			<form:form modelAttribute="creditDto">
 			<div class="panel panel-default credit-card-box">
 				<div class="panel-heading display-table">
@@ -134,6 +134,32 @@
 				</div>
 				<button type="submit" class="btn btn-lg btn-primary">Kredit feltöltése</button>
 			</form:form>
+			<br/>
+			<br/>
+			<h2><font color="white">Számla történet</font></h2>
+			<div class="basket">
+				<c:forEach items="${historyList}" var="item" >
+                    <div class="basket-item row">
+						<div class="col-md-8">
+							<div class="basket-item-1of2">
+<%-- 								<h2 class="basket-item-name"><a href="/product/${item.itemid}">${item.itemname}</a></h2> --%>
+<%-- 								<h4><a href="/product/${item.itemid}">${item.itemname}</a></h4> --%>
+								<div class="basket-item-info">
+									<span><font color="white">${item.changedate}</font></span>
+								</div>
+							</div>
+							<div class="basket-item-2of2">
+								<div class="basket-item-db2">
+									<b><font color="white">${item.coins}</font></b>
+									<span><font color="white"><b>Kr</b></font></span> 
+								</div>
+								<div class="basket-item-price"><font color="white">${item.description}</font><br> 
+								</div>
+							</div>
+						</div>
+					</div>
+               	</c:forEach>
+              </div>
 	</div>
 			
 <!-- 			<form class="form-kredit"> -->

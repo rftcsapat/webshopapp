@@ -54,6 +54,7 @@ import com.rft.dto.SearchDto;
 import com.rft.dto.SearchMoreDto;
 import com.rft.dto.UserUpdateDto;
 import com.rft.entities.Category;
+import com.rft.entities.CoinHistory;
 import com.rft.entities.Manufacturer;
 import com.rft.entities.OrderView;
 import com.rft.entities.Stock;
@@ -61,6 +62,7 @@ import com.rft.entities.User;
 import com.rft.entities.Warehouse;
 import com.rft.repositories.AddItemToBasketRepository;
 import com.rft.repositories.CategoryRepository;
+import com.rft.repositories.CoinHistoryRepository;
 import com.rft.repositories.CoinUploadRepository;
 import com.rft.repositories.InvitationsRepository;
 import com.rft.repositories.ManufacturerRepository;
@@ -103,6 +105,8 @@ public class UserController {
 	private PaymentRepository paymentRepository;
 	@Autowired
 	private InvitationsRepository invitationsRepository;
+	@Autowired
+	private CoinHistoryRepository coinHistoryRepository;
 	@Autowired
 	private EntityManager em;
 	
@@ -508,6 +512,10 @@ public class UserController {
 		}
 		model.addAttribute("searchDto", new SearchDto());
 		model.addAttribute("creditDto", new CreditDto());
+		
+		List<CoinHistory> historyList = coinHistoryRepository.findByUserid(user.getId());
+		model.addAttribute("historyList", historyList);
+		
 		return "profil/credits";
 	}
 	
@@ -548,6 +556,9 @@ public class UserController {
 	
 		coinUploadRepository.coinUpload(user.getId(), amountFt, amountKr);
 		user.setCoins(user.getCoins() + amountKr);
+		
+		List<CoinHistory> historyList = coinHistoryRepository.findByUserid(user.getId());
+		model.addAttribute("historyList", historyList);
 		
 		Util.flash(redirectAttributes, "success", "Gratulálunk, sikeresen feltöltötte egyenlegét! Kellemes vásárlást kívánunk!");
 		

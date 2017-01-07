@@ -13,7 +13,7 @@
 				<c:forEach items="${itemsContent}" var="item" >
                     <div class="basket-item row">
 						<div class="col-md-2">
-							<img src="public/images/product/vironal.jpg" alt="vironal termek">
+							<img src="/imageDisplay?id=${item.itemid}" alt="termek_kep">
 						</div>
 						<div class="col-md-10">
 							<div class="basket-item-1of2">
@@ -44,7 +44,7 @@
 			<hr>
 			<div class="row">
 				<div class="pull-right basket-amounts">
-					Termék darabszám: <strong>${count}</strong>
+					Tételek száma: <strong>${count}</strong>
 					<br> 
 					Fizetendő: <strong><fmt:formatNumber type="number" pattern="###,###" value="${sum}" /> Kr</strong>
 					<br><br>

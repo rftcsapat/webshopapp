@@ -10,7 +10,6 @@
 			<h1 class="page-title">Kosár</h1>
 
 		     <div class="basket">
-		
 				<c:forEach items="${itemsContent}" var="item" >
                     <div class="basket-item row">
 						<div class="col-md-2">
@@ -45,7 +44,7 @@
 			<hr>
 			<div class="row">
 				<div class="pull-right basket-amounts">
-					Termék darabszám: <strong>${count}</strong><br> 
+					Tételek száma: <strong>${count}</strong><br> 
 					Fizetendő: <strong><fmt:formatNumber type="number" pattern="###,###" value="${sum}" /> Kr</strong>
 				</div>
 			</div>
