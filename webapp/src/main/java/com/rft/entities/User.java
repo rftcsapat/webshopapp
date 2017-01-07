@@ -45,7 +45,7 @@ public class User {
 	private String title;
 	
 	@Column(nullable=true)
-	private String invitedby;
+	private Long invitedby;
 	
 	@Column(nullable=true, length=255)
 	private String address;
@@ -79,11 +79,11 @@ public class User {
 		this.title = title;
 	}
 
-	public String getInvitedby() {
+	public Long getInvitedby() {
 		return invitedby;
 	}
 
-	public void setInvitedby(String invitedby) {
+	public void setInvitedby(Long invitedby) {
 		this.invitedby = invitedby;
 	}
 

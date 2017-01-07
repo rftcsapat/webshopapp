@@ -45,6 +45,8 @@ public class UserUpdateDto {
 	@Size(min=0, max=50)
 	private String invitedby;
 	
+	private Long invitedbyId;
+	
 	@Size(min=0, max=255)
 	private String address;
 
@@ -206,6 +208,12 @@ public class UserUpdateDto {
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+	public Long getInvitedbyId() {
+		return invitedbyId;
+	}
+	public void setInvitedbyId(Long invitedbyId) {
+		this.invitedbyId = invitedbyId;
 	}
 	@Override
 	public String toString() {

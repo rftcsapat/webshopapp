@@ -391,6 +391,7 @@ public class UserController {
 		User inviter = userRepository.find(user.getId());
 		if(inviter != null) {
 			userUpdateDto.setInvitedby(inviter.getUsername());
+			userUpdateDto.setInvitedbyId(inviter.getId());
 		}
 //		userUpdateDto.set
 		userService.updateUser(userUpdateDto);
