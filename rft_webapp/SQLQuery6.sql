@@ -1,0 +1,1 @@
+CREATE USER [jockay] FOR LOGIN [jockay] WITH DEFAULT_SCHEMA=[dbo]
