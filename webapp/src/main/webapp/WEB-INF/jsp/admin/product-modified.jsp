@@ -30,7 +30,7 @@
 				
 		
 					<div class="col-md-12">
-						<form:form enctype="multipart/form-data" method="POST" action="/admin-product-modified/${itemId}" modelAttribute="itemModDto" class="form-product-modify">
+						<form:form enctype="multipart/form-data" method="POST" action="${baseUrl}/admin-product-modified/${itemId}" modelAttribute="itemModDto" class="form-product-modify">
 							<div class="form-group">
 								<label for="termek-leiras-m">Neve</label> 
 								<form:input path="name" type="text" class="form-control" id="termek-leiras-m"/>
@@ -69,7 +69,7 @@
 							</div>					
 							<div class="form-group">
 								<label for="termek-kategoria-m">Aktuális kép</label><br/>
-								<img src="/imageDisplay?id=${itemId}" alt="korolen termek">
+								<img src="${baseUrl}/imageDisplay?id=${itemId}" alt="korolen termek">
 							</div>
 							<div class="form-group">
 								<label for="termek-kep-m">Új kép</label> 

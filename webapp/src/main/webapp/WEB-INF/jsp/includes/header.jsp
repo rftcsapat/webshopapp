@@ -16,11 +16,11 @@
  
 
     <!-- Bootstrap Core CSS -->
-    <link href="/public/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="/public/lib/ion.rangeSlider-2.1.4/css/ion.rangeSlider.css" rel="stylesheet">
-	<link href="/public/lib/ion.rangeSlider-2.1.4/css/ion.rangeSlider.skinNice.css" rel="stylesheet">
+    <link href="${baseUrl}/public/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="${baseUrl}/public/lib/ion.rangeSlider-2.1.4/css/ion.rangeSlider.css" rel="stylesheet">
+	<link href="${baseUrl}/public/lib/ion.rangeSlider-2.1.4/css/ion.rangeSlider.skinNice.css" rel="stylesheet">
     <!-- Custom CSS -->
-    <link href="/public/css/styles.css" rel="stylesheet">
+    <link href="${baseUrl}/public/css/styles.css" rel="stylesheet">
 
 </head>
 
@@ -36,37 +36,37 @@
 	                <span class="icon-bar"></span>
 	            </button>
 	            <c:if test="${not empty user}">
-	            	<a class="navbar-brand" href="/home/all/0">Energy Webshop</a>
+	            	<a class="navbar-brand" href="${baseUrl}/home/all/0">Energy Webshop</a>
 	            </c:if>
 	            <c:if test="${empty user}">
-	            	<a class="navbar-brand" href="/">Energy Webshop</a>
+	            	<a class="navbar-brand" href="${baseUrl}/">Energy Webshop</a>
 	            </c:if>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="/contact">Kapcsolat</a>
+                        <a href="${baseUrl}/contact">Kapcsolat</a>
                     </li>
                     <c:if test="${not empty user}">
 	                    <li>
-	                        <a href="/invitation">Meghívás</a>
+	                        <a href="${baseUrl}/invitation">Meghívás</a>
 	                    </li>
                     </c:if>
                 </ul>
                 <c:if test="${empty user}">
 	                <div class="pull-right">
 	                	<ul class="navbar-list">
-	                		<li><a href="/signin">Bejelentkezés</a></li>
-	                		<li><a href="/signup">Regisztráció</a></li>
+	                		<li><a href="${baseUrl}/signin">Bejelentkezés</a></li>
+	                		<li><a href="${baseUrl}/signup">Regisztráció</a></li>
 	                	</ul>
 	                </div>
                 </c:if>
                 <c:if test="${not empty user}">
 	                <div class="pull-right">
 	                	<ul class="navbar-list">
-	                		<li><a href="/credits">Kreditek</a></li>
-	                		<li><a href="/profil">Beállítások</a></li>
-	                		<li><a href="/logout">Kijelentkezés</a></li>
+	                		<li><a href="${baseUrl}/credits">Kreditek</a></li>
+	                		<li><a href="${baseUrl}/profil">Beállítások</a></li>
+	                		<li><a href="${baseUrl}/logout">Kijelentkezés</a></li>
 	                	</ul>
 	                </div>
                 </c:if>

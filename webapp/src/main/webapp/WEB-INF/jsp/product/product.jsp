@@ -16,7 +16,7 @@
 				<div class="row">
 					<div class="col-md-3">
 <!-- 						<img class="img-responsive" src="public/images/product/vironal.jpg"> -->
-						<img class="img-responsive" src="/imageDisplay?id=${item.itemid}" alt="termek_kep">
+						<img class="img-responsive" src="${baseUrl}/imageDisplay?id=${item.itemid}" alt="termek_kep">
 					</div>
 					<div class="col-md-8">
 						<div class="row">

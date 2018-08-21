@@ -111,8 +111,8 @@ public class UserController {
 	private EntityManager em;
 	
 	
-	@RequestMapping(value="/home/{category}/{pageNumber}", method = GET)
-	public String home(@PathVariable String category, @PathVariable Integer pageNumber, 
+	@RequestMapping(value={"/home/{category}/{pageNumber}"}, method = GET)
+	public String home(@PathVariable String category, @PathVariable Integer pageNumber,
 			Model model, RedirectAttributes redirectAttributes, HttpSession session) {
 		User user = (User) session.getAttribute("user");
 		if(user == null || ( ! "0".equals(user.getRole())))  {
@@ -141,7 +141,7 @@ public class UserController {
 		return "home";
 	}
 	
-	@RequestMapping(value="/home/{category}/{pageNumber}", method = POST)
+	@RequestMapping(value={"/home/{category}/{pageNumber}"}, method = POST)
 	public String home(@ModelAttribute("searchDto") SearchDto searchDto, Model model, RedirectAttributes redirectAttributes, HttpSession session) {
 		model.addAttribute("searchDto", searchDto);
 		model.addAttribute("keyword", searchDto.getKeyword());

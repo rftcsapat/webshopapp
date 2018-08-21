@@ -20,13 +20,13 @@
                             </ol>
                             <div class="carousel-inner">
                                 <div class="item active">
-                                    <img class="slide-image" src="/public/images/product/slider02.jpg" alt="">
+                                    <img class="slide-image" src="${baseUrl}/public/images/product/slider02.jpg" alt="">
                                 </div>
                                 <div class="item">
-                                    <img class="slide-image" src="/public/images/product/slider03.jpg" alt="">
+                                    <img class="slide-image" src="${baseUrl}/public/images/product/slider03.jpg" alt="">
                                 </div>
                                 <div class="item">
-                                    <img class="slide-image" src="/public/images/product/slider04.jpg" alt="">
+                                    <img class="slide-image" src="${baseUrl}/public/images/product/slider04.jpg" alt="">
                                 </div>
                             </div>
                             <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
@@ -45,10 +45,10 @@
 	                    <div class="col-sm-4 col-lg-4 col-md-4">
 	                        <div class="thumbnail">
 <!-- 	                            <img src="/public/images/product/korolen.jpg" alt="korolen termek"> -->
-	                            <img src="/imageDisplay?id=${item.itemid}" alt="korolen termek">
+	                            <img src="${baseUrl}/imageDisplay?id=${item.itemid}" alt="korolen termek">
 	                            <div class="caption">
 	                                <h4 class="pull-right">${item.price} Kr</h4>
-	                                <h4><a href="/product/${item.itemid}">
+	                                <h4><a href="${baseUrl}/product/${item.itemid}">
 	                                	<c:if test="${item.quantity == 0}">
 	                                       <font color = "red">${item.itemname}</font>
                                        </c:if>
@@ -72,10 +72,10 @@
                     </c:forEach>
                 </div>
                 
-                <c:url var="firstUrl" value="/home/${category}/0" />
-				<c:url var="prevUrl"  value="/home/${category}/${currentIndex - 2}" />
-				<c:url var="nextUrl"  value="/home/${category}/${currentIndex}" />
-				<c:url var="lastUrl"  value="/home/${category}/${items.totalPages - 1}" />
+                <c:url var="firstUrl" value="${baseUrl}/home/${category}/0" />
+				<c:url var="prevUrl"  value="${baseUrl}/home/${category}/${currentIndex - 2}" />
+				<c:url var="nextUrl"  value="${baseUrl}/home/${category}/${currentIndex}" />
+				<c:url var="lastUrl"  value="${baseUrl}/home/${category}/${items.totalPages - 1}" />
 	  			<div>
 				    <ul class="pagination">
 				        <c:choose>

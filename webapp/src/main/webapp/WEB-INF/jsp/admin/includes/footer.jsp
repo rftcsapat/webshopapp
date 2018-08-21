@@ -7,7 +7,7 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
-<script src="admin/js/bootstrap.min.js"></script>
+<script src="${baseUrl}/admin/js/bootstrap.min.js"></script>
 
 <script>
 	$(function() {

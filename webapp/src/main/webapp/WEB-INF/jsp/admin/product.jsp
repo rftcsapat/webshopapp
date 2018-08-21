@@ -19,8 +19,8 @@
 
 			<div class="row">
 				<div class="col-md-12">
-					<a class="btn btn-default" href="/admin-product-add">Termék hozzáadás</a>
-					<a class="btn btn-default" href="/admin-product-select">Termék módosítás</a>
+					<a class="btn btn-default" href="${baseUrl}/admin-product-add">Termék hozzáadás</a>
+					<a class="btn btn-default" href="${baseUrl}/admin-product-select">Termék módosítás</a>
 				</div>
 
 			</div>
